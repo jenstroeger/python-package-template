@@ -1,0 +1,44 @@
+# This workflow will lint the PR's title and commit message.
+# https://github.com/CondeNast/conventional-pull-request-action
+# https://github.com/conventional-changelog/commitlint/blob/master/docs/reference-rules.md
+# https://github.com/CondeNast/conventional-pull-request-action/issues/15
+
+name: Pull Request
+on:
+  pull_request:
+    branches:
+      - "*"
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  pr:
+    name: Lint PR title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: CondeNast/conventional-pull-request-action@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commitlintRulesPath: "./commitlint.rules.js"
+          commitTitleMatch: "true"
+  check:
+    needs: pr
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install .[test,dev]
+    - name: Run pylint
+      run: pylint package tests
+    - name: Run pytest
+      run: pytest

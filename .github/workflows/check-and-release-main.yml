@@ -1,0 +1,42 @@
+# When pushing to master, we run checks and then release.
+
+name: Check and Release
+on:
+  push:
+    branches:
+      - master
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install .[test,dev]
+    - name: Run flake8
+      run: flake8 package tests
+    - name: Run pylint
+      run: pylint package tests
+    - name: Run mypy
+      run: mypy package tests
+    - name: Run pytest
+      run: pytest
+  release:
+    needs: check
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Python Semantic Release
+      uses: relekang/python-semantic-release@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        pypi_token: ""  # We don't publish to PyPi: ${{ secrets.PYPI_TOKEN }}

@@ -1,0 +1,6 @@
+exclude .gitignore .pre-commit-config.yaml
+exclude CHANGELOG.md LICENSE.md MANIFEST.in README.md
+exclude commitlint.rules.js mypy.ini pylintrc pyproject.toml tox.ini
+recursive-exclude .github *
+recursive-exclude docs *
+recursive-exclude tests *

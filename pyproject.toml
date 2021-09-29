@@ -1,0 +1,40 @@
+# https://pycqa.github.io/isort/
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 120
+skip_gitignore = true
+
+# https://github.com/psf/black#configuration
+[tool.black]
+line-length = 120
+target-version = ["py39"]
+
+# https://docs.pytest.org/en/6.2.x/customize.html#configuration-file-formats
+# https://docs.pytest.org/en/6.2.x/reference.html#configuration-options
+# https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--verbose --doctest-modules -ra --cov package"  # Consider adding --pdb
+doctest_optionflags = "IGNORE_EXCEPTION_DETAIL"
+testpaths = [
+    "package",
+    "tests",
+]
+
+# https://github.com/pytest-dev/pytest-cov
+# https://github.com/nedbat/coveragepy
+[tool.coverage.run]
+omit = [
+    "package/__main__.py",
+]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+
+# https://python-semantic-release.readthedocs.io/en/latest/
+[tool.semantic_release]
+version_variable = "package/__init__.py:__version__"
+upload_to_pypi = false
+commit_subject = "Release v{version}"
