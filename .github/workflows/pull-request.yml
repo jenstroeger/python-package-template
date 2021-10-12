@@ -38,7 +38,11 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install .[test,dev]
+    - name: Run flake8
+      run: flake8 package tests
     - name: Run pylint
       run: pylint package tests
+    - name: Run mypy
+      run: mypy package tests
     - name: Run pytest
       run: pytest
