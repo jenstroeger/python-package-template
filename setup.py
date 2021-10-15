@@ -58,7 +58,7 @@ setuptools.setup(
             "pylint==2.11.1",
             "python-semantic-release==7.19.2",
         ],
-        "docs": ["sphinx==4.1.2"],
+        "docs": ["sphinx==4.2.0"],
     },
     package_data={},
     options={},
