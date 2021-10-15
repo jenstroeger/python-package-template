@@ -12,6 +12,8 @@ updates:
       prefix: "fix"
       prefix-development: "chore"
       include: "scope"
+    open-pull-requests-limit: 13
+    target-branch: "staging"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -21,3 +23,5 @@ updates:
       prefix: "fix"
       prefix-development: "chore"
       include: "scope"
+    open-pull-requests-limit: 13
+    target-branch: "staging"
