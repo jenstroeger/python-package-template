@@ -28,12 +28,16 @@ jobs:
     needs: pr
     name: Check
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.10"]
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9
+    - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: ${{ matrix.python }}
     - name: Install dependencies
       run: |
         pip install --upgrade pip
@@ -45,4 +49,6 @@ jobs:
     - name: Run mypy
       run: mypy src tests
     - name: Run tox
-      run: tox
+      run: |
+        pip install tox-gh-actions
+        tox

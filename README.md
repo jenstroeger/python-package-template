@@ -1,4 +1,4 @@
-![license](https://img.shields.io/badge/license-MIT-blue) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-yellow?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit) [![conventional-commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow)](https://www.conventionalcommits.org/en/v1.0.0/) [![black](https://img.shields.io/badge/code%20style-black-000000)](https://github.com/psf/black) [![mypy](https://img.shields.io/badge/mypy-checked-brightgreen)](http://mypy-lang.org/) [![pylint](https://img.shields.io/badge/pylint-required%2010.0-brightgreen)](http://pylint.org/) [![pytest](https://img.shields.io/badge/pytest-enabled-brightgreen)](https://github.com/pytest-dev/pytest) [![coverage](https://img.shields.io/badge/coverage-required%20100%25-brightgreen)](https://github.com/nedbat/coveragepy) [![tox](https://img.shields.io/badge/tox-py39-brightgreen)](https://github.com/tox-dev/tox)
+![license](https://img.shields.io/badge/license-MIT-blue) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-yellow?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit) [![conventional-commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow)](https://www.conventionalcommits.org/en/v1.0.0/) [![black](https://img.shields.io/badge/code%20style-black-000000)](https://github.com/psf/black) [![mypy](https://img.shields.io/badge/mypy-checked-brightgreen)](http://mypy-lang.org/) [![pylint](https://img.shields.io/badge/pylint-required%2010.0-brightgreen)](http://pylint.org/) [![pytest](https://img.shields.io/badge/pytest-enabled-brightgreen)](https://github.com/pytest-dev/pytest) [![coverage](https://img.shields.io/badge/coverage-required%20100%25-brightgreen)](https://github.com/nedbat/coveragepy) [![tox](https://img.shields.io/badge/tox-3.9,%203.10-brightgreen)](https://github.com/tox-dev/tox)
 
 # Python Package Template
 
@@ -10,7 +10,7 @@ The badges above give you an idea of what this project template provides. It’s
 
 ### Typing
 
-The package requires a minimum of [Python 3.9](https://www.python.org/downloads/release/python-390/) and all code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker is invoked by a git hook and through a Github Action to enforce continuous type checks.
+The package requires a minimum of [Python 3.9](https://www.python.org/downloads/release/python-390/) and supports [Python 3.10](https://www.python.org/downloads/release/python-3100/). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker is invoked by a git hook and through a Github Action to enforce continuous type checks.
 
 ### Quality Assurance
 
@@ -60,7 +60,7 @@ If you’d like to start your own Python project from scratch, you can either co
 
 To develop your new package, create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) and install its `dev`,  `test` and `docs` dependencies:
 ```bash
-python3.9 -m venv .
+python3.10 -m venv .
 source ./bin/activate
 pip install --upgrade pip
 pip install --editable .[dev,test,docs]
@@ -82,6 +82,16 @@ As mentioned above, this repository is set up to use [tox](https://github.com/to
 ```bash
 tox
 ```
+which runs all tests in both Python 3.9 and Python 3.10 environments:
+
+```
+...
+_____________________________ summary _____________________________
+  py39: commands succeeded
+  py310: commands succeeded
+  congratulations :)
+```
+
 For more options, see the [tox command-line flags](https://tox.wiki/en/latest/config.html#tox) and the [pytest command-line flags](https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags). Also note that pytest includes [doctest](https://docs.python.org/3/library/doctest.html), which means that module and function [docstrings](https://www.python.org/dev/peps/pep-0257/#what-is-a-docstring) may contain test code that executes as part of the unit tests.
 
 Test code coverage is already tracked using [coverage](https://github.com/nedbat/coveragepy) and the [pytest-cov](https://github.com/pytest-dev/pytest-cov) plugin for pytest. Code coverage is tracked automatically when running tox; in addition, the plugin can be explicitly invoked with the following command line:
@@ -90,7 +100,8 @@ pytest --cov package tests
 ```
 and measures how much code in the `src/package/` folder is covered by tests:
 ```
-platform darwin -- Python 3.9.7, pytest-6.2.5, py-1.10.0, pluggy-1.0.0 -- ...
+============================= test session starts =============================
+platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0 -- ...
 cachedir: .pytest_cache
 hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/.../.hypothesis/examples')
 rootdir: /.../python-package-template, configfile: pyproject.toml, testpaths: tests
@@ -99,7 +110,7 @@ collected 1 item
 
 tests/test_something.py::test_something PASSED                           [100%]
 
----------- coverage: platform darwin, python 3.9.7-final-0 -----------
+---------- coverage: platform darwin, python 3.10.0-final-0 -----------
 Name                   Stmts   Miss  Cover   Missing
 ----------------------------------------------------
 package/__init__.py        1      0   100%
