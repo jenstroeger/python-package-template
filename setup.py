@@ -46,7 +46,7 @@ setuptools.setup(
     include_package_data=True,
     install_requires=[],
     extras_require={
-        "test": ["hypothesis==6.23.2", "pytest==6.2.5", "pytest-cov==3.0.0"],
+        "test": ["hypothesis==6.24.0", "pytest==6.2.5", "pytest-cov==3.0.0"],
         "dev": [
             "flake8==4.0.1",
             "flake8-builtins==1.5.3",
@@ -58,7 +58,7 @@ setuptools.setup(
             "pylint==2.11.1",
             "python-semantic-release==7.19.2",
         ],
-        "docs": ["sphinx==4.1.2"],
+        "docs": ["sphinx==4.2.0"],
     },
     package_data={},
     options={},
