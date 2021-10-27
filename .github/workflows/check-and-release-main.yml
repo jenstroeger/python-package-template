@@ -20,11 +20,11 @@ jobs:
         pip install --upgrade pip
         pip install .[test,dev]
     - name: Run flake8
-      run: flake8 package tests
+      run: flake8 src tests
     - name: Run pylint
-      run: pylint package tests
+      run: pylint src tests
     - name: Run mypy
-      run: mypy package tests
+      run: mypy src tests
     - name: Run pytest
       run: pytest
   release:

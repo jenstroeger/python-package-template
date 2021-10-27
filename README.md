@@ -2,7 +2,7 @@
 
 # Python Package Template
 
-This repository is intended to be a base template, a cookiecutter for a new Python package project. Because it’s hosted on Github it already utilizes a few [Github Actions](https://docs.github.com/en/actions) that enforce repository-side checks for continuous integration and that implement a semantic release setup. And while this is a good starting point for a Python project with good engineering practices, it can be improved and added to in various ways — see the [Wiki](https://github.com/jenstroeger/python-package-template/wiki) for more suggestions.
+This repository is intended to be a base template, a cookiecutter for a new Python package project while keeping [PEP518](https://www.python.org/dev/peps/pep-0518/) in mind. Because it’s hosted on Github it already utilizes a few [Github Actions](https://docs.github.com/en/actions) that enforce repository-side checks for continuous integration and that implement a semantic release setup. And while this package is a starting point for a Python project with good engineering practices, it’s intended to be improved and added to in various ways — see the [Wiki](https://github.com/jenstroeger/python-package-template/wiki) for more suggestions.
 
 ## Features
 
@@ -18,7 +18,7 @@ A number of git hooks are invoked before and after a commit, and before push. Th
 
 ### Unit testing
 
-Comprehensive unit testing is enabled using [pytest](https://pytest.org/) combined with [Hypothesis](https://hypothesis.works/) (to generate test payloads and strategies), and test code coverage is measured using [coverage](https://github.com/nedbat/coveragepy) (see [below](#testing)).
+Comprehensive unit testing is enabled using [tox](https://github.com/tox-dev/tox), and [pytest](https://pytest.org/) combined with [Hypothesis](https://hypothesis.works/) (to generate test payloads and strategies), and test code coverage is measured using [coverage](https://github.com/nedbat/coveragepy) (see [below](#testing)).
 
 ### Documentation
 
@@ -52,9 +52,9 @@ If you’d like to start your own Python project from scratch, you can either co
   pre-commit install --hook-type pre-push
   ```
 
-- Rename the `package/` folder to whatever your own package’s name will be, and adjust the Github Actions in `.github/workflows/` and the unit tests accordingly.
+- Rename the `src/package/` folder to whatever your own package’s name will be, and adjust the Github Actions in `.github/workflows/` and the unit tests accordingly.
 
-- Adjust the content of the `setup.py` file according to your needs, and reset the package’s version number in `package/__init__.py`. Don’t forget to delete the content of the `CHANGELOG.md` file (except for the first placeholder line).
+- Adjust the content of the `setup.py` file according to your needs, and reset the package’s version number in `src/package/__init__.py`. Don’t forget to delete the content of the `CHANGELOG.md` file (except for the first placeholder line).
 
 - If you’d like to publish your package to PyPI then set the `upload_to_pypi` variable in the `pyproject.toml` file to `true`.
 
@@ -78,24 +78,23 @@ Using the pre-commit tool and its `.pre-commit-config.yaml` configuration, the f
 
 ## Testing
 
-As mentioned above, this repository is set up to use [pytest](https://pytest.org/) either standalone or as a pre-push git hook. Tests are stored in the `tests/` folder, and you can run them manually like so:
+As mentioned above, this repository is set up to use [tox](https://github.com/tox-dev/tox) and [pytest](https://pytest.org/) either standalone or as a pre-push git hook. Tests are stored in the `tests/` folder, and you can run them manually like so:
 ```bash
-pytest
+tox
 ```
-For more options, see the [pytest command-line flags](https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags). Also note that pytest also includes [doctest](https://docs.python.org/3/library/doctest.html), which means that module and function [docstrings](https://www.python.org/dev/peps/pep-0257/#what-is-a-docstring) may contain test code that executes as part of the unit tests.
+For more options, see the [tox command-line flags](https://tox.wiki/en/latest/config.html#tox) and the [pytest command-line flags](https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags). Also note that pytest includes [doctest](https://docs.python.org/3/library/doctest.html), which means that module and function [docstrings](https://www.python.org/dev/peps/pep-0257/#what-is-a-docstring) may contain test code that executes as part of the unit tests.
 
-Test code coverage is already tracked using [coverage](https://github.com/nedbat/coveragepy) and the [pytest-cov](https://github.com/pytest-dev/pytest-cov) plugin for pytest. That plugin can be invoked with the following command line:
+Test code coverage is already tracked using [coverage](https://github.com/nedbat/coveragepy) and the [pytest-cov](https://github.com/pytest-dev/pytest-cov) plugin for pytest. Code coverage is tracked automatically when running tox; in addition, the plugin can be explicitly invoked with the following command line:
 ```bash
 pytest --cov package tests
 ```
-and measures how much code in the `package/` folder is covered by tests:
+and measures how much code in the `src/package/` folder is covered by tests:
 ```
-============================= test session starts =============================
-platform darwin -- Python 3.9.7, pytest-6.2.4, py-1.10.0, pluggy-0.13.1 -- ...
+platform darwin -- Python 3.9.7, pytest-6.2.5, py-1.10.0, pluggy-1.0.0 -- ...
 cachedir: .pytest_cache
-hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/.../package/.hypothesis/examples')
-rootdir: /.../package, configfile: pyproject.toml
-plugins: hypothesis-6.21.6, cov-2.12.1
+hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/.../.hypothesis/examples')
+rootdir: /.../python-package-template, configfile: pyproject.toml, testpaths: tests
+plugins: hypothesis-6.23.2, cov-3.0.0
 collected 1 item  
 
 tests/test_something.py::test_something PASSED                           [100%]
