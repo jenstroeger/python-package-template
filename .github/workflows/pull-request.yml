@@ -44,5 +44,5 @@ jobs:
       run: pylint src tests
     - name: Run mypy
       run: mypy src tests
-    - name: Run pytest
-      run: pytest
+    - name: Run tox
+      run: tox

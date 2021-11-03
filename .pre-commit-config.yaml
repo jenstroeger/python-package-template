@@ -95,9 +95,9 @@ repos:
   # On push to the remote, run the unit tests.
   - repo: local
     hooks:
-    - id: pytest
-      name: pytest
-      entry: pytest
+    - id: tox
+      name: tox
+      entry: tox
       language: python
       verbose: true
       always_run: true
