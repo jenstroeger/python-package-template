@@ -7,11 +7,13 @@ import typing
 import setuptools
 
 here = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(here, "README.md")) as fh:
+src = os.path.join(here, "src")
+
+with open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     README = fh.read()
-with open(os.path.join(here, "LICENSE.md")) as fh:
+with open(os.path.join(here, "LICENSE.md"), encoding="utf-8") as fh:
     LICENSE = fh.read()
-with open(os.path.join(here, "package", "__init__.py")) as fh:
+with open(os.path.join(src, "package", "__init__.py"), encoding="utf-8") as fh:
     module = ast.parse(next(filter(lambda line: line.startswith("__version__"), fh)))
     assign = typing.cast(ast.Assign, module.body[0])
     # See also: https://github.com/relekang/python-semantic-release/issues/388
@@ -41,7 +43,8 @@ setuptools.setup(
     project_urls={
         "Homepage": "https://foo.bar/",
     },
-    packages=setuptools.find_packages(),
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src"),
     python_requires=">=3.9",
     include_package_data=True,
     install_requires=[],
@@ -57,6 +60,7 @@ setuptools.setup(
             "pre-commit==2.15.0",
             "pylint==2.11.1",
             "python-semantic-release==7.19.2",
+            "tox==3.24.4",
         ],
         "docs": ["sphinx==4.2.0"],
     },

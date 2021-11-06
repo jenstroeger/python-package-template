@@ -18,7 +18,6 @@ minversion = "6.0"
 addopts = "--verbose --doctest-modules -ra --cov package"  # Consider adding --pdb
 doctest_optionflags = "IGNORE_EXCEPTION_DETAIL"
 testpaths = [
-    "package",
     "tests",
 ]
 
@@ -26,7 +25,7 @@ testpaths = [
 # https://github.com/nedbat/coveragepy
 [tool.coverage.run]
 omit = [
-    "package/__main__.py",
+    "*/package/__main__.py",
 ]
 
 [tool.coverage.report]
@@ -35,6 +34,6 @@ show_missing = true
 
 # https://python-semantic-release.readthedocs.io/en/latest/
 [tool.semantic_release]
-version_variable = "package/__init__.py:__version__"
+version_variable = "src/package/__init__.py:__version__"
 upload_to_pypi = false
 commit_subject = "Release v{version}"
