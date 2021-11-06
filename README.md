@@ -94,7 +94,7 @@ platform darwin -- Python 3.9.7, pytest-6.2.5, py-1.10.0, pluggy-1.0.0 -- ...
 cachedir: .pytest_cache
 hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/.../.hypothesis/examples')
 rootdir: /.../python-package-template, configfile: pyproject.toml, testpaths: tests
-plugins: hypothesis-6.23.2, cov-3.0.0
+plugins: hypothesis-6.24.1, cov-3.0.0
 collected 1 item  
 
 tests/test_something.py::test_something PASSED                           [100%]
