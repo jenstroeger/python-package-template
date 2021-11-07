@@ -38,6 +38,7 @@ setuptools.setup(
         "Development Status :: 1 - Planning",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
     keywords="",
     project_urls={
