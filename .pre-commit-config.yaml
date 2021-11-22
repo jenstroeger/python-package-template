@@ -67,7 +67,7 @@ repos:
       - id: mypy
         files: ^src/package/|^tests/|setup.py
         additional_dependencies: [types-setuptools==57.4.2,hypothesis==6.30.1]
-        args: [--config-file, mypy.ini]
+        args: [--ignore-missing-imports, --config-file, mypy.ini]
 
   # Enable a whole bunch of useful helper hooks, too.
   # See https://pre-commit.com/hooks.html for more hooks.

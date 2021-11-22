@@ -27,11 +27,11 @@ setuptools.setup(
     description="",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="",
-    author="",
-    author_email="",
-    # maintainer=
-    # maintainer_email=
+    url="https://project.url/",
+    author="Author",
+    author_email="author@email",
+    maintainer="Maintainer",
+    maintainer_email="maintainer@email",
     license=LICENSE,
     # https://pypi.org/classifiers/
     classifiers=[
