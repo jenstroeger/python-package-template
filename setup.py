@@ -50,7 +50,7 @@ setuptools.setup(
     include_package_data=True,
     install_requires=[],
     extras_require={
-        "test": ["hypothesis==6.24.2", "pytest==6.2.5", "pytest-cov==3.0.0"],
+        "test": ["hypothesis==6.27.1", "pytest==6.2.5", "pytest-cov==3.0.0"],
         "dev": [
             "flake8==4.0.1",
             "flake8-builtins==1.5.3",
