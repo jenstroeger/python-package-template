@@ -60,6 +60,8 @@ If you’d like to start your own Python project from scratch, you can either co
 
 - Adjust the content of the `setup.py` file according to your needs, and reset the package’s version number in `src/package/__init__.py`. Don’t forget to delete the content of the `CHANGELOG.md` file (except for the first placeholder line).
 
+- If you import packages that do not provide type hints into your new repository, then `mypy` needs to be configured accordingly: add these packages to the `mypy.ini` file using the [`ignore-missing-imports`](https://mypy.readthedocs.io/en/stable/config_file.html#confval-ignore_missing_imports) option.
+
 - If you’d like to publish your package to PyPI then set the `upload_to_pypi` variable in the `pyproject.toml` file to `true`.
 
 To develop your new package, create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) and install its `dev`,  `test` and `docs` dependencies:
