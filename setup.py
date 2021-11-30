@@ -36,17 +36,24 @@ setuptools.setup(
     # https://pypi.org/classifiers/
     classifiers=[
         "Development Status :: 1 - Planning",
+        "Intended Audience :: Developers",
+        "Natural Language :: English",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: Implementation :: CPython",
     ],
+    python_requires=">=3.9",
     keywords="",
     project_urls={
         "Homepage": "https://foo.bar/",
     },
-    package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
-    python_requires=">=3.9",
+    package_dir={"": "src"},
+    package_data={
+        "package": ["py.typed"],
+    },
     include_package_data=True,
     install_requires=[],
     extras_require={
@@ -64,9 +71,6 @@ setuptools.setup(
             "tox==3.24.4",
         ],
         "docs": ["sphinx==4.3.1"],
-    },
-    package_data={
-        "package": ["py.typed"],
     },
     options={},
     platforms="",
