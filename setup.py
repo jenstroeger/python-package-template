@@ -58,7 +58,7 @@ setuptools.setup(
             "flake8-rst-docstrings==0.2.3",
             "mypy==0.910",
             "pep8-naming==0.12.1",
-            "pre-commit==2.15.0",
+            "pre-commit==2.16.0",
             "pylint==2.11.1",
             "python-semantic-release==7.19.2",
             "tox==3.24.4",
