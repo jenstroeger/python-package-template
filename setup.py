@@ -66,7 +66,7 @@ setuptools.setup(
         "docs": ["sphinx==4.3.0"],
     },
     package_data={
-        "package": ["py.typed", "*.pyi"],
+        "package": ["py.typed"],
     },
     options={},
     platforms="",
