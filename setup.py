@@ -63,7 +63,7 @@ setuptools.setup(
             "python-semantic-release==7.19.2",
             "tox==3.24.4",
         ],
-        "docs": ["sphinx==4.3.0"],
+        "docs": ["sphinx==4.3.1"],
     },
     package_data={
         "package": ["py.typed"],
