@@ -50,7 +50,7 @@ setuptools.setup(
     include_package_data=True,
     install_requires=[],
     extras_require={
-        "test": ["hypothesis==6.24.2", "pytest==6.2.5", "pytest-cov==3.0.0"],
+        "test": ["hypothesis==6.30.0", "pytest==6.2.5", "pytest-cov==3.0.0"],
         "dev": [
             "flake8==4.0.1",
             "flake8-builtins==1.5.3",
@@ -58,12 +58,12 @@ setuptools.setup(
             "flake8-rst-docstrings==0.2.3",
             "mypy==0.910",
             "pep8-naming==0.12.1",
-            "pre-commit==2.15.0",
-            "pylint==2.11.1",
-            "python-semantic-release==7.19.2",
+            "pre-commit==2.16.0",
+            "pylint==2.12.1",
+            "python-semantic-release==7.23.0",
             "tox==3.24.4",
         ],
-        "docs": ["sphinx==4.3.0"],
+        "docs": ["sphinx==4.3.1"],
     },
     package_data={
         "package": ["py.typed"],
