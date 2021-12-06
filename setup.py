@@ -59,7 +59,7 @@ setuptools.setup(
             "mypy==0.910",
             "pep8-naming==0.12.1",
             "pre-commit==2.16.0",
-            "pylint==2.12.1",
+            "pylint==2.12.2",
             "python-semantic-release==7.23.0",
             "tox==3.24.4",
         ],
