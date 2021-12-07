@@ -60,7 +60,6 @@ setuptools.setup(
             "pep8-naming==0.12.1",
             "pre-commit==2.16.0",
             "pylint==2.12.2",
-            "python-semantic-release==7.23.0",
             "tox==3.24.4",
         ],
         "docs": ["sphinx==4.3.1"],
