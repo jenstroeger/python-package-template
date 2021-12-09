@@ -151,9 +151,10 @@ To enable automation for versioning, package publishing, and changelog generatio
 
 For more configuration options, please refer to the `tool.semantic_release` section in the `pyproject.toml` file, and read the [semantic release documentation](https://python-semantic-release.readthedocs.io/en/latest/).
 
-You can also run the tool manually, for example:
+You can also install and run the tool manually, for example:
 
 ```bash
+pip install python-semantic-release
 semantic-release changelog
 semantic-release version
 ```
