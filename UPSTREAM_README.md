@@ -58,7 +58,9 @@ If you’d like to start your own Python project from scratch, you can either co
 
 - Rename the `src/package/` folder to whatever your own package’s name will be, and adjust the Github Actions in `.github/workflows/`, `setup.py`, `pyproject.toml`, `pre-commit-config.yaml` and the unit tests accordingly.
 
-- Adjust the content of the `setup.py` file according to your needs, and reset the package’s version number in `src/package/__init__.py`. Don’t forget to delete the content of the `CHANGELOG.md` file (except for the first placeholder line).
+- Adjust the content of the `setup.py` file according to your needs, and make sure to fill in the project URL, maintainer and author information too. Don’t forget to reset the package’s version number in `src/package/__init__.py`.
+
+- If you import packages that do not provide type hints into your new repository, then `mypy` needs to be configured accordingly: add these packages to the `mypy.ini` file using the [`ignore-missing-imports`](https://mypy.readthedocs.io/en/stable/config_file.html#confval-ignore_missing_imports) option.
 
 - If you’d like to publish your package to PyPI then set the `upload_to_pypi` variable in the `pyproject.toml` file to `true`.
 

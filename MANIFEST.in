@@ -1,7 +1,7 @@
-recursive-include src/package
+recursive-include src/package *
 
 exclude .gitignore .pre-commit-config.yaml
-exclude CHANGELOG.md MANIFEST.in
+exclude CHANGELOG.md MANIFEST.in UPSTREAM_README.md UPSTREAM_CHANGELOG.md
 exclude commitlint.rules.js mypy.ini pylintrc pyproject.toml tox.ini
 recursive-exclude .github *
 recursive-exclude docs *
