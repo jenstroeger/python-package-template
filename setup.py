@@ -62,7 +62,7 @@ setuptools.setup(
             "flake8==4.0.1",
             "flake8-builtins==1.5.3",
             "flake8-docstrings==1.6.0",
-            "flake8-rst-docstrings==0.2.3",
+            "flake8-rst-docstrings==0.2.5",
             "hypothesis==6.30.1",
             "mypy==0.910",
             "pep8-naming==0.12.1",
