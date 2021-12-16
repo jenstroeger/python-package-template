@@ -64,7 +64,7 @@ setuptools.setup(
             "flake8-docstrings==1.6.0",
             "flake8-rst-docstrings==0.2.5",
             "hypothesis==6.31.5",
-            "mypy==0.910",
+            "mypy==0.920",
             "pep8-naming==0.12.1",
             "pre-commit==2.16.0",
             "pylint==2.12.2",
