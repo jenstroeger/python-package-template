@@ -71,7 +71,7 @@ setuptools.setup(
             "tox==3.24.4",
             "types-setuptools==57.4.4",
         ],
-        "docs": ["sphinx==4.3.1"],
+        "docs": ["sphinx==4.3.2"],
     },
     options={},
     platforms="",
