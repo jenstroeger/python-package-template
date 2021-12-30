@@ -57,13 +57,13 @@ setuptools.setup(
     include_package_data=True,
     install_requires=[],
     extras_require={
-        "test": ["hypothesis==6.31.6", "pytest==6.2.5", "pytest-cov==3.0.0"],
+        "test": ["hypothesis==6.33.0", "pytest==6.2.5", "pytest-cov==3.0.0"],
         "dev": [
             "flake8==4.0.1",
             "flake8-builtins==1.5.3",
             "flake8-docstrings==1.6.0",
             "flake8-rst-docstrings==0.2.5",
-            "hypothesis==6.31.6",
+            "hypothesis==6.33.0",
             "mypy==0.920",
             "pep8-naming==0.12.1",
             "pre-commit==2.16.0",
