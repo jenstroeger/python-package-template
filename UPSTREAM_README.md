@@ -14,7 +14,7 @@ The package requires a minimum of [Python 3.9](https://www.python.org/downloads/
 
 ### Quality Assurance
 
-A number of git hooks are invoked before and after a commit, and before push. These hooks are all managed by the [pre-commit](https://pre-commit.com/) tool and enforce a number of [software quality assurance](https://en.wikipedia.org/wiki/Software_quality_assurance) measures (see [below](#git-hooks)).
+A number of git hooks are invoked before and after a commit, and before push. These hooks are all managed by the [pre-commit](https://pre-commit.com/) tool and enforce a number of [software quality assurance](https://en.wikipedia.org/wiki/Software_quality_assurance) measures (see [below](#git-hooks)). Additionally, the [bandit](https://github.com/PyCQA/bandit) tools is being installed as part of a development environment (i.e. the `[dev]` package extra); however, bandit does not run automatically!
 
 ### Unit testing
 

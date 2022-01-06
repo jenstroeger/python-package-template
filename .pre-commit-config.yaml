@@ -70,15 +70,6 @@ repos:
     files: ^src/package/|^tests/|setup.py
     args: [--config-file, mypy.ini]
 
-# Check for various security problems.
-- repo: https://github.com/PyCQA/bandit
-  rev: 1.7.1
-  hooks:
-  - id: bandit
-    files: ^src/package/|^tests/|setup.py
-    args: [--skip, "B101"]
-    # args: [--configfile, pyproject.toml]
-
 # Enable a whole bunch of useful helper hooks, too.
 # See https://pre-commit.com/hooks.html for more hooks.
 - repo: https://github.com/pre-commit/pre-commit-hooks
