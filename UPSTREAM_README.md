@@ -64,6 +64,8 @@ If you’d like to start your own Python project from scratch, you can either co
 
 - If you’d like to publish your package to PyPI then set the `upload_to_pypi` variable in the `pyproject.toml` file to `true`.
 
+- Adjust the Dependabot settings in `.github/dependabot.yml` to your desired target branch that you’d like to have monitored by Dependabot.
+
 To develop your new package, create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) and install its `dev`,  `test` and `docs` dependencies:
 ```bash
 python3.10 -m venv .
