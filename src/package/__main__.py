@@ -9,6 +9,12 @@ import sys
 
 from .something import Something
 
-if __name__ == "__main__":
+
+def main():
+    """Execute the Something standalone command-line tool."""
     _ = Something.do_something()
+
+
+if __name__ == "__main__":
+    main()
     sys.exit(os.EX_OK)

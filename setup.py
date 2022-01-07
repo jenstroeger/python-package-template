@@ -73,6 +73,7 @@ setuptools.setup(
         ],
         "docs": ["sphinx==4.3.2"],
     },
+    entry_points={"console_scripts": ["something = package.__main__:main"]},
     options={},
     platforms="",
     zip_safe=False,
