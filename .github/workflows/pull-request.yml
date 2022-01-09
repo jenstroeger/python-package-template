@@ -7,30 +7,30 @@ name: Pull Request
 on:
   pull_request:
     branches:
-      - "*"
+    - '*'
     types:
-      - opened
-      - edited
-      - synchronize
+    - opened
+    - edited
+    - synchronize
 jobs:
   pr:
     name: Lint PR title
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: CondeNast/conventional-pull-request-action@v0.1.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          commitlintRulesPath: "./commitlint.rules.js"
-          commitTitleMatch: "true"
+    - uses: actions/checkout@v2
+    - uses: CondeNast/conventional-pull-request-action@v0.1.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        commitlintRulesPath: ./commitlint.rules.js
+        commitTitleMatch: 'true'
   check:
     needs: pr
     name: Check
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.9", "3.10"]
+        python: ['3.9', '3.10']
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python }}

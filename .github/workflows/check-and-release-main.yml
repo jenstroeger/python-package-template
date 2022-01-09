@@ -4,14 +4,14 @@ name: Check and Release
 on:
   push:
     branches:
-      - main
+    - main
 jobs:
   check:
     name: Check
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.9", "3.10"]
+        python: ['3.9', '3.10']
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python }}
@@ -44,4 +44,4 @@ jobs:
       uses: relekang/python-semantic-release@v7.23.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        pypi_token: ""  # We don't publish to PyPi: ${{ secrets.PYPI_TOKEN }}
+        pypi_token: ''  # We don't publish to PyPi: ${{ secrets.PYPI_TOKEN }}
