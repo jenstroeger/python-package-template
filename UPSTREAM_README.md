@@ -34,7 +34,7 @@ Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/
 
 ### Security Analysis
 
-[Codeql](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yml` and the configuration file at `.github/codeql/codeql-config.yml`to add more languages, change the default paths, scan schedule, and queries.
+[Codeql](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yml` and the configuration file at `.github/codeql/codeql-config.yml` to add more languages, change the default paths, scan schedule, and queries.
 
 ### Standalone
 

@@ -1,20 +1,19 @@
-name: "CodeQL"
+name: CodeQL
 
 on:
   push:
     branches:
-      - main
-      - staging
+    - main
+    - staging
   pull_request:
     branches:
-      - main
-      - staging
+    - main
+    - staging
     # Avoid unnecessary scans of pull requests.
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.txt'
+    paths:
+    - '**/*.py'
   schedule:
-    - cron: '20 15 * * 3'
+  - cron: 20 15 * * 3
 
 jobs:
   analyze:
@@ -28,10 +27,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'python' ]
+        language: [python]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://git.io/codeql-language-support
-        python: ["3.9", "3.10"]
+        python: ['3.9', '3.10']
 
     steps:
     - name: Checkout repository

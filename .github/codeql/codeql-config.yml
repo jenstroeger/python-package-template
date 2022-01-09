@@ -1,4 +1,4 @@
-name: "My CodeQL config"
+name: CodeQL config
 
 paths:
-  - src/package
+- src/package
