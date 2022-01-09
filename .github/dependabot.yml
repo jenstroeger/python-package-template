@@ -4,24 +4,24 @@
 
 version: 2
 updates:
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    commit-message:
-      prefix: "fix"
-      prefix-development: "chore"
-      include: "scope"
-    open-pull-requests-limit: 13
-    target-branch: "staging"
+- package-ecosystem: pip
+  directory: /
+  schedule:
+    interval: daily
+  commit-message:
+    prefix: fix
+    prefix-development: chore
+    include: scope
+  open-pull-requests-limit: 13
+  target-branch: staging
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    commit-message:
-      prefix: "fix"
-      prefix-development: "chore"
-      include: "scope"
-    open-pull-requests-limit: 13
-    target-branch: "staging"
+- package-ecosystem: github-actions
+  directory: /
+  schedule:
+    interval: daily
+  commit-message:
+    prefix: fix
+    prefix-development: chore
+    include: scope
+  open-pull-requests-limit: 13
+  target-branch: staging
