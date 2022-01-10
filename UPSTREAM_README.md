@@ -32,6 +32,10 @@ Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/
 
 [Dependabot](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/about-dependabot-version-updates) is enabled to scan the dependencies and automatically create pull requests when an updated version is available.
 
+### Security Analysis
+
+[Codeql](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yml` and the configuration file at `.github/codeql/codeql-config.yml` to add more languages, change the default paths, scan schedule, and queries.
+
 ### Standalone
 
 In addition to being an importable standard Python package, the package is also set up to be used as a runnable and standalone package using Python’s [-m](https://docs.python.org/3/using/cmdline.html#cmdoption-m) command-line option, or by simply calling its console script wrapper `something` which is automatically generated and installed into the hosting Python environment.
