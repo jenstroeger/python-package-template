@@ -1,10 +1,10 @@
-# When pushing to master, we run checks and then release.
+# When pushing to main, we run checks and then release.
 
 name: Check and Release
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   check:
     name: Check
