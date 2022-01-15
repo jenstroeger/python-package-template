@@ -1,16 +1,21 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
-default_language_version:
-  python: python3.9
 default_stages: [commit]
 
 repos:
 
+# These meta hooks check the pre-commit configuration itself.
+- repo: meta
+  hooks:
+  - id: check-hooks-apply
+  - id: check-useless-excludes
+
 # Commitizen enforces semantic and conventional commit messages.
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v2.20.0
+  rev: v2.20.3
   hooks:
   - id: commitizen
+    name: Check conventional commit message
     stages: [commit-msg]
 
 # Sort imports.
@@ -18,26 +23,28 @@ repos:
   rev: 5.10.1
   hooks:
   - id: isort
-    name: isort (python)
+    name: Sort import statements
 
 # Add Black code formatters.
 - repo: https://github.com/ambv/black
   rev: 21.12b0
   hooks:
   - id: black
-    language_version: python3.9
+    name: Format code
 - repo: https://github.com/asottile/blacken-docs
   rev: v1.12.0
   hooks:
   - id: blacken-docs
+    name: Format code in docstrings
     args: [--line-length, '120']
     additional_dependencies: [black==21.12b0]
 
 # Upgrade and rewrite Python idioms.
 - repo: https://github.com/asottile/pyupgrade
-  rev: v2.29.1
+  rev: v2.31.0
   hooks:
   - id: pyupgrade
+    name: Upgrade code idioms
     files: ^src/package/|^tests/|setup.py
     args: [--py39-plus]
 
@@ -46,6 +53,7 @@ repos:
   rev: 4.0.1
   hooks:
   - id: flake8
+    name: Enforce PEP8 style guide
     files: ^src/package/|^tests/|setup.py
     additional_dependencies: [flake8-builtins==1.5.3, flake8-docstrings==1.6.0, flake8-rst-docstrings==0.2.3, pep8-naming==0.12.1]
 
@@ -54,7 +62,7 @@ repos:
 - repo: local
   hooks:
   - id: pylint
-    name: pylint
+    name: Check lint
     entry: pylint
     language: python
     files: ^src/package/|^tests/|setup.py
@@ -64,7 +72,7 @@ repos:
 - repo: local
   hooks:
   - id: mypy
-    name: mypy
+    name: Check typing annotations
     entry: mypy
     language: python
     files: ^src/package/|^tests/|setup.py
@@ -73,31 +81,72 @@ repos:
 # Enable a whole bunch of useful helper hooks, too.
 # See https://pre-commit.com/hooks.html for more hooks.
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.0.1
+  rev: v4.1.0
   hooks:
   - id: check-ast
   - id: check-case-conflict
-  - id: check-executables-have-shebangs
   - id: check-merge-conflict
   - id: debug-statements
   - id: end-of-file-fixer
+    stages: [commit]
   - id: trailing-whitespace
     args: [--markdown-linebreak-ext=md]
+    stages: [commit]
   - id: detect-private-key
   - id: detect-aws-credentials
     args: [--allow-missing-credentials]
   - id: check-yaml
   - id: check-toml
-  - id: check-xml
-  - id: check-json
-  - id: pretty-format-json
+- repo: https://github.com/pre-commit/pygrep-hooks
+  rev: v1.9.0
+  hooks:
+  - id: python-check-blanket-noqa
+  - id: python-check-blanket-type-ignore
+  - id: python-check-mock-methods
+  - id: python-use-type-annotations
+  - id: rst-backticks
+  - id: rst-directive-colons
+  - id: rst-inline-touching-normal
+  - id: text-unicode-replacement-char
+
+# Check the reStructured Text files that make up
+# this package's documentation.
+# Commenting this out because https://github.com/Lucas-C/pre-commit-hooks-markup/issues/13
+# - repo: https://github.com/Lucas-C/pre-commit-hooks-markup
+#   rev: v1.0.1
+#   hooks:
+#   - id: rst-linter
+
+# Check and prettify the .ini files.
+- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  rev: v2.2.0
+  hooks:
+  - id: pretty-format-ini
     args: [--autofix]
+  - id: pretty-format-toml
+    args: [--autofix]
+  - id: pretty-format-yaml
+    args: [--autofix]
+
+# Make sure that the package's MANIFEST.in file works.
+- repo: https://github.com/mgedmin/check-manifest
+  rev: '0.47'
+  hooks:
+  - id: check-manifest
+    name: Check package manifest
+
+# Check the tox.ini configuration.
+# Commenting this out because https://github.com/tox-dev/tox-ini-fmt/issues/42
+# - repo: https://github.com/tox-dev/tox-ini-fmt
+#   rev: 0.3.0
+#   hooks:
+#   - id: tox-ini-fmt
 
 # On push to the remote, run the unit tests.
 - repo: local
   hooks:
   - id: tox
-    name: tox
+    name: Run tests
     entry: tox
     language: python
     verbose: true
