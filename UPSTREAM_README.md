@@ -14,7 +14,7 @@ The package requires a minimum of [Python 3.9](https://www.python.org/downloads/
 
 ### Quality Assurance
 
-A number of git hooks are invoked before and after a commit, and before push. These hooks are all managed by the [pre-commit](https://pre-commit.com/) tool and enforce a number of [software quality assurance](https://en.wikipedia.org/wiki/Software_quality_assurance) measures (see [below](#git-hooks)). Additionally, the [bandit](https://github.com/PyCQA/bandit) tools is being installed as part of a development environment (i.e. the `[dev]` package extra); however, bandit does not run automatically!
+A number of git hooks are invoked before and after a commit, and before push. These hooks are all managed by the [pre-commit](https://pre-commit.com/) tool and enforce a number of [software quality assurance](https://en.wikipedia.org/wiki/Software_quality_assurance) measures (see [below](#git-hooks)).
 
 ### Unit testing
 
@@ -34,7 +34,13 @@ Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/
 
 ### Security Analysis
 
-[Codeql](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yml` and the configuration file at `.github/codeql/codeql-config.yml` to add more languages, change the default paths, scan schedule, and queries.
+[CodeQL](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yml` and the configuration file at `.github/codeql/codeql-config.yml` to add more languages, change the default paths, scan schedule, and queries.
+
+Additionally, the [bandit](https://github.com/PyCQA/bandit) tool is being installed as part of a development environment (i.e. the `[dev]` package extra); however, bandit does not run automatically! Instead, you can invoke it manually:
+
+```bash
+bandit --recursive src  # Add '--skip B101' when checking the tests, Bandit issue #457.
+```
 
 ### Standalone
 

@@ -11,6 +11,7 @@ line-length = 120
 target-version = ["py39"]
 
 # https://bandit.readthedocs.io/en/latest/config.html
+# Skip test B101 because of issue https://github.com/PyCQA/bandit/issues/457
 [tool.bandit]
 tests = []
 skips = ["B101"]
