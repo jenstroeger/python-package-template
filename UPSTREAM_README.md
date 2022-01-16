@@ -34,7 +34,13 @@ Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/
 
 ### Security Analysis
 
-[Codeql](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yml` and the configuration file at `.github/codeql/codeql-config.yml` to add more languages, change the default paths, scan schedule, and queries.
+[CodeQL](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yml` and the configuration file at `.github/codeql/codeql-config.yml` to add more languages, change the default paths, scan schedule, and queries.
+
+Additionally, the [bandit](https://github.com/PyCQA/bandit) tool is being installed as part of a development environment (i.e. the `[dev]` package extra); however, bandit does not run automatically! Instead, you can invoke it manually:
+
+```bash
+bandit --recursive src  # Add '--skip B101' when checking the tests, Bandit issue #457.
+```
 
 ### Standalone
 

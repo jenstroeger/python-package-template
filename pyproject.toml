@@ -10,6 +10,12 @@ skip_gitignore = true
 line-length = 120
 target-version = ["py39"]
 
+# https://bandit.readthedocs.io/en/latest/config.html
+# Skip test B101 because of issue https://github.com/PyCQA/bandit/issues/457
+[tool.bandit]
+tests = []
+skips = ["B101"]
+
 # https://docs.pytest.org/en/6.2.x/customize.html#configuration-file-formats
 # https://docs.pytest.org/en/6.2.x/reference.html#configuration-options
 # https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags
