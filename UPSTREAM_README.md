@@ -34,7 +34,7 @@ Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/
 
 ### Security Analysis
 
-[CodeQL](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yml` and the configuration file at `.github/codeql/codeql-config.yml` to add more languages, change the default paths, scan schedule, and queries.
+[CodeQL](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yaml` and the configuration file at `.github/codeql/codeql-config.yaml` to add more languages, change the default paths, scan schedule, and queries.
 
 Additionally, the [bandit](https://github.com/PyCQA/bandit) tool is being installed as part of a development environment (i.e. the `[dev]` package extra); however, bandit does not run automatically! Instead, you can invoke it manually:
 
@@ -74,7 +74,7 @@ If you’d like to start your own Python project from scratch, you can either co
 
 - If you’d like to publish your package to PyPI then set the `upload_to_pypi` variable in the `pyproject.toml` file to `true`.
 
-- Adjust the Dependabot settings in `.github/dependabot.yml` to your desired target branch that you’d like to have monitored by Dependabot.
+- Adjust the Dependabot settings in `.github/dependabot.yaml` to your desired target branch that you’d like to have monitored by Dependabot.
 
 To develop your new package, create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) and install its `dev`,  `test` and `docs` dependencies:
 ```bash
