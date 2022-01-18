@@ -4,6 +4,24 @@
 
 This repository is intended to be a base template, a cookiecutter for a new Python package project while keeping [PEP518](https://www.python.org/dev/peps/pep-0518/) in mind. Because it’s hosted on Github it already utilizes a few [Github Actions](https://docs.github.com/en/actions) that enforce repository-side checks for continuous integration and that implement a semantic release setup. And while this package is a starting point for a Python project with good engineering practices, it’s intended to be improved and added to in various ways — see the [Wiki](https://github.com/jenstroeger/python-package-template/wiki) for more suggestions.
 
+## Table of Contents
+
+[Features](#features)  
+&emsp;[Typing](#typing)  
+&emsp;[Quality assurance](#quality-assurance)  
+&emsp;[Unit testing](#unit-testing)  
+&emsp;[Documentation](#documentation)  
+&emsp;[Versioning and publishing](#versioning-and-publishing)  
+&emsp;[Dependency analysis](#dependency-analysis)  
+&emsp;[Security analysis](#security-analysis)  
+&emsp;[Standalone](#standalone)  
+[How to use this repository](#how-to-use-this-repository)  
+[Git hooks](#git-hooks)  
+[Testing](#testing)  
+[Documentation](#documentation)  
+[Versioning, publishing and changelog](#versioning-publishing-and-changelog)  
+[Frequently asked questions](#frequently-asked-questions)  
+
 ## Features
 
 The badges above give you an idea of what this project template provides. It’s work in progress, and I try to enable as much engineering goodness as is possible and is sensibly bearable using [git hooks](https://git-scm.com/docs/githooks) (see [below](#git-hooks)) and Github Actions.
@@ -12,7 +30,7 @@ The badges above give you an idea of what this project template provides. It’s
 
 The package requires a minimum of [Python 3.9](https://www.python.org/downloads/release/python-390/) and supports [Python 3.10](https://www.python.org/downloads/release/python-3100/). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker is invoked by a git hook and through a Github Action to enforce continuous type checks. Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
 
-### Quality Assurance
+### Quality assurance
 
 A number of git hooks are invoked before and after a commit, and before push. These hooks are all managed by the [pre-commit](https://pre-commit.com/) tool and enforce a number of [software quality assurance](https://en.wikipedia.org/wiki/Software_quality_assurance) measures (see [below](#git-hooks)).
 
@@ -28,11 +46,11 @@ Documentation is important, and [Sphinx](https://www.sphinx-doc.org/en/master/) 
 
 Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/), and [Changelog](https://en.wikipedia.org/wiki/Changelog) generation are enabled using Github Actions (see [below](#versioning-publishing-and-changelog)).
 
-### Dependency Analysis
+### Dependency analysis
 
 [Dependabot](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/about-dependabot-version-updates) is enabled to scan the dependencies and automatically create pull requests when an updated version is available.
 
-### Security Analysis
+### Security analysis
 
 [CodeQL](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yaml` and the configuration file at `.github/codeql/codeql-config.yaml` to add more languages, change the default paths, scan schedule, and queries.
 
@@ -164,3 +182,8 @@ semantic-release version
 ```
 
 Use the `--verbosity=DEBUG` command-line argument for more details.
+
+## Frequently asked questions
+
+- **Question**: Why don’t you use tools like [tox](https://github.com/tox-dev/tox) or [nox](https://github.com/theacodes/nox) to orchestrate testing?  
+  **Answer**: We’ve removed `tox` based on a discussion in [issue #100](https://github.com/jenstroeger/python-package-template/issues/100) and [PR #102](https://github.com/jenstroeger/python-package-template/pull/102). In short: we want to run tests inside the development venv using `pytest`, and run more tests using an extensive test matrix using Github Actions.
