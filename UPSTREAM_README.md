@@ -18,7 +18,7 @@ This repository is intended to be a base template, a cookiecutter for a new Pyth
 [How to use this repository](#how-to-use-this-repository)  
 [Git hooks](#git-hooks)  
 [Testing](#testing)  
-[Documentation](#documentation)  
+[Generating documentation](#generating-documentation)  
 [Versioning, publishing and changelog](#versioning-publishing-and-changelog)  
 [Frequently asked questions](#frequently-asked-questions)  
 
@@ -152,7 +152,7 @@ Note that code that’s not covered by tests is listed under the `Missing` colum
 
 Hypothesis is a package that implements [property based testing](https://en.wikipedia.org/wiki/QuickCheck) and that provides payload generation for your tests based on strategy descriptions ([more](https://hypothesis.works/#what-is-hypothesis)). Using its [pytest plugin](https://hypothesis.readthedocs.io/en/latest/details.html#the-hypothesis-pytest-plugin) Hypothesis is ready to be used for this package.
 
-## Documentation
+## Generating documentation
 
 As mentioned above, all package code should make use of [Python docstrings](https://www.python.org/dev/peps/pep-0257/) in [reStructured text format](https://www.python.org/dev/peps/pep-0287/). Using these docstrings and the documentation template in the `docs/source/` folder, you can then generate proper documentation in different formats using the [Sphinx](https://github.com/sphinx-doc/sphinx/) tool:
 
