@@ -117,16 +117,17 @@ repos:
 #   hooks:
 #   - id: rst-linter
 
-# Check and prettify the .ini files.
+# Check and prettify the configuration files.
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   rev: v2.2.0
   hooks:
   - id: pretty-format-ini
     args: [--autofix]
-  - id: pretty-format-toml
-    args: [--autofix]
   - id: pretty-format-yaml
     args: [--autofix]
+  # Commenting this out because https://github.com/pappasam/toml-sort/issues/11
+  # - id: pretty-format-toml
+  #   args: [--autofix]
 
 # Make sure that the package's MANIFEST.in file works.
 - repo: https://github.com/mgedmin/check-manifest
