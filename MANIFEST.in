@@ -1,4 +1,5 @@
 recursive-include src/package *
+recursive-exclude src/package/**/__pycache__ *
 
 exclude .gitignore .pre-commit-config.yaml
 exclude CHANGELOG.md MANIFEST.in UPSTREAM_README.md UPSTREAM_CHANGELOG.md
