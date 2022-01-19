@@ -49,7 +49,5 @@ jobs:
       run: pylint src tests
     - name: Run mypy
       run: mypy src tests
-    - name: Run tox
-      run: |
-        pip install tox-gh-actions
-        tox
+    - name: Run pytest
+      run: python -W always::DeprecationWarning -m pytest

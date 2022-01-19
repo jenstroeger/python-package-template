@@ -1,9 +1,9 @@
 recursive-include src/package *
 recursive-exclude src/package/**/__pycache__ *
 
-exclude .gitignore .pre-commit-config.yaml
+exclude .gitignore .pre-commit-config.yaml .flake8
 exclude CHANGELOG.md MANIFEST.in UPSTREAM_README.md UPSTREAM_CHANGELOG.md
-exclude commitlint.rules.js mypy.ini pylintrc pyproject.toml tox.ini
+exclude commitlint.rules.js mypy.ini pylintrc pyproject.toml
 recursive-exclude .github *
 recursive-exclude docs *
 recursive-exclude tests *

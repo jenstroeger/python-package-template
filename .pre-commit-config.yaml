@@ -146,9 +146,10 @@ repos:
 # On push to the remote, run the unit tests.
 - repo: local
   hooks:
-  - id: tox
-    name: Run tests
-    entry: tox
+  - id: pytest
+    name: Run unit tests
+    # entry: python -W always::DeprecationWarning -m pytest
+    entry: pytest
     language: python
     verbose: true
     always_run: true
