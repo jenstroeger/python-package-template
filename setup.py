@@ -59,7 +59,7 @@ setuptools.setup(
     extras_require={
         "test": ["hypothesis==6.35.1", "pytest==6.2.5", "pytest-cov==3.0.0"],
         "dev": [
-            "bandit==1.7.1",
+            "bandit==1.7.2",
             "flake8==4.0.1",
             "flake8-builtins==1.5.3",
             "flake8-docstrings==1.6.0",
