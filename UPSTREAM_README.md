@@ -62,7 +62,7 @@ bandit --recursive src  # Add '--skip B101' when checking the tests, Bandit issu
 
 ### Standalone
 
-In addition to being an importable standard Python package, the package is also set up to be used as a runnable and standalone package using Python’s [-m](https://docs.python.org/3/using/cmdline.html#cmdoption-m) command-line option, or by simply calling its console script wrapper `something` which is automatically generated and installed into the hosting Python environment.
+In addition to being an importable standard Python package, the package is also set up to be used as a runnable and standalone package using Python’s [-m](https://docs.python.org/3/using/cmdline.html#cmdoption-m) command-line option, or by simply calling its console script wrapper `something` which is automatically generated as an [entry point into the package](https://setuptools.pypa.io/en/latest/userguide/entry_point.html), and installed into the hosting Python environment.
 
 ## How to use this repository
 
