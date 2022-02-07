@@ -1,7 +1,7 @@
 #! /usr/bin/env make -f
 # This Makefile assumes an activated Python virtual environment.
 
-# Make sure that Python's virtual environemnt is activated, and
+# Make sure that Python's virtual environment is activated, and
 # all tools are available.
 ifndef VIRTUAL_ENV
   $(error Please activate the Python virtual environment)
