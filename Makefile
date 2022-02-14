@@ -46,4 +46,5 @@ clean:
 .PHONY: nuke
 nuke: clean
 		find src/ -name __pycache__ -exec rm -fr {} +
+		find tests/ -name __pycache__ -exec rm -fr {} +
 		pre-commit clean
