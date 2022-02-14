@@ -1,6 +1,9 @@
 #! /usr/bin/env make -f
 # This Makefile assumes an activated Python virtual environment.
 
+# Get the current version of this Python package.
+PACKAGE_VERSION=$(shell python -c 'import package; print(package.__version__)')
+
 # Make sure that Python's virtual environment is activated, and
 # all tools are available.
 ifndef VIRTUAL_ENV
@@ -8,13 +11,16 @@ ifndef VIRTUAL_ENV
 endif
 
 .PHONY:	all
-all:	dist
+all:	build
 
-dist:	dist/.dist
-dist/.dist:
-		python setup.py bdist
+build:	dist
+dist:	bdist_wheel sdist
+bdist_wheel: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
+dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
+		python setup.py bdist_wheel
+sdist:	dist/package-${PACKAGE_VERSION}.tar.gz
+dist/package-$(PACKAGE_VERSION).tar.gz:
 		python setup.py sdist
-		touch dist/.dist
 
 .PHONY:	quick-check check
 quick-check:
@@ -35,7 +41,7 @@ docs/_build/html/index.html:
 .PHONY:	clean
 clean:
 		rm -fr .hypothesis .coverage .mypy_cache .pytest_cache
-		rm -fr dist/*.tar.gz dist/.dist docs/_build
+		rm -fr build/* dist/* docs/_build
 
 .PHONY: nuke
 nuke: clean
