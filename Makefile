@@ -36,7 +36,7 @@ test:
 .PHONY: docs
 docs:	docs/_build/html/index.html
 docs/_build/html/index.html:
-		cd docs && make html && cd ..
+		$(MAKE) -C docs/ html
 
 .PHONY:	clean
 clean:
