@@ -36,5 +36,8 @@ docs/_build/html/index.html:
 clean:
 		rm -fr .hypothesis .coverage .mypy_cache .pytest_cache
 		rm -fr dist/*.tar.gz dist/.dist docs/_build
-		find src/ -name "__pycache__" -exec -fr {} +
+
+.PHONY: nuke
+nuke: clean
+		find src/ -name __pycache__ -exec rm -fr {} +
 		pre-commit clean
