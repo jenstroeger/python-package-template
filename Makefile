@@ -11,9 +11,8 @@ ifndef VIRTUAL_ENV
 endif
 
 .PHONY:	all
-all:	build
+all:	check test dist
 
-build:	dist
 dist:	bdist_wheel sdist
 bdist_wheel: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
