@@ -1,0 +1,30 @@
+name: Release Notifications
+on:
+  release:
+    types: [published]
+jobs:
+  slack:
+    name: Slack release notification
+    # Remove the next line after your Slack app has been set up. See also:
+    # https://github.com/slackapi/slack-github-action#setup-2
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: slackapi/slack-github-action@v1.18.0
+      with:
+        payload: |
+          {
+            "text": "${{ github.event.repository.name }} published a new release ${{ github.event.release.tag_name }}",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*${{ github.event.repository.name }}* published a new release <${{ github.event.release.html_url }}|${{ github.event.release.tag_name }}>"
+                }
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
