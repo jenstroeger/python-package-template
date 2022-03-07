@@ -44,7 +44,7 @@ Documentation is important, and [Sphinx](https://www.sphinx-doc.org/en/master/) 
 
 ### Versioning and publishing
 
-Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/), and [Changelog](https://en.wikipedia.org/wiki/Changelog) generation are enabled using Github Actions (see [below](#versioning-publishing-and-changelog)).
+Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/), and [Changelog](https://en.wikipedia.org/wiki/Changelog) generation are enabled using Github Actions. Furthermore, an optional [Release Notification](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows/release-notifications.yaml) Action allows Github to push an update notification to a [Slack bot](https://api.slack.com/bot-users) of your choice. For setup instructions, please see [below](#versioning-publishing-and-changelog).
 
 ### Dependency analysis
 
@@ -182,6 +182,8 @@ semantic-release version
 ```
 
 Use the `--verbosity=DEBUG` command-line argument for more details.
+
+If you’d like to receive Slack notifications whenever a new release is published, follow the comments in the [Release Notification](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows/release-notifications.yaml) Action and set up a Slack bot by following [the instructions here](https://github.com/slackapi/slack-github-action#setup-2).
 
 ## Frequently asked questions
 
