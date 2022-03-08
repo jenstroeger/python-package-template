@@ -57,7 +57,12 @@ setuptools.setup(
     include_package_data=True,
     install_requires=[],
     extras_require={
-        "test": ["hypothesis==6.35.1", "pytest==6.2.5", "pytest-cov==3.0.0"],
+        "test": [
+            "hypothesis==6.35.1",
+            "pre-commit==2.17.0",
+            "pytest==6.2.5",
+            "pytest-cov==3.0.0",
+        ],
         "dev": [
             "bandit==1.7.1",
             "flake8==4.0.1",
@@ -70,6 +75,7 @@ setuptools.setup(
             "pre-commit==2.17.0",
             "pylint==2.12.2",
             "types-setuptools==57.4.7",
+            "wheel==0.37.1",
         ],
         "docs": ["sphinx==4.4.0"],
     },

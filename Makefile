@@ -1,35 +1,51 @@
 #! /usr/bin/env make -f
-# This Makefile assumes an activated Python virtual environment.
 
-# Get the current version of this Python package.
-PACKAGE_VERSION=$(shell python -c 'import package; print(package.__version__)')
-
-# Make sure that Python's virtual environment is activated, and
-# all tools are available.
-ifndef VIRTUAL_ENV
-  $(error Please activate the Python virtual environment)
+# If we set up the Python virtual environment initially then make sure that
+# the variable 'PYTHON' is available, either its default or passed in by the
+# user. Any other goal requires the Python virtual environment.
+ifeq ($(MAKECMDGOALS),setup)
+  ifndef PYTHON
+    PYTHON=python3.10
+    $(info No Python version specified, defaulting to $(PYTHON))
+  endif
+else
+  ifeq ("$(wildcard .venv)","")
+    $(error No Python environment found, use `make setup` first)
+  else
+    PACKAGE_VERSION=$(shell .venv/bin/python -c 'import package; print(package.__version__)')
+  endif
 endif
+
+.PHONY: setup
+setup:
+	$(PYTHON) -m venv --upgrade-deps .venv
+	. .venv/bin/activate && pip install --upgrade pip && pip install --editable .[dev,test,docs]
 
 .PHONY: all
 all: check test dist
 
 dist: bdist_wheel sdist
-bdist_wheel: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
-dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
-	python setup.py bdist_wheel
-sdist: dist/package-${PACKAGE_VERSION}.tar.gz
-dist/package-$(PACKAGE_VERSION).tar.gz:
-	python setup.py sdist
+bdist_wheel: .venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
+.venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
+	. .venv/bin/activate && \
+	python setup.py bdist_wheel --dist-dir .venv/dist/ --bdist-dir .venv/build
+sdist: .venv/dist/package-$(PACKAGE_VERSION).tar.gz
+.venv/dist/package-$(PACKAGE_VERSION).tar.gz:
+	. .venv/bin/activate && \
+	python setup.py sdist --dist-dir .venv/dist/
 
 .PHONY: quick-check check
 quick-check:
-	pre-commit run pylint --all-files
+	. .venv/bin/activate && \
+	pre-commit run pylint --all-files && \
 	pre-commit run mypy --all-files
 check:
+	. .venv/bin/activate && \
 	pre-commit run --all-files
 
 .PHONY: test
 test:
+	. .venv/bin/activate && \
 	pre-commit run pytest --hook-stage push
 
 .PHONY: docs
@@ -37,13 +53,15 @@ docs: docs/_build/html/index.html
 docs/_build/html/index.html:
 	$(MAKE) -C docs/ html
 
-.PHONY: clean
-clean:
+.PHONY: dist-clean clean
+dist-clean:
+	rm -fr .venv/build/* .venv/dist/*
+clean: dist-clean
 	rm -fr .hypothesis .coverage .mypy_cache .pytest_cache
-	rm -fr build/* dist/* docs/_build
+	rm -fr docs/_build
 
 .PHONY: nuke
 nuke: clean
 	find src/ -name __pycache__ -exec rm -fr {} +
 	find tests/ -name __pycache__ -exec rm -fr {} +
-	pre-commit clean
+	. .venv/bin/activate && pre-commit clean
