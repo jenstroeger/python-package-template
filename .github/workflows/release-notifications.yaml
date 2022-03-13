@@ -2,15 +2,21 @@ name: Release Notifications
 on:
   release:
     types: [published]
+
+# Declare default permissions as read only.
+permissions: read-all
+
 jobs:
   slack:
     name: Slack release notification
     # Remove the next line after your Slack app has been set up. See also:
     # https://github.com/slackapi/slack-github-action#setup-2
     if: ${{ false }}
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
-    - uses: slackapi/slack-github-action@v1.18.0
+    - uses: slackapi/slack-github-action@16b6c78ee73689a627b65332b34e5d409c7299da # v1.18.0
       with:
         payload: |
           {
