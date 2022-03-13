@@ -60,8 +60,11 @@ clean: dist-clean
 	rm -fr .hypothesis .coverage .mypy_cache .pytest_cache
 	rm -fr docs/_build
 
-.PHONY: nuke
-nuke: clean
+.PHONY: nuke-caches nuke
+nuke-caches: clean
 	find src/ -name __pycache__ -exec rm -fr {} +
 	find tests/ -name __pycache__ -exec rm -fr {} +
 	. .venv/bin/activate && pre-commit clean
+nuke: nuke-caches
+	rm -fr src/package.egg-info
+	rm -fr .venv
