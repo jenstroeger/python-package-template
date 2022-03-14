@@ -19,7 +19,11 @@ endif
 .PHONY: setup
 setup:
 	$(PYTHON) -m venv --upgrade-deps .venv
-	. .venv/bin/activate && pip install --upgrade pip && pip install --editable .[dev,test,docs]
+	. .venv/bin/activate && pip install --upgrade pip && pip install --editable .[hooks,dev,test,docs]
+	. .venv/bin/activate && \
+	pre-commit install && \
+	pre-commit install --hook-type commit-msg && \
+	pre-commit install --hook-type pre-push
 
 .PHONY: all
 all: check test dist
@@ -67,5 +71,6 @@ nuke-caches: clean
 	find tests/ -name __pycache__ -exec rm -fr {} +
 	. .venv/bin/activate && pre-commit clean
 nuke: nuke-caches
+	. .venv/bin/activate && pre-commit uninstall
 	rm -fr src/package.egg-info
 	rm -fr .venv

@@ -57,9 +57,9 @@ setuptools.setup(
     include_package_data=True,
     install_requires=[],
     extras_require={
+        "hooks": ["pre-commit==2.17.0"],
         "test": [
             "hypothesis==6.35.1",
-            "pre-commit==2.17.0",
             "pytest==6.2.5",
             "pytest-cov==3.0.0",
         ],
@@ -72,7 +72,6 @@ setuptools.setup(
             "hypothesis==6.35.1",
             "mypy==0.931",
             "pep8-naming==0.12.1",
-            "pre-commit==2.17.0",
             "pylint==2.12.2",
             "types-setuptools==57.4.7",
             "wheel==0.37.1",
