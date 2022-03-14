@@ -25,6 +25,9 @@ endif
 
 .PHONY: setup
 setup:
+	if [[ -d .venv ]]; then \
+	  echo "Python venv already exists, exiting" && exit 1; \
+	fi
 	if [[ -z "${PYTHON}" ]]; then \
 	  python3.10 -m venv --upgrade-deps .venv; \
 	else \
