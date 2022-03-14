@@ -13,7 +13,7 @@ NEED_VENV := $(or \
   $(findstring sdist,$(MAKECMDGOALS)), \
   $(findstring docs,$(MAKECMDGOALS)) \
 )
-ifeq (,$(NEED_VENV))
+ifeq ($(NEED_VENV),)
   # None of the current goals requires a virtual environment.
 else
   ifeq ($(wildcard .venv),)
