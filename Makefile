@@ -26,7 +26,7 @@ setup:
 	pre-commit install --hook-type pre-push
 
 .PHONY: all
-all: check test dist
+all: check test dist docs
 
 dist: bdist_wheel sdist
 bdist_wheel: .venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
