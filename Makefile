@@ -28,16 +28,6 @@ setup:
 .PHONY: all
 all: check test dist docs
 
-dist: bdist_wheel sdist
-bdist_wheel: .venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
-.venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
-	. .venv/bin/activate && \
-	python setup.py bdist_wheel --dist-dir .venv/dist/ --bdist-dir .venv/build
-sdist: .venv/dist/package-$(PACKAGE_VERSION).tar.gz
-.venv/dist/package-$(PACKAGE_VERSION).tar.gz:
-	. .venv/bin/activate && \
-	python setup.py sdist --dist-dir .venv/dist/
-
 .PHONY: quick-check check
 quick-check:
 	. .venv/bin/activate && \
@@ -52,11 +42,16 @@ test:
 	. .venv/bin/activate && \
 	pre-commit run pytest --hook-stage push
 
-.PHONY: docs
-docs: docs/_build/html/index.html
-docs/_build/html/index.html:
+.PHONY: dist bdist_wheel sdist
+dist: bdist_wheel sdist
+bdist_wheel: .venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
+.venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
 	. .venv/bin/activate && \
-	$(MAKE) -C docs/ html
+	python setup.py bdist_wheel --dist-dir .venv/dist/ --bdist-dir .venv/build
+sdist: .venv/dist/package-$(PACKAGE_VERSION).tar.gz
+.venv/dist/package-$(PACKAGE_VERSION).tar.gz:
+	. .venv/bin/activate && \
+	python setup.py sdist --dist-dir .venv/dist/
 
 .PHONY: dist-clean clean
 dist-clean:
@@ -64,6 +59,12 @@ dist-clean:
 clean: dist-clean
 	rm -fr .hypothesis .coverage .mypy_cache .pytest_cache
 	rm -fr docs/_build
+
+.PHONY: docs
+docs: docs/_build/html/index.html
+docs/_build/html/index.html:
+	. .venv/bin/activate && \
+	$(MAKE) -C docs/ html
 
 .PHONY: nuke-caches nuke
 nuke-caches: clean
