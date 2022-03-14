@@ -53,18 +53,18 @@ sdist: .venv/dist/package-$(PACKAGE_VERSION).tar.gz
 	. .venv/bin/activate && \
 	python setup.py sdist --dist-dir .venv/dist/
 
+.PHONY: docs
+docs: docs/_build/html/index.html
+docs/_build/html/index.html:
+	. .venv/bin/activate && \
+	$(MAKE) -C docs/ html
+
 .PHONY: dist-clean clean
 dist-clean:
 	rm -fr .venv/build/* .venv/dist/*
 clean: dist-clean
 	rm -fr .hypothesis .coverage .mypy_cache .pytest_cache
 	rm -fr docs/_build
-
-.PHONY: docs
-docs: docs/_build/html/index.html
-docs/_build/html/index.html:
-	. .venv/bin/activate && \
-	$(MAKE) -C docs/ html
 
 .PHONY: nuke-caches nuke
 nuke-caches: clean
