@@ -1,15 +1,22 @@
 #! /usr/bin/env make -f
 
-# If we set up the Python virtual environment initially then make sure that
-# the variable 'PYTHON' is available, either its default or passed in by the
-# user. Any other goal requires the Python virtual environment.
-ifeq ($(MAKECMDGOALS),setup)
-  ifndef PYTHON
-    PYTHON=python3.10
-    $(info No Python version specified, defaulting to $(PYTHON))
-  endif
+# This variable contains the first goal that matches any of the listed goals
+# here, else it contains an empty string. The net effect is to filter out
+# whether this current run of `make` requires a Python virtual environment.
+NEED_VENV := $(or \
+  $(findstring all,$(MAKECMDGOALS)), \
+  $(findstring quick-check,$(MAKECMDGOALS)), \
+  $(findstring check,$(MAKECMDGOALS)), \
+  $(findstring test,$(MAKECMDGOALS)), \
+  $(findstring dist,$(MAKECMDGOALS)), \
+  $(findstring bdist-wheel,$(MAKECMDGOALS)), \
+  $(findstring sdist,$(MAKECMDGOALS)), \
+  $(findstring docs,$(MAKECMDGOALS)) \
+)
+ifeq (,$(NEED_VENV))
+  # None of the current goals requires a virtual environment.
 else
-  ifeq ("$(wildcard .venv)","")
+  ifeq ($(wildcard .venv),)
     $(error No Python environment found, use `make setup` first)
   else
     PACKAGE_VERSION=$(shell .venv/bin/python -c 'import package; print(package.__version__)')
@@ -18,8 +25,14 @@ endif
 
 .PHONY: setup
 setup:
-	$(PYTHON) -m venv --upgrade-deps .venv
-	. .venv/bin/activate && pip install --upgrade pip && pip install --editable .[hooks,dev,test,docs]
+	if [[ -z "${PYTHON}" ]]; then \
+	  python3.10 -m venv --upgrade-deps .venv; \
+	else \
+	  ${PYTHON} -m venv --upgrade-deps .venv; \
+	fi
+	. .venv/bin/activate && \
+	pip install --upgrade pip && \
+	pip install --editable .[hooks,dev,test,docs]
 	. .venv/bin/activate && \
 	pre-commit install && \
 	pre-commit install --hook-type commit-msg && \
@@ -42,9 +55,9 @@ test:
 	. .venv/bin/activate && \
 	pre-commit run pytest --hook-stage push
 
-.PHONY: dist bdist_wheel sdist
-dist: bdist_wheel sdist
-bdist_wheel: .venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
+.PHONY: dist bdist-wheel sdist
+dist: bdist-wheel sdist
+bdist-wheel: .venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
 .venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
 	. .venv/bin/activate && \
 	python setup.py bdist_wheel --dist-dir .venv/dist/ --bdist-dir .venv/build
@@ -70,8 +83,8 @@ clean: dist-clean
 nuke-caches: clean
 	find src/ -name __pycache__ -exec rm -fr {} +
 	find tests/ -name __pycache__ -exec rm -fr {} +
-	. .venv/bin/activate && pre-commit clean
+	if [[ -f .venv/bin/pre-commit ]]; then . .venv/bin/activate && pre-commit clean; fi
 nuke: nuke-caches
-	. .venv/bin/activate && pre-commit uninstall
+	if [[ -f .venv/bin/pre-commit ]]; then . .venv/bin/activate && pre-commit uninstall; fi
 	rm -fr src/package.egg-info
 	rm -fr .venv
