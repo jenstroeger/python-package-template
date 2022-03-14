@@ -51,6 +51,7 @@ test:
 .PHONY: docs
 docs: docs/_build/html/index.html
 docs/_build/html/index.html:
+	. .venv/bin/activate && \
 	$(MAKE) -C docs/ html
 
 .PHONY: dist-clean clean
