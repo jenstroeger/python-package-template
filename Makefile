@@ -86,8 +86,8 @@ clean: dist-clean
 nuke-caches: clean
 	find src/ -name __pycache__ -exec rm -fr {} +
 	find tests/ -name __pycache__ -exec rm -fr {} +
-	if [[ -f .venv/bin/pre-commit ]]; then . .venv/bin/activate && pre-commit clean; fi
+	if [[ -f .venv/bin/pre-commit ]]; then .venv/bin/pre-commit clean; fi
 nuke: nuke-caches
-	if [[ -f .venv/bin/pre-commit ]]; then . .venv/bin/activate && pre-commit uninstall; fi
+	if [[ -f .venv/bin/pre-commit ]]; then .venv/bin/pre-commit uninstall; fi
 	rm -fr src/package.egg-info
 	rm -fr .venv
