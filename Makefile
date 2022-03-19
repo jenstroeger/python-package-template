@@ -4,6 +4,8 @@
 # here, else it contains an empty string. The net effect is to filter out
 # whether this current run of `make` requires a Python virtual environment.
 NEED_VENV := $(or \
+  $(findstring upgrade,$(MAKECMDGOALS)), \
+  $(findstring requirements,$(MAKECMDGOALS)), \
   $(findstring all,$(MAKECMDGOALS)), \
   $(findstring quick-check,$(MAKECMDGOALS)), \
   $(findstring check,$(MAKECMDGOALS)), \
@@ -40,6 +42,20 @@ setup:
 	pre-commit install && \
 	pre-commit install --hook-type commit-msg && \
 	pre-commit install --hook-type pre-push
+
+.PHONY: upgrade
+upgrade:
+	. .venv/bin/activate && \
+	pip install --upgrade pip && \
+	pip install --editable .[hooks,dev,test,docs]
+	rm -fr requirements.txt && $(MAKE) requirements
+
+.PHONY: requirements
+requirements: requirements.txt
+requirements.txt:
+	. .venv/bin/activate && \
+	echo "" > requirements.txt && \
+	for p in `pip list --format freeze`; do hashin --verbose $$p; done
 
 .PHONY: all
 all: check test dist docs
