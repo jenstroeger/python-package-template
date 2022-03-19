@@ -25,10 +25,10 @@ endif
 
 .PHONY: setup
 setup:
-	if [[ -d .venv ]]; then \
+	if [ -d .venv ]; then \
 	  echo "Python venv already exists, exiting" && exit 1; \
 	fi
-	if [[ -z "${PYTHON}" ]]; then \
+	if [ -z "${PYTHON}" ]; then \
 	  python3.10 -m venv --upgrade-deps .venv; \
 	else \
 	  ${PYTHON} -m venv --upgrade-deps .venv; \
@@ -86,8 +86,8 @@ clean: dist-clean
 nuke-caches: clean
 	find src/ -name __pycache__ -exec rm -fr {} +
 	find tests/ -name __pycache__ -exec rm -fr {} +
-	if [[ -f .venv/bin/pre-commit ]]; then .venv/bin/pre-commit clean; fi
+	if [ -f .venv/bin/pre-commit ]; then .venv/bin/pre-commit clean; fi
 nuke: nuke-caches
-	if [[ -f .venv/bin/pre-commit ]]; then .venv/bin/pre-commit uninstall; fi
+	if [ -f .venv/bin/pre-commit ]; then .venv/bin/pre-commit uninstall; fi
 	rm -fr src/package.egg-info
 	rm -fr .venv
