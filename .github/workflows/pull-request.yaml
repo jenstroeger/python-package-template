@@ -42,6 +42,6 @@ jobs:
     - name: Install dependencies
       run: make setup
       env:
-        PYTHON=python
+        PYTHON: python
     - name: Run checks
       run: make check
