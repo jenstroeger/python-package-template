@@ -48,3 +48,7 @@ jobs:
       run: make check
       env:
         VIRTUAL_ENV: /does/not/exist/
+    - name: Run tests
+      run: make test
+      env:
+        VIRTUAL_ENV: /does/not/exist/
