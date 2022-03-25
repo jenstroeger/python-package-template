@@ -40,12 +40,11 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
     - name: Install dependencies
-      run: |
-        source activate
-        make setup
+      run: make setup
       env:
         PYTHON: python
+        VIRTUAL_ENV: /does/not/exist/
     - name: Run checks
-      run: |
-        source activate
-        make check
+      run: make check
+      env:
+        VIRTUAL_ENV: /does/not/exist/
