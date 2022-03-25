@@ -18,21 +18,23 @@ NEED_VENV := $(or \
 ifeq ($(NEED_VENV),)
   # None of the current goals requires a virtual environment.
 else
-  ifeq ($(wildcard .venv),)
-    $(error No Python environment found, use `make setup` first)
+  ifeq ($(origin VIRTUAL_ENV),undefined)
+    $(error No Python virtual environment found, please activate one or use `make setup`)
   else
-    PACKAGE_VERSION=$(shell .venv/bin/python -c 'import package; print(package.__version__)')
+    PACKAGE_VERSION=$(shell python -c 'import package; print(package.__version__)')
   endif
 endif
 
 .PHONY: setup
 setup:
-	if [ -d .venv ]; then \
-	  echo "Python venv already exists, exiting" && exit 1; \
+	if [ ! -z "${VIRTUAL_ENV}" ]; then \
+	  echo "Found an activated Python virtual environment, exiting" && exit 1; \
 	fi
 	if [ -z "${PYTHON}" ]; then \
+	  echo "Creating virtual envirnoment in .venv/ for python3.10" \
 	  python3.10 -m venv --upgrade-deps .venv; \
 	else \
+	  echo "Creating virtual envirnoment in .venv/ for ${PYTHON}" \
 	  ${PYTHON} -m venv --upgrade-deps .venv; \
 	fi
 	. .venv/bin/activate && \
@@ -45,16 +47,14 @@ setup:
 
 .PHONY: upgrade
 upgrade:
-	. .venv/bin/activate && \
-	pip install --upgrade pip && \
+	pip install --upgrade pip
 	pip install --editable .[hooks,dev,test,docs]
 	rm -fr requirements.txt && $(MAKE) requirements
 
 .PHONY: requirements
 requirements: requirements.txt
 requirements.txt:
-	. .venv/bin/activate && \
-	echo "" > requirements.txt && \
+	echo "" > requirements.txt
 	for p in `pip list --format freeze`; do hashin --verbose $$p; done
 
 .PHONY: all
@@ -62,38 +62,32 @@ all: check test dist docs
 
 .PHONY: quick-check check
 quick-check:
-	. .venv/bin/activate && \
-	pre-commit run pylint --all-files && \
+	pre-commit run pylint --all-files
 	pre-commit run mypy --all-files
 check:
-	. .venv/bin/activate && \
 	pre-commit run --all-files
 
 .PHONY: test
 test:
-	. .venv/bin/activate && \
 	pre-commit run pytest --hook-stage push
 
 .PHONY: dist bdist-wheel sdist
 dist: bdist-wheel sdist
-bdist-wheel: .venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
-.venv/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
-	. .venv/bin/activate && \
-	python setup.py bdist_wheel --dist-dir .venv/dist/ --bdist-dir .venv/build
-sdist: .venv/dist/package-$(PACKAGE_VERSION).tar.gz
-.venv/dist/package-$(PACKAGE_VERSION).tar.gz:
-	. .venv/bin/activate && \
-	python setup.py sdist --dist-dir .venv/dist/
+bdist-wheel: $(VIRTUAL_ENV)/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
+$(VIRTUAL_ENV)/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
+	python setup.py bdist_wheel --dist-dir $(VIRTUAL_ENV)/dist/ --bdist-dir $(VIRTUAL_ENV)/build
+sdist: $(VIRTUAL_ENV)/dist/package-$(PACKAGE_VERSION).tar.gz
+$(VIRTUAL_ENV)/dist/package-$(PACKAGE_VERSION).tar.gz:
+	python setup.py sdist --dist-dir $(VIRTUAL_ENV)/dist/
 
 .PHONY: docs
 docs: docs/_build/html/index.html
 docs/_build/html/index.html:
-	. .venv/bin/activate && \
 	$(MAKE) -C docs/ html
 
 .PHONY: dist-clean clean
 dist-clean:
-	rm -fr .venv/build/* .venv/dist/*
+	rm -fr $(VIRTUAL_ENV)/build/* $(VIRTUAL_ENV)/dist/*
 clean: dist-clean
 	rm -fr .hypothesis .coverage .mypy_cache .pytest_cache
 	rm -fr docs/_build
@@ -105,5 +99,6 @@ nuke-caches: clean
 	if [ -f .venv/bin/pre-commit ]; then .venv/bin/pre-commit clean; fi
 nuke: nuke-caches
 	if [ -f .venv/bin/pre-commit ]; then .venv/bin/pre-commit uninstall; fi
+	if [ ! -z "${VIRTUAL_ENV}" ]; then echo "Nuking activated virtual environment!"; fi
 	rm -fr src/package.egg-info
-	rm -fr .venv
+	rm -fr $(VIRTUAL_ENV)
