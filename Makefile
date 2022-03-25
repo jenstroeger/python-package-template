@@ -4,6 +4,7 @@
 # here, else it contains an empty string. The net effect is to filter out
 # whether this current run of `make` requires a Python virtual environment.
 NEED_VENV := $(or \
+  $(findstring setup,$(MAKECMDGOALS)), \
   $(findstring upgrade,$(MAKECMDGOALS)), \
   $(findstring requirements,$(MAKECMDGOALS)), \
   $(findstring all,$(MAKECMDGOALS)), \
@@ -19,14 +20,14 @@ ifeq ($(NEED_VENV),)
   # None of the current goals requires a virtual environment.
 else
   ifeq ($(origin VIRTUAL_ENV),undefined)
-    $(error No Python virtual environment found, please activate one or use `make setup`)
+    $(error No Python virtual environment found, please activate one or use `make venv`)
   else
     PACKAGE_VERSION=$(shell python -c 'import package; print(package.__version__)')
   endif
 endif
 
-.PHONY: setup
-setup:
+.PHONY: venv
+venv:
 	if [ ! -z "${VIRTUAL_ENV}" ]; then \
 	  echo "Found an activated Python virtual environment, exiting" && exit 1; \
 	fi
@@ -37,12 +38,13 @@ setup:
 	  echo "Creating virtual envirnoment in .venv/ for ${PYTHON}" \
 	  ${PYTHON} -m venv --upgrade-deps .venv; \
 	fi
-	. .venv/bin/activate && \
-	pip install --upgrade pip && \
+
+.PHONY: setup
+setup:
+	pip install --upgrade pip
 	pip install --editable .[hooks,dev,test,docs]
-	. .venv/bin/activate && \
-	pre-commit install && \
-	pre-commit install --hook-type commit-msg && \
+	pre-commit install
+	pre-commit install --hook-type commit-msg
 	pre-commit install --hook-type pre-push
 
 .PHONY: upgrade
