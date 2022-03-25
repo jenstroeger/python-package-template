@@ -20,7 +20,7 @@ ifeq ($(NEED_VENV),)
   # None of the current goals requires a virtual environment.
 else
   ifeq ($(origin VIRTUAL_ENV),undefined)
-    $(error No Python virtual environment found, please activate one or use `make venv`)
+    $(warning No Python virtual environment found, proceeding anyway)
   else
     PACKAGE_VERSION=$(shell python -c 'import package; print(package.__version__)')
   endif
