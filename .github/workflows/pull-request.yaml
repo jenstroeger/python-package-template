@@ -40,8 +40,12 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
     - name: Install dependencies
-      run: make setup
+      run: |
+        source activate
+        make setup
       env:
         PYTHON: python
     - name: Run checks
-      run: make check
+      run: |
+        source activate
+        make check
