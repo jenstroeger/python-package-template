@@ -15,23 +15,19 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python: ['3.9', '3.10']
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python }}
     - name: Install dependencies
-      run: |
-        pip install --upgrade pip
-        pip install .[test,dev]
-    - name: Run flake8
-      run: flake8 src tests
-    - name: Run pylint
-      run: pylint src tests
-    - name: Run mypy
-      run: mypy src tests
-    - name: Run pytest
-      run: python -W always::DeprecationWarning -m pytest
+      run: make setup
+      env:
+        PYTHON: python
+    - name: Run checks
+      run: make check
+    - name: Run tests
+      run: make test
   release:
     needs: check
     name: Release
