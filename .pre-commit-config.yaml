@@ -148,9 +148,8 @@ repos:
   hooks:
   - id: pytest
     name: Run unit tests
-    # entry: python -W always::DeprecationWarning -m pytest
-    entry: pytest
-    language: python
+    entry: python -W always::DeprecationWarning -m pytest
+    language: system
     verbose: true
     always_run: true
     pass_filenames: false
