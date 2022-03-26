@@ -41,17 +41,15 @@ venv:
 
 .PHONY: setup
 setup:
-	pip install --upgrade pip
-	pip install --editable .[hooks,dev,test,docs]
 	pre-commit install
 	pre-commit install --hook-type commit-msg
 	pre-commit install --hook-type pre-push
+	$(MAKE) upgrade
 
 .PHONY: upgrade
 upgrade:
 	pip install --upgrade pip
 	pip install --editable .[hooks,dev,test,docs]
-	rm -fr requirements.txt && $(MAKE) requirements
 
 .PHONY: requirements
 requirements: requirements.txt
