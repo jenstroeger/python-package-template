@@ -28,7 +28,7 @@ The badges above give you an idea of what this project template provides. It’s
 
 ### Typing
 
-The package requires a minimum of [Python 3.9](https://www.python.org/downloads/release/python-390/) and supports [Python 3.10](https://www.python.org/downloads/release/python-3100/). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker is invoked by a git hook and through a Github Action to enforce continuous type checks. Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
+The package requires a minimum of [Python 3.9](https://www.python.org/downloads/release/python-390/) and supports [Python 3.10](https://www.python.org/downloads/release/python-3100/) as well as [Python 3.11](https://www.python.org/downloads/release/python-3110a6/). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker is invoked by a git hook and through a Github Action to enforce continuous type checks. Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
 
 ### Quality assurance
 
@@ -86,24 +86,45 @@ If you’d like to start your own Python project from scratch, you can either co
 
 - Adjust the Dependabot settings in `.github/dependabot.yaml` to your desired target branch that you’d like to have monitored by Dependabot.
 
-To develop your new package, create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) and install its `dev`,  `test` and `docs` dependencies. By default, the [Makefile](https://www.gnu.org/software/make/manual/make.html#toc-An-Introduction-to-Makefiles) sets up a [Python 3.10](https://www.python.org/downloads/release/python-3100/) virtual environment in `.venv/` and initializes the local [git hooks](#git-hooks):
+To develop your new package, first create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) by either using the [Makefile](https://www.gnu.org/software/make/manual/make.html#toc-An-Introduction-to-Makefiles):
+
+```bash
+make venv  # Create a new virtual environment in .venv folder using Python 3.10.
+```
+
+or for a specific version of Python:
+
+```bash
+PYTHON=python3.9 make venv  # Same virtual environment for a different Python version.
+```
+
+or manually:
+
+```bash
+python3.11 -m venv .venv  # Or use .venv310 for more than one local virtual environments.
+```
+
+When working with this Makefile _it is important to always [activate the virtual environment](https://docs.python.org/3/library/venv.html)_ because some of the [git hooks](#git-hooks) (see below) depend on that:
+
+```bash
+. .venv/bin/activate  # Where . is a bash shortcut for the source command.
+```
+
+Finally, set up the new package with its `dev`,  `test` and `docs` dependencies and initialize the local git hooks:
+
 ```bash
 make setup
 ```
 
-If you’d like to use another Python version, then the following works:
-
-```bash
-PYTHON=python3.9 make setup
-```
-
-And finally, activate your virtual environment (the period here is a [shorthand for the `source` command](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Bourne-Shell-Builtins.html#index-_002e)):
-
-```bash
-. .venv/bin/activate
-```
-
 With that in place, you’re ready to build your own package!
+
+## Package updates
+
+It’s likely that during development you’ll add or update dependent packages in the `setup.py` file, which requires an update to the virtual environment:
+
+```bash
+make upgrade
+```
 
 ## Git hooks
 
@@ -205,7 +226,7 @@ In order to build a distribution of your package locally instead of publishing i
 make dist
 ```
 
-This builds a source package and a binary distribution, and stores the files in your local `.venv/dist/` folder.
+This builds a source package and a binary distribution, and stores the files in your local `${VIRTUAL_ENV}/dist/` folder.
 
 ## Cleaning up
 
