@@ -101,3 +101,4 @@ nuke: nuke-caches
 	if [ ! -z "${VIRTUAL_ENV}" ]; then echo "Nuking activated virtual environment!"; fi
 	rm -fr src/package.egg-info
 	rm -fr $(VIRTUAL_ENV)
+	rm -fr requirements.txt
