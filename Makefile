@@ -40,11 +40,10 @@ venv:
 	fi
 
 .PHONY: setup
-setup:
+setup: upgrade
 	pre-commit install
 	pre-commit install --hook-type commit-msg
 	pre-commit install --hook-type pre-push
-	$(MAKE) upgrade
 
 .PHONY: upgrade
 upgrade:
