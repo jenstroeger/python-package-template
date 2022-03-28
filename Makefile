@@ -33,10 +33,10 @@ venv:
 	  echo "Found an activated Python virtual environment, exiting" && exit 1; \
 	fi
 	if [ -z "${PYTHON}" ]; then \
-	  echo "Creating virtual envirnoment in .venv/ for python3.10" \
+	  echo "Creating virtual envirnoment in .venv/ for python3.10"; \
 	  python3.10 -m venv --upgrade-deps .venv; \
 	else \
-	  echo "Creating virtual envirnoment in .venv/ for ${PYTHON}" \
+	  echo "Creating virtual envirnoment in .venv/ for ${PYTHON}"; \
 	  ${PYTHON} -m venv --upgrade-deps .venv; \
 	fi
 
