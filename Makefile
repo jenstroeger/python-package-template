@@ -40,7 +40,9 @@ venv:
 	  ${PYTHON} -m venv --upgrade-deps .venv; \
 	fi
 
-# Set up a newly created virtual environment.
+# Set up a newly created virtual environment. Note: pre-commit uses the
+# venv's Python interpreter, so if you've created multiple venvs then
+# pre-commit's git hooks run against the most recently set up venv.
 .PHONY: setup
 setup: upgrade
 	pre-commit install
