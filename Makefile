@@ -63,7 +63,7 @@ requirements: requirements.txt
 requirements.txt:
 	echo "" > requirements.txt
 	# See also: https://github.com/peterbe/hashin/issues/139
-	for p in `pip list --format freeze`; do hashin --verbose $$p; done
+	for pkg in `pip list --format freeze`; do hashin --verbose $$pkg; done
 
 # Check, test, and build artifacts for this package.
 .PHONY: all
