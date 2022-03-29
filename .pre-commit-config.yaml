@@ -12,7 +12,7 @@ repos:
 
 # Commitizen enforces semantic and conventional commit messages.
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v2.20.4
+  rev: v2.22.0
   hooks:
   - id: commitizen
     name: Check conventional commit message
@@ -41,7 +41,7 @@ repos:
 
 # Upgrade and rewrite Python idioms.
 - repo: https://github.com/asottile/pyupgrade
-  rev: v2.31.0
+  rev: v2.31.1
   hooks:
   - id: pyupgrade
     name: Upgrade code idioms
@@ -119,7 +119,7 @@ repos:
 
 # Check and prettify the configuration files.
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.2.0
+  rev: v2.3.0
   hooks:
   - id: pretty-format-ini
     args: [--autofix]
@@ -131,7 +131,7 @@ repos:
 
 # Make sure that the package's MANIFEST.in file works.
 - repo: https://github.com/mgedmin/check-manifest
-  rev: '0.47'
+  rev: '0.48'
   hooks:
   - id: check-manifest
     name: Check package manifest
