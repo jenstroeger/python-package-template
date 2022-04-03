@@ -112,7 +112,10 @@ nuke-caches: clean
 	find src/ -name __pycache__ -exec rm -fr {} +
 	find tests/ -name __pycache__ -exec rm -fr {} +
 nuke: nuke-caches
-	if [ ! -z "${VIRTUAL_ENV}" ]; then echo "Nuking activated virtual environment!"; fi
+	if [ ! -z "${VIRTUAL_ENV}" ]; then \
+	  echo "Deactivating and nuking virtual environment!"; \
+	  deactivate; \
+	  rm -fr $(VIRTUAL_ENV); \
+	fi
 	rm -fr src/package.egg-info
-	rm -fr $(VIRTUAL_ENV)
 	rm -fr requirements.txt
