@@ -85,12 +85,12 @@ test:
 # Build a source distribution package and a binary wheel distribution artifact.
 .PHONY: dist bdist-wheel sdist
 dist: bdist-wheel sdist
-bdist-wheel: $(VIRTUAL_ENV)/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
-$(VIRTUAL_ENV)/dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
-	python setup.py bdist_wheel --dist-dir $(VIRTUAL_ENV)/dist/ --bdist-dir $(VIRTUAL_ENV)/build
-sdist: $(VIRTUAL_ENV)/dist/package-$(PACKAGE_VERSION).tar.gz
-$(VIRTUAL_ENV)/dist/package-$(PACKAGE_VERSION).tar.gz:
-	python setup.py sdist --dist-dir $(VIRTUAL_ENV)/dist/
+bdist-wheel: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
+dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
+	python setup.py bdist_wheel --dist-dir dist/ --bdist-dir build/
+sdist: dist/package-$(PACKAGE_VERSION).tar.gz
+dist/package-$(PACKAGE_VERSION).tar.gz:
+	python setup.py sdist --dist-dir dist/
 
 # Build the HTML documentation from the package's source.
 .PHONY: docs
@@ -101,7 +101,7 @@ docs/_build/html/index.html:
 # Clean test caches and remove build artifacts.
 .PHONY: dist-clean clean
 dist-clean:
-	rm -fr $(VIRTUAL_ENV)/build/* $(VIRTUAL_ENV)/dist/*
+	rm -fr build/* dist/*
 clean: dist-clean
 	rm -fr .hypothesis .coverage .mypy_cache .pytest_cache
 	rm -fr docs/_build
