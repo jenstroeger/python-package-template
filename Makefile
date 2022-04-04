@@ -52,7 +52,7 @@ setup: upgrade
 # Install or upgrade an existing virtual environment based on the
 # package dependencies declared in setup.py.
 .PHONY: upgrade
-upgrade:
+upgrade: setup.py
 	pip install --upgrade pip
 	pip install --editable .[hooks,dev,test,docs]
 
@@ -60,7 +60,7 @@ upgrade:
 # hashes for all packages currently installed in the virtual environment.
 .PHONY: requirements
 requirements: requirements.txt
-requirements.txt:
+requirements.txt: setup.py
 	echo "" > requirements.txt
 	# See also: https://github.com/peterbe/hashin/issues/139
 	for pkg in `pip list --format freeze`; do hashin --verbose $$pkg; done
@@ -86,16 +86,16 @@ test:
 .PHONY: dist bdist-wheel sdist
 dist: bdist-wheel sdist
 bdist-wheel: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
-dist/package-$(PACKAGE_VERSION)-py3-none-any.whl:
+dist/package-$(PACKAGE_VERSION)-py3-none-any.whl: check test
 	python setup.py bdist_wheel --dist-dir dist/ --bdist-dir build/
 sdist: dist/package-$(PACKAGE_VERSION).tar.gz
-dist/package-$(PACKAGE_VERSION).tar.gz:
+dist/package-$(PACKAGE_VERSION).tar.gz: check test
 	python setup.py sdist --dist-dir dist/
 
 # Build the HTML documentation from the package's source.
 .PHONY: docs
 docs: docs/_build/html/index.html
-docs/_build/html/index.html:
+docs/_build/html/index.html: check test
 	$(MAKE) -C docs/ html
 
 # Clean test caches and remove build artifacts.
