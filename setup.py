@@ -58,7 +58,7 @@ setuptools.setup(
     install_requires=[],
     extras_require={
         "test": [
-            "hypothesis>=6.21.0,<=6.39.6",
+            "hypothesis>=6.21.0,<=6.41.0",
             "pytest>=6.2.4,<7.0.0",
             "pytest-cov==3.0.0",
         ],
@@ -68,11 +68,11 @@ setuptools.setup(
             "flake8-builtins==1.5.3",
             "flake8-docstrings==1.6.0",
             "flake8-rst-docstrings>=0.2.3,<=0.2.5",
-            "hypothesis>=6.21.0,<=6.39.6",
+            "hypothesis>=6.21.0,<=6.41.0",
             "mypy>=0.921,<=0.942",
             "pep8-naming==0.12.1",
-            "pre-commit>=2.13.0,<=2.17.0",
-            "pylint>=2.9.3,<=2.13.2",
+            "pre-commit>=2.13.0,<=2.18.1",
+            "pylint>=2.9.3,<=2.13.4",
             "types-setuptools>=57.4.7,<=57.4.11",
         ],
         "docs": [
