@@ -2,8 +2,6 @@
 # See https://pre-commit.com/hooks.html for more hooks
 default_stages: [commit]
 
-# ADD CONFIG FILES
-
 repos:
 
 # These meta hooks check the pre-commit configuration itself.
@@ -137,13 +135,6 @@ repos:
   hooks:
   - id: check-manifest
     name: Check package manifest
-
-#
-#- repo: https://github.com/regebro/pyroma
-#  rev: "3.2"
-#  hooks:
-#  - id: pyroma
-#    name: Check package friendliness
 
 # Check the tox.ini configuration.
 # Commenting this out because https://github.com/tox-dev/tox-ini-fmt/issues/42
