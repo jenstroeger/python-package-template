@@ -54,7 +54,7 @@ setup: upgrade
 .PHONY: upgrade
 upgrade: setup.py
 	pip install --upgrade pip
-	pip install --editable .[hooks,dev,test,docs]
+	pip install --upgrade --upgrade-strategy eager --editable .[hooks,dev,test,docs]
 
 # Generate a requirements.txt file containing version and integrity
 # hashes for all packages currently installed in the virtual environment.
