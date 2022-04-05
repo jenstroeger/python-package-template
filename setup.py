@@ -73,7 +73,7 @@ setuptools.setup(
             "pep8-naming==0.12.1",
             "pre-commit>=2.13.0,<=2.18.1",
             "pylint>=2.9.3,<=2.13.4",
-            "types-setuptools>=57.4.7,<=57.4.11",
+            "types-setuptools>=57.4.7,<57.4.13",
         ],
         "docs": [
             "sphinx>=4.1.2,<=4.5.0",
