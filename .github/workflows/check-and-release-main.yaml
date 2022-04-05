@@ -15,9 +15,9 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python: ['3.9', '3.10']
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3.1.1
       with:
         python-version: ${{ matrix.python }}
     - name: Install dependencies
@@ -37,11 +37,11 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Python Semantic Release
-      uses: relekang/python-semantic-release@v7.23.0
+      uses: relekang/python-semantic-release@v7.27.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         pypi_token: ''  # We don't publish to PyPi: ${{ secrets.PYPI_TOKEN }}
