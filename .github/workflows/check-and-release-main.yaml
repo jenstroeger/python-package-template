@@ -21,17 +21,13 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
     - name: Install dependencies
-      run: |
-        pip install --upgrade pip
-        pip install .[test,dev]
-    - name: Run flake8
-      run: flake8 src tests
-    - name: Run pylint
-      run: pylint src tests
-    - name: Run mypy
-      run: mypy src tests
-    - name: Run pytest
-      run: python -W always::DeprecationWarning -m pytest
+      run: make setup
+      env:
+        PYTHON: python
+    - name: Run checks
+      run: make check
+    - name: Run tests
+      run: make test
   release:
     needs: check
     name: Release

@@ -41,9 +41,9 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
     - name: Install dependencies
-      run: |
-        pip install --upgrade pip
-        pip install .[test,dev]
+      run: make setup
+      env:
+        PYTHON: python
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
