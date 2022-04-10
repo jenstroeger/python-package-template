@@ -21,7 +21,9 @@ else
   ifeq ($(origin VIRTUAL_ENV),undefined)
     $(warning No Python virtual environment found, proceeding anyway)
   else
-    PACKAGE_VERSION=$(shell python -c 'import package; print(package.__version__)')
+    ifeq ($(wildcard .upgraded),)
+      $(warning Python virtual environment not yet set up, proceeding anyway)
+    endif
   endif
 endif
 
@@ -89,6 +91,11 @@ test:
 
 # Build a source distribution package and a binary wheel distribution artifact.
 .PHONY: dist bdist-wheel sdist
+ifeq ($(wildcard .upgraded),)
+  PACKAGE_VERSION=unknown
+else
+  PACKAGE_VERSION=$(shell python -c 'import package; print(package.__version__)')
+endif
 dist: bdist-wheel sdist
 bdist-wheel: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl: check test
