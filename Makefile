@@ -130,5 +130,5 @@ nuke: nuke-caches
 	  deactivate; \
 	  rm -fr $(VIRTUAL_ENV); \
 	fi
-	rm -fr src/package.egg-info
+	rm -fr src/package.egg-info/
 	rm -f requirements.txt .upgraded
