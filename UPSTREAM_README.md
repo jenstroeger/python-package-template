@@ -110,7 +110,7 @@ When working with this Makefile _it is important to always [activate the virtual
 . .venv/bin/activate  # Where . is a bash shortcut for the source command.
 ```
 
-Finally, set up the new package with its `dev`,  `test` and `docs` dependencies and initialize the local git hooks:
+Finally, set up the new package with all of its extras and initialize the local git hooks:
 
 ```bash
 make setup
@@ -167,7 +167,7 @@ platform darwin -- Python 3.10.2, pytest-6.2.5, py-1.11.0, pluggy-1.0.0 -- /.../
 cachedir: .pytest_cache
 hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/.../python-package-template/.hypothesis/examples')
 rootdir: /.../python-package-template, configfile: pyproject.toml, testpaths: tests
-plugins: hypothesis-6.35.1, cov-3.0.0
+plugins: hypothesis-6.41.0, cov-3.0.0
 collected 1 item  
 
 tests/test_something.py::test_something PASSED                           [100%]
