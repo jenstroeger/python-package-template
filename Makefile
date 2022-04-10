@@ -4,6 +4,7 @@
 # here, else it contains an empty string. The net effect is to filter out
 # whether this current run of `make` requires a Python virtual environment.
 NEED_VENV := $(or \
+  $(findstring setup,$(MAKECMDGOALS)), \
   $(findstring upgrade,$(MAKECMDGOALS)), \
   $(findstring requirements,$(MAKECMDGOALS)), \
   $(findstring all,$(MAKECMDGOALS)), \
