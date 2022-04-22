@@ -61,7 +61,7 @@ setuptools.setup(
             "pre-commit>=2.13.0,<=2.18.1",
         ],
         "test": [
-            "hypothesis>=6.21.0,<=6.41.0",
+            "hypothesis>=6.21.0,<6.45.0",
             "pytest>=6.2.4,<7.0.0",
             "pytest-cov==3.0.0",
         ],
@@ -72,7 +72,7 @@ setuptools.setup(
             "flake8-docstrings==1.6.0",
             "flake8-rst-docstrings>=0.2.3,<=0.2.5",
             "hashin==0.17.0",
-            "hypothesis>=6.21.0,<=6.41.0",
+            "hypothesis>=6.21.0,<6.45.0",
             "mypy>=0.921,<=0.942",
             "pep8-naming==0.12.1",
             "pylint>=2.9.3,<=2.13.5",
