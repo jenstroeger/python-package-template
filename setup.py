@@ -77,6 +77,7 @@ setuptools.setup(
             "pep8-naming==0.12.1",
             "pylint>=2.9.3,<=2.13.8",
             "types-setuptools>=57.4.7,<=57.4.14",
+            "wheel==0.37.1",
         ],
         "docs": [
             "sphinx>=4.1.2,<=4.5.0",
