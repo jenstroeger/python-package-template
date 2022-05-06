@@ -28,6 +28,10 @@ jobs:
       run: make check
     - name: Run tests
       run: make test
+    - name: Build the package
+      run: make dist
+    - name: Build the docs
+      run: make docs
   release:
     needs: check
     name: Release
