@@ -58,7 +58,7 @@ setuptools.setup(
     install_requires=[],
     extras_require={
         "hooks": [
-            "pre-commit>=2.13.0,<=2.18.1",
+            "pre-commit>=2.13.0,<2.19.1",
         ],
         "test": [
             "hypothesis>=6.21.0,<=6.46.2",
