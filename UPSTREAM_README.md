@@ -54,6 +54,8 @@ Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/
 
 [CodeQL](https://codeql.github.com/) is enabled to scan the Python code for security vulnerabilities. You can adjust the GitHub Actions workflow at `.github/workflows/codeql-analysis.yaml` and the configuration file at `.github/codeql/codeql-config.yaml` to add more languages, change the default paths, scan schedule, and queries.
 
+[OSSF Security Scorecards](https://github.com/ossf/scorecard) is enabled as a GitHub Actions workflow to give the consumers information about the supply-chain security posture of this project, assigning a score of 0-10. We upload the results as a SARIF (Static Analysis Results Interchange Format) artifact after each run and the results can be found at the Security tab of this GitHub project. We also allow publishing the data at OpenSSF. We use this data to continuously improve the security posture of this project. Note that this configuration supports the ``main`` (default) branch and requires the repository to be public and not forked.
+
 Additionally, the [bandit](https://github.com/PyCQA/bandit) tool is being installed as part of a development environment (i.e. the `[dev]` package extra); however, bandit does not run automatically! Instead, you can invoke it manually:
 
 ```bash

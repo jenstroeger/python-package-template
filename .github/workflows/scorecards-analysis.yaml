@@ -36,23 +36,23 @@ jobs:
       with:
         results_file: results.sarif
         results_format: sarif
-          # Read-only PAT token. To create it,
-          # follow the steps in https://github.com/ossf/scorecard-action#pat-token-creation.
+        # Read-only PAT token. To create it,
+        # follow the steps in https://github.com/ossf/scorecard-action#pat-token-creation.
         repo_token: ${{ secrets.SCORECARD_READ_TOKEN }}
-          # Publish the results to enable scorecard badges. For more details, see
-          # https://github.com/ossf/scorecard-action#publishing-results.
-          # For private repositories, `publish_results` will automatically be set to `false`,
-          # regardless of the value entered here.
+        # Publish the results to enable scorecard badges. For more details, see
+        # https://github.com/ossf/scorecard-action#publishing-results.
+        # For private repositories, `publish_results` will automatically be set to `false`,
+        # regardless of the value entered here.
         publish_results: true
 
-      # Upload the results as artifacts (optional).
+    # Upload the results as artifacts (optional).
     - name: Upload artifact
       uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
       with:
         name: SARIF file
         path: results.sarif
 
-      # Upload the results to GitHub's code scanning dashboard.
+    # Upload the results to GitHub's code scanning dashboard.
     - name: Upload to code-scanning
       uses: github/codeql-action/upload-sarif@5f532563584d71fdef14ee64d17bafb34f751ce5
       with:
