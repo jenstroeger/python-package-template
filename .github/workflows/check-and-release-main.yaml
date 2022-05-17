@@ -5,6 +5,9 @@ on:
   push:
     branches:
     - main
+permissions:
+  contents: read
+
 jobs:
   check:
     name: Check Python ${{ matrix.python }} on ${{ matrix.os }}
@@ -15,9 +18,14 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python: ['3.9', '3.10']
     steps:
-    - uses: actions/checkout@v3
+    - name: Harden Runner
+      uses: step-security/harden-runner@248ae51c2e8cc9622ecf50685c8bf7150c6e8813
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+    - uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
     - name: Set up Python
-      uses: actions/setup-python@v3.1.2
+      uses: actions/setup-python@98f2ad02fd48d057ee3b4d4f66525b231c3e52b6
       with:
         python-version: ${{ matrix.python }}
     - name: Install dependencies
@@ -33,15 +41,22 @@ jobs:
     - name: Build the docs
       run: make docs
   release:
+    permissions:
+      contents: write  # for relekang/python-semantic-release to push release notes and new commits/tags
     needs: check
     name: Release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Harden Runner
+      uses: step-security/harden-runner@248ae51c2e8cc9622ecf50685c8bf7150c6e8813
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+    - uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       with:
         fetch-depth: 0
     - name: Python Semantic Release
-      uses: relekang/python-semantic-release@v7.28.1
+      uses: relekang/python-semantic-release@595352a8fb97f219cb8362e2a13e4f59d8064aa0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         pypi_token: ''  # We don't publish to PyPi: ${{ secrets.PYPI_TOKEN }}

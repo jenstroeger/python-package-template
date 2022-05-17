@@ -33,11 +33,16 @@ jobs:
         python: ['3.9', '3.10']
 
     steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@248ae51c2e8cc9622ecf50685c8bf7150c6e8813
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
 
     - name: Set up Python ${{ matrix.python }}
-      uses: actions/setup-python@v3.1.2
+      uses: actions/setup-python@98f2ad02fd48d057ee3b4d4f66525b231c3e52b6
       with:
         python-version: ${{ matrix.python }}
     - name: Install dependencies
@@ -47,7 +52,7 @@ jobs:
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@c0982d28099e3cb8fd8b37cfd6c2cdfea4531853
       with:
         languages: ${{ matrix.language }}
         config-file: .github/codeql/codeql-config.yaml
@@ -60,4 +65,4 @@ jobs:
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@c0982d28099e3cb8fd8b37cfd6c2cdfea4531853
