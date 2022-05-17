@@ -62,7 +62,7 @@ setuptools.setup(
         ],
         "test": [
             "hypothesis>=6.21.0,<=6.46.5",
-            "pytest>=6.2.4,<7.0.0",
+            "pytest>=6.2.4,<8.0.0",
             "pytest-cov==3.0.0",
         ],
         "dev": [
