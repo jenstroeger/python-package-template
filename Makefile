@@ -54,7 +54,7 @@ setup: force-upgrade
 
 # Install or upgrade an existing virtual environment based on the
 # package dependencies declared in setup.py.
-.PHONY: upgrade
+.PHONY: upgrade force-upgrade
 upgrade: .upgraded
 .upgraded: setup.py
 	python -m pip install --upgrade pip
