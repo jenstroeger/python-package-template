@@ -14,7 +14,7 @@ This repository is intended to be a base template, a cookiecutter for a new Pyth
 &emsp;[Versioning and publishing](#versioning-and-publishing)  
 &emsp;[Dependency analysis](#dependency-analysis)  
 &emsp;[Security analysis](#security-analysis)  
-&emsp;[Standalone](#standalone)  
+&emsp;[Package or application?](#package-or-application)  
 [How to use this repository](#how-to-use-this-repository)  
 [Updating dependent packages](#updating-dependent-packages)  
 [Git hooks](#git-hooks)  
@@ -64,9 +64,15 @@ Additionally, the [bandit](https://github.com/PyCQA/bandit) tool is being instal
 bandit --recursive src  # Add '--skip B101' when checking the tests, Bandit issue #457.
 ```
 
-### Standalone
+### Package or application?
 
-In addition to being an importable standard Python package, the package is also set up to be used as a runnable and standalone package using Python’s [-m](https://docs.python.org/3/using/cmdline.html#cmdoption-m) command-line option, or by simply calling its console script wrapper `something` which is automatically generated as an [entry point into the package](https://setuptools.pypa.io/en/latest/userguide/entry_point.html), and installed into the hosting Python environment.
+A _shared package_ or library is intended to be imported by another package or application; an _application_ is a self-contained, standalone, runnable package. Unfortunately, Python’s packaging ecosystem is mostly focused on packaging shared packages (libraries), and packaging Python applications is not as well-supported ([discussion](https://discuss.python.org/t/help-packaging-optional-application-features-using-extras/14074/7)). This template, however, supports both scenarios.
+
+**Shared package**: this template works out of the box as a shared package. Direct dependencies on other packages are declared in `setup.py` (see the [`install_requires`](https://setuptools.pypa.io/en/latest/userguide/dependency_management.html#declaring-dependencies) argument) and should allow for as wide a version range as possible to ensure that this package and its dependencies can be installed by and coexist with other packages and applications without version conflicts.
+
+**Application**: the [`__main__.py`](https://docs.python.org/3/library/__main__.html#main-py-in-python-packages) file ensures an entry point to run this package as a standalone application using Python’s [-m](https://docs.python.org/3/using/cmdline.html#cmdoption-m) command-line option. A wrapper script named `something` is also generated as an [entry point into this package](https://setuptools.pypa.io/en/latest/userguide/entry_point.html) by `make setup` or `make upgrade`. In addition to specifying directly dependent packages and their version ranges in `setup.py`, an application should _pin_ its entire environment using the [`requirements.txt`](https://pip.pypa.io/en/latest/user_guide/#requirements-files). Use the `make requirements` command to generate that file if you’re building an application.
+
+In the future, the generated `requirements.txt` file with its integrity hash for every dependent package will become an important provenance material to provide transparency in the packaging process (see also [SBOM + SLSA](https://slsa.dev/blog/2022/05/slsa-sbom)).
 
 ## How to use this repository
 
