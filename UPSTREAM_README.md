@@ -194,7 +194,7 @@ Required test coverage of 100.0% reached. Total coverage: 100.00%
 
 ============================== 1 passed in 0.16s ===============================
 ```
-Note that code that’s not covered by tests is listed under the `Missing` column.
+Note that code that’s not covered by tests is listed under the `Missing` column. The net effect of enforcing 100% code coverage is that every new major or minor feature, every code change, and every fix are being tested (keeping in mind that _code coverage_ does not correlate with _test quality_).
 
 Hypothesis is a package that implements [property based testing](https://en.wikipedia.org/wiki/QuickCheck) and that provides payload generation for your tests based on strategy descriptions ([more](https://hypothesis.works/#what-is-hypothesis)). Using its [pytest plugin](https://hypothesis.readthedocs.io/en/latest/details.html#the-hypothesis-pytest-plugin) Hypothesis is ready to be used for this package.
 
