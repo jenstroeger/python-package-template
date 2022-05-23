@@ -76,7 +76,7 @@ setuptools.setup(
             "mypy>=0.921,<=0.950",
             "pep8-naming==0.12.1",
             "pylint>=2.9.3,<=2.13.9",
-            "types-setuptools>=57.4.7,<=57.4.14",
+            "types-setuptools>=57.4.7,<57.4.16",
             "wheel==0.37.1",
         ],
         "docs": [
