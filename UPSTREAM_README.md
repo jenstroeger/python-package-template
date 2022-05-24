@@ -80,7 +80,7 @@ If you’d like to contribute to the project template, please open an issue for 
 
 If you’d like to start your own Python project from scratch, you can either copy the content of this repository into your new project folder or fork this repository. Either way, consider making the following adjustments to your local copy:
 
-- Change the `LICENSE.md` file and the license badge according to your needs, replace the [symbolic link](https://en.wikipedia.org/wiki/Symbolic_link) `README.md` with an actual README file, and similarly replace the symbolic link `CHANGELOG.md` with an actual CHANGELOG file which contains a single line:
+- Change the `LICENSE.md` file and the license badge according to your needs, replace the [symbolic link](https://en.wikipedia.org/wiki/Symbolic_link) `README.md` with an actual README file, likewise replace the symbolic link `SECURITY.md` with a SECURITY file adjusted to your needs (more details [here](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository)), and lastly replace the symbolic link `CHANGELOG.md` with an actual CHANGELOG file which contains a single line:
 
   ```markdown
   <!--next-version-placeholder-->
