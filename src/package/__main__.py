@@ -10,7 +10,7 @@ import sys
 from .something import Something
 
 
-def main():
+def main() -> None:
     """Execute the Something standalone command-line tool."""
     _ = Something.do_something()
 

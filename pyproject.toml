@@ -27,6 +27,27 @@ multi_line_output = 3
 line_length = 120
 skip_gitignore = true
 
+# https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
+[tool.mypy]
+mypy_path = "src"
+# exclude=
+show_error_codes = true
+show_column_numbers = true
+check_untyped_defs = true
+incremental = false
+warn_return_any = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+[[tool.mypy.overrides]]
+module = "pytest"
+ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = "package.*"
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+
 # https://docs.pytest.org/en/6.2.x/customize.html#configuration-file-formats
 # https://docs.pytest.org/en/6.2.x/reference.html#configuration-options
 # https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags
