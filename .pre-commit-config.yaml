@@ -45,7 +45,7 @@ repos:
   hooks:
   - id: pyupgrade
     name: Upgrade code idioms
-    files: ^src/package/|^tests/|setup.py
+    files: ^src/package/|^tests/
     args: [--py39-plus]
 
 # Similar to pylint, with a few more/different checks.
@@ -54,18 +54,18 @@ repos:
   hooks:
   - id: flake8
     name: Enforce PEP8 style guide
-    files: ^src/package/|^tests/|setup.py
+    files: ^src/package/|^tests/
     additional_dependencies: [flake8-builtins==1.5.3, flake8-docstrings==1.6.0, flake8-rst-docstrings==0.2.3, pep8-naming==0.12.1]
 
 # Run Pylint from the local repo to make sure venv packages
-# specified in setup.py are available.
+# specified in pyproject.toml are available.
 - repo: local
   hooks:
   - id: pylint
     name: Check lint
     entry: pylint
     language: python
-    files: ^src/package/|^tests/|setup.py
+    files: ^src/package/|^tests/
     args: [--rcfile, pyproject.toml]
 
 # Type-check all Python code.
@@ -75,7 +75,7 @@ repos:
     name: Check typing annotations
     entry: mypy
     language: python
-    files: ^src/package/|^tests/|setup.py
+    files: ^src/package/|^tests/
     args: [--config-file, pyproject.toml]
 
 # Enable a whole bunch of useful helper hooks, too.
