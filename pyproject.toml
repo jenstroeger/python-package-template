@@ -48,6 +48,28 @@ disallow_untyped_defs = true
 disallow_incomplete_defs = true
 disallow_untyped_decorators = true
 
+# https://pylint.pycqa.org/en/latest/user_guide/configuration/index.html
+[tool.pylint.MASTER]
+fail-under = 10.0
+disable = [
+    "fixme",
+    "too-many-statements",
+    "too-many-branches",
+    "too-many-locals",
+    "too-many-nested-blocks",
+    "too-many-return-statements",
+    "too-few-public-methods",
+]
+[tool.pylint.MISCELLANEOUS]
+notes = [
+    "FIXME",
+    "TODO",
+    "BUGBUG",
+]
+[tool.pylint.FORMAT]
+max-line-length = 120
+max-module-lines = 1000
+
 # https://docs.pytest.org/en/6.2.x/customize.html#configuration-file-formats
 # https://docs.pytest.org/en/6.2.x/reference.html#configuration-options
 # https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags
