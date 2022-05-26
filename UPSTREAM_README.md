@@ -68,9 +68,9 @@ bandit --recursive src  # Add '--skip B101' when checking the tests, Bandit issu
 
 A _shared package_ or library is intended to be imported by another package or application; an _application_ is a self-contained, standalone, runnable package. Unfortunately, Python’s packaging ecosystem is mostly focused on packaging shared packages (libraries), and packaging Python applications is not as well-supported ([discussion](https://discuss.python.org/t/help-packaging-optional-application-features-using-extras/14074/7)). This template, however, supports both scenarios.
 
-**Shared package**: this template works out of the box as a shared package. Direct dependencies on other packages are declared in `setup.py` (see the [`install_requires`](https://setuptools.pypa.io/en/latest/userguide/dependency_management.html#declaring-dependencies) argument) and should allow for as wide a version range as possible to ensure that this package and its dependencies can be installed by and coexist with other packages and applications without version conflicts.
+**Shared package**: this template works out of the box as a shared package. Direct dependencies on other packages are declared in `pyproject.toml` (see the [`dependencies`](https://flit.pypa.io/en/latest/pyproject_toml.html#dependencies) field) and should allow for as wide a version range as possible to ensure that this package and its dependencies can be installed by and coexist with other packages and applications without version conflicts.
 
-**Application**: the [`__main__.py`](https://docs.python.org/3/library/__main__.html#main-py-in-python-packages) file ensures an entry point to run this package as a standalone application using Python’s [-m](https://docs.python.org/3/using/cmdline.html#cmdoption-m) command-line option. A wrapper script named `something` is also generated as an [entry point into this package](https://setuptools.pypa.io/en/latest/userguide/entry_point.html) by `make setup` or `make upgrade`. In addition to specifying directly dependent packages and their version ranges in `setup.py`, an application should _pin_ its entire environment using the [`requirements.txt`](https://pip.pypa.io/en/latest/user_guide/#requirements-files). Use the `make requirements` command to generate that file if you’re building an application.
+**Application**: the [`__main__.py`](https://docs.python.org/3/library/__main__.html#main-py-in-python-packages) file ensures an entry point to run this package as a standalone application using Python’s [-m](https://docs.python.org/3/using/cmdline.html#cmdoption-m) command-line option. A wrapper script named `something` is also generated as an [entry point into this package](https://flit.pypa.io/en/latest/pyproject_toml.html#scripts-section) by `make setup` or `make upgrade`. In addition to specifying directly dependent packages and their version ranges in `pyproject.toml`, an application should _pin_ its entire environment using the [`requirements.txt`](https://pip.pypa.io/en/latest/user_guide/#requirements-files). Use the `make requirements` command to generate that file if you’re building an application.
 
 In the future, the generated `requirements.txt` file with its integrity hash for every dependent package will become an important provenance material to provide transparency in the packaging process (see also [SBOM + SLSA](https://slsa.dev/blog/2022/05/slsa-sbom)).
 
@@ -86,11 +86,11 @@ If you’d like to start your own Python project from scratch, you can either co
   <!--next-version-placeholder-->
   ```
 
-- Rename the `src/package/` folder to whatever your own package’s name will be, adjust the Github Actions in `.github/workflows/`, and review the `Makefile`, `setup.py`, `pyproject.toml`, `pre-commit-config.yaml` files as well as the unit tests accordingly. **Note**: by default all Actions run on three different host types (Linux, MacOS, and Windows) whose [rates vary widely](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#minute-multipliers), so make sure that you disable or budget accordingly if you’re in a private repository!
+- Rename the `src/package/` folder to whatever your own package’s name will be, adjust the Github Actions in `.github/workflows/`, and review the `Makefile`, `pyproject.toml`, `pre-commit-config.yaml` files as well as the unit tests accordingly. **Note**: by default all Actions run on three different host types (Linux, MacOS, and Windows) whose [rates vary widely](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#minute-multipliers), so make sure that you disable or budget accordingly if you’re in a private repository!
 
-- Adjust the content of the `setup.py` file according to your needs, and make sure to fill in the project URL, maintainer and author information too. Don’t forget to reset the package’s version number in `src/package/__init__.py`.
+- Adjust the content of the `pyproject.toml` file according to your needs, and make sure to fill in the project URL, maintainer and author information too. Don’t forget to reset the package’s version number in `src/package/__init__.py`.
 
-- If you import packages that do not provide type hints into your new repository, then `mypy` needs to be configured accordingly: add these packages to the `mypy.ini` file using the [`ignore-missing-imports`](https://mypy.readthedocs.io/en/stable/config_file.html#confval-ignore_missing_imports) option.
+- If you import packages that do not provide type hints into your new repository, then `mypy` needs to be configured accordingly: add these packages to the `pyproject.toml` file using the [`ignore_missing_imports`](https://mypy.readthedocs.io/en/stable/config_file.html#confval-ignore_missing_imports) option.
 
 - If you’d like to publish your package to PyPI then set the `upload_to_pypi` variable in the `pyproject.toml` file to `true`.
 
@@ -130,7 +130,7 @@ With that in place, you’re ready to build your own package!
 
 ## Updating dependent packages
 
-It’s likely that during development you’ll add or update dependent packages in the `setup.py` file, which requires an update to the virtual environment:
+It’s likely that during development you’ll add or update dependent packages in the `pyproject.toml` file, which requires an update to the virtual environment:
 
 ```bash
 make upgrade
