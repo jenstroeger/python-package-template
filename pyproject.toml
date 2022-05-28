@@ -123,12 +123,14 @@ disallow_untyped_decorators = true
 fail-under = 10.0
 disable = [
     "fixme",
-    "too-many-statements",
+    "too-few-public-methods",
+    "too-many-arguments",
     "too-many-branches",
+    "too-many-instance-attributes",
     "too-many-locals",
     "too-many-nested-blocks",
     "too-many-return-statements",
-    "too-few-public-methods",
+    "too-many-statements",
 ]
 
 [tool.pylint.MISCELLANEOUS]
