@@ -51,9 +51,12 @@ jobs:
       uses: step-security/harden-runner@248ae51c2e8cc9622ecf50685c8bf7150c6e8813
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
-
-    - uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
+    - name: Checkout
+      uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       with:
+        # Private repos with protected branches may need to set that token to make the Action work. For a
+        # discussion of this problem, see: https://github.com/relekang/python-semantic-release/issues/311
+        token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
     - name: Python Semantic Release
       uses: relekang/python-semantic-release@595352a8fb97f219cb8362e2a13e4f59d8064aa0
