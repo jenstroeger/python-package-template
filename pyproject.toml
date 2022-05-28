@@ -95,7 +95,7 @@ skip_gitignore = true
 
 # https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
 [tool.mypy]
-mypy_path = "src"
+mypy_path = "src/package/:tests/"
 # exclude=
 show_error_codes = true
 show_column_numbers = true
@@ -104,17 +104,14 @@ incremental = false
 warn_return_any = true
 warn_redundant_casts = true
 warn_unused_ignores = true
-
-[[tool.mypy.overrides]]
-module = "pytest"
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = "package.*"
 disallow_untyped_calls = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 disallow_untyped_decorators = true
+
+[[tool.mypy.overrides]]
+module = "pytest"
+ignore_missing_imports = true
 
 
 # https://pylint.pycqa.org/en/latest/user_guide/configuration/index.html
