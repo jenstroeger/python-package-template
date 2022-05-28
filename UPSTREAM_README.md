@@ -80,7 +80,7 @@ If you’d like to contribute to the project template, please open an issue for 
 
 If you’d like to start your own Python project from scratch, you can either copy the content of this repository into your new project folder or fork this repository. Either way, consider making the following adjustments to your local copy:
 
-- Change the `LICENSE.md` file and the license badge according to your needs, replace the [symbolic link](https://en.wikipedia.org/wiki/Symbolic_link) `README.md` with an actual README file, and similarly replace the symbolic link `CHANGELOG.md` with an actual CHANGELOG file which contains a single line:
+- Change the `LICENSE.md` file and the license badge according to your needs, replace the [symbolic link](https://en.wikipedia.org/wiki/Symbolic_link) `README.md` with an actual README file, likewise replace the symbolic link `SECURITY.md` with a SECURITY file adjusted to your needs (more details [here](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository)), and lastly replace the symbolic link `CHANGELOG.md` with an actual CHANGELOG file which contains a single line:
 
   ```markdown
   <!--next-version-placeholder-->
@@ -194,7 +194,7 @@ Required test coverage of 100.0% reached. Total coverage: 100.00%
 
 ============================== 1 passed in 0.16s ===============================
 ```
-Note that code that’s not covered by tests is listed under the `Missing` column.
+Note that code that’s not covered by tests is listed under the `Missing` column. The net effect of enforcing 100% code coverage is that every new major and minor feature, every code change, and every fix are being tested (keeping in mind that _code coverage_ does not correlate with _test quality_).
 
 Hypothesis is a package that implements [property based testing](https://en.wikipedia.org/wiki/QuickCheck) and that provides payload generation for your tests based on strategy descriptions ([more](https://hypothesis.works/#what-is-hypothesis)). Using its [pytest plugin](https://hypothesis.readthedocs.io/en/latest/details.html#the-hypothesis-pytest-plugin) Hypothesis is ready to be used for this package.
 
