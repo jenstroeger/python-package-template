@@ -49,7 +49,7 @@ hooks = [
     "pre-commit >=2.13.0,<=2.19.1",
 ]
 test = [
-    "hypothesis >=6.21.0,<=6.46.5",
+    "hypothesis >=6.21.0,<=6.46.9",
     "pytest >=7.1.2,<8.0.0",
     "pytest-cov ==3.0.0",
 ]
