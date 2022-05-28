@@ -54,7 +54,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       with:
-        # For protected branches, see: https://github.com/relekang/python-semantic-release/issues/311
+        # Private repos with protected branches may need to set that token to make the Action work. For a
+        # discussion of this problem, see: https://github.com/relekang/python-semantic-release/issues/311
         token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
     - name: Python Semantic Release
