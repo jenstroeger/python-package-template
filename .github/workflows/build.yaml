@@ -1,0 +1,43 @@
+# This is a reusable workflow that is called by other
+# Actions workflows.  It checks, tests, and builds the package.
+
+name: Build the package
+on:
+  workflow_call:
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Check Python ${{ matrix.python }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # It is recommended to pin a Runner version specifically:
+        # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ['3.9', '3.10']
+    steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@248ae51c2e8cc9622ecf50685c8bf7150c6e8813
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+    - uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
+    - name: Set up Python
+      uses: actions/setup-python@98f2ad02fd48d057ee3b4d4f66525b231c3e52b6
+      with:
+        python-version: ${{ matrix.python }}
+    - name: Install dependencies
+      run: make setup
+      env:
+        PYTHON: python
+    - name: Run checks
+      run: make check
+    - name: Run tests
+      run: make test
+    - name: Build the package
+      run: make dist
+    - name: Build the docs
+      run: make docs
