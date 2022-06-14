@@ -7,4 +7,4 @@ class Something:
     @staticmethod
     def do_something(value: bool = False) -> bool:
         """Return true, always."""
-        return value or True
+        return value or True  # noqa: SIM222
