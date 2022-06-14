@@ -78,6 +78,16 @@ repos:
     files: ^src/package/|^tests/
     args: [--config-file, pyproject.toml]
 
+# Check for potential security issues.
+- repo: https://github.com/PyCQA/bandit
+  rev: 1.7.4
+  hooks:
+  - id: bandit
+    name: Check for security issues
+    args: [--configfile, pyproject.toml]
+    files: ^src/package/|^tests/
+    additional_dependencies: ['bandit[toml]']
+
 # Enable a whole bunch of useful helper hooks, too.
 # See https://pre-commit.com/hooks.html for more hooks.
 - repo: https://github.com/pre-commit/pre-commit-hooks
