@@ -146,13 +146,6 @@ repos:
   - id: check-manifest
     name: Check package manifest
 
-# Check the tox.ini configuration.
-# Commenting this out because https://github.com/tox-dev/tox-ini-fmt/issues/42
-# - repo: https://github.com/tox-dev/tox-ini-fmt
-#   rev: 0.3.0
-#   hooks:
-#   - id: tox-ini-fmt
-
 # On push to the remote, run the unit tests.
 - repo: local
   hooks:
