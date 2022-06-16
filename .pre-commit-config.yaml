@@ -48,7 +48,8 @@ repos:
     files: ^src/package/|^tests/
     args: [--py39-plus]
 
-# Similar to pylint, with a few more/different checks.
+# Similar to pylint, with a few more/different checks. For more available
+# extensions: https://github.com/DmytroLitvinov/awesome-flake8-extensions
 - repo: https://github.com/pycqa/flake8
   rev: 4.0.1
   hooks:
