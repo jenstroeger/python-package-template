@@ -56,10 +56,10 @@ jobs:
       with:
         # Private repos with protected branches may need to set that token to make the Action work. For a
         # discussion of this problem, see: https://github.com/relekang/python-semantic-release/issues/311
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.RELEASE_TOKEN }}
         fetch-depth: 0
     - name: Python Semantic Release
       uses: relekang/python-semantic-release@595352a8fb97f219cb8362e2a13e4f59d8064aa0
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.RELEASE_TOKEN }}
         pypi_token: ''  # We don't publish to PyPi: ${{ secrets.PYPI_TOKEN }}
