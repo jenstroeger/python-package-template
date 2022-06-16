@@ -144,7 +144,7 @@ max-module-lines = 1000
 # https://docs.pytest.org/en/6.2.x/reference.html#configuration-options
 # https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags
 [tool.pytest.ini_options]
-minversion = "6.0"
+minversion = "7.0"
 addopts = "--verbose --doctest-modules -ra --cov package"  # Consider adding --pdb
 doctest_optionflags = "IGNORE_EXCEPTION_DETAIL"
 testpaths = [
