@@ -140,9 +140,9 @@ max-line-length = 120
 max-module-lines = 1000
 
 
-# https://docs.pytest.org/en/6.2.x/customize.html#configuration-file-formats
-# https://docs.pytest.org/en/6.2.x/reference.html#configuration-options
-# https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags
+# https://docs.pytest.org/en/latest/reference/customize.html#configuration-file-formats
+# https://docs.pytest.org/en/latest/reference/reference.html#configuration-options
+# https://docs.pytest.org/en/latest/reference/reference.html#command-line-flags
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "--verbose --doctest-modules -ra --cov package"  # Consider adding --pdb
