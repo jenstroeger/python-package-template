@@ -72,12 +72,12 @@ line-length = 120
 target-version = ["py39"]
 
 
+# https://github.com/pytest-dev/pytest-cov
+# https://github.com/nedbat/coveragepy
 [tool.coverage.report]
 fail_under = 100
 show_missing = true
 
-# https://github.com/pytest-dev/pytest-cov
-# https://github.com/nedbat/coveragepy
 [tool.coverage.run]
 omit = [
     "*/package/__main__.py",
