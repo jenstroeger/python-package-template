@@ -216,7 +216,7 @@ open docs/_build/html/index.html
 
 To enable automation for versioning, package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a [semantic release Github Action](https://github.com/relekang/python-semantic-release) enabled which is set up to take care of all three of these aspects — every time changes are merged into the `main` branch.
 
-For more configuration options, please refer to the `tool.semantic_release` section in the `pyproject.toml` file, and read the [semantic release documentation](https://python-semantic-release.readthedocs.io/en/latest/).
+If you work with protected branches then make sure to add a `RELEASE_TOKEN` secret to your repository, see [here](https://github.com/relekang/python-semantic-release/issues/311#issuecomment-1157270026) for how to do that. For more configuration options, please refer to the `tool.semantic_release` section in the `pyproject.toml` file, and read the [semantic release documentation](https://python-semantic-release.readthedocs.io/en/latest/).
 
 You can also install and run the tool manually and locally, for example:
 
