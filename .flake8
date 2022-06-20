@@ -3,3 +3,7 @@
 [flake8]
 show-source = true
 max-line-length = 120
+
+# Enable Bugbear's extended opinionated checks.
+# https://github.com/PyCQA/flake8-bugbear#how-to-enable-opinionated-warnings
+extend-select = B9
