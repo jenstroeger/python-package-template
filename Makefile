@@ -147,10 +147,20 @@ dist/package-$(PACKAGE_VERSION)-docs-html.zip: docs
 	python -m zipfile -c dist/package-$(PACKAGE_VERSION)-docs-html.zip docs/_build/html
 
 # Build the HTML documentation from the package's source.
-.PHONY: docs
-docs: docs/_build/html/index.html
+.PHONY: docs-html
+docs-html: docs/_build/html/index.html
 docs/_build/html/index.html: check test
 	$(MAKE) -C docs/ html
+
+# Build the Markdown documentation from the package's source.
+.PHONY: docs-md
+docs-md: docs/_build/markdown/index.md
+docs/_build/markdown/index.md: check test
+	$(MAKE) -C docs/ markdown
+
+# Build both HTML and Markdown documentation from the package's source.
+.PHONY: docs
+docs: docs-html docs-md
 
 # Clean test caches and remove build artifacts.
 .PHONY: dist-clean clean
