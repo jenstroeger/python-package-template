@@ -1,5 +1,4 @@
 name: CodeQL
-
 on:
   push:
     branches:
@@ -14,6 +13,8 @@ on:
     - '**/*.py'
   schedule:
   - cron: 20 15 * * 3
+permissions:
+  contents: read
 
 jobs:
   analyze:
