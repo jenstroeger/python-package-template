@@ -1,0 +1,36 @@
+# This workflow publishes Markdown docs to Github Wiki.
+# Some manual setup is required before using it:
+#   1. Enable Wiki in repository and create at least one page.
+#   2. Generate a Personal Access Token (PAT) with "repo" scope enabled.
+#   3. Add the generated PAT as a secret named "GH_PERSONAL_ACCESS_TOKEN".
+# For details, see https://github.com/marketplace/actions/publish-to-github-wiki#setup
+name: Generate Wiki Pages
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  generate-wiki:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: make setup
+      env:
+        PYTHON: python
+    - name: Generate Markdown docs
+      run: |
+        make docs-md
+        mv docs/_build/markdown/index.md docs/_build/markdown/Home.md
+    - name: Push to Wiki
+      uses: SwiftDocOrg/github-wiki-publish-action@v1
+      with:
+        path: docs/_build/markdown
+      env:
+        GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
