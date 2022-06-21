@@ -116,6 +116,7 @@ disable = [
     "too-many-arguments",
     "too-many-branches",
     "too-many-instance-attributes",
+    "too-many-lines",
     "too-many-locals",
     "too-many-nested-blocks",
     "too-many-return-statements",
@@ -131,7 +132,6 @@ notes = [
 
 [tool.pylint.FORMAT]
 max-line-length = 120
-max-module-lines = 1000
 
 
 # https://docs.pytest.org/en/latest/reference/customize.html#configuration-file-formats
