@@ -26,7 +26,8 @@ jobs:
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
-    - uses: CondeNast/conventional-pull-request-action@eef02ae6e88e4b462f39931113b1a75cc275beee
+    - name: Run conventional commits check
+      uses: CondeNast/conventional-pull-request-action@eef02ae6e88e4b462f39931113b1a75cc275beee
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:

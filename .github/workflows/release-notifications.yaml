@@ -19,7 +19,8 @@ jobs:
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
-    - uses: slackapi/slack-github-action@16b6c78ee73689a627b65332b34e5d409c7299da
+    - name: Notify via Slack
+      uses: slackapi/slack-github-action@16b6c78ee73689a627b65332b34e5d409c7299da
       with:
         payload: |
           {
