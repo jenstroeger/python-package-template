@@ -157,5 +157,5 @@ testpaths = [
 branch = "main"
 version_variable = "src/package/__init__.py:__version__"
 upload_to_pypi = false
-commit_subject = "bump: release v{version}"
+commit_subject = "bump: release v{version} [skip actions]"
 changelog_file = "CHANGELOG.md"
