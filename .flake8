@@ -1,8 +1,10 @@
 # Unfortunately, flake8 does not support pyproject.toml configuration.
 # https://github.com/PyCQA/flake8/issues/234
 [flake8]
-show-source = true
+ignore =
+per-file-ignores =
 max-line-length = 120
+show-source = true
 
 # Enable Bugbear's extended opinionated checks.
 # https://github.com/PyCQA/flake8-bugbear#how-to-enable-opinionated-warnings
