@@ -31,6 +31,7 @@ repos:
   hooks:
   - id: black
     name: Format code
+    args: [--config, pyproject.toml]
 - repo: https://github.com/asottile/blacken-docs
   rev: v1.12.1
   hooks:

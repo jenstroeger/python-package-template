@@ -64,7 +64,6 @@ skips = ["B101"]
 # https://github.com/psf/black#configuration
 [tool.black]
 line-length = 120
-target-version = ["py39"]
 
 
 [tool.coverage.report]
