@@ -50,6 +50,7 @@ dev = [
 ]
 docs = [
     "sphinx >=5.1.1,<6.0.0",
+    "sphinxnotes-markdown-builder >=0.5.6,<1.0.0",
 ]
 hooks = [
     "pre-commit >=2.18.0,<=2.20.0",
