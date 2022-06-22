@@ -12,7 +12,7 @@ NEED_VENV := $(or \
   $(findstring check,$(MAKECMDGOALS)), \
   $(findstring test,$(MAKECMDGOALS)), \
   $(findstring dist,$(MAKECMDGOALS)), \
-  $(findstring bdist-wheel,$(MAKECMDGOALS)), \
+  $(findstring wheel,$(MAKECMDGOALS)), \
   $(findstring sdist,$(MAKECMDGOALS)), \
   $(findstring docs,$(MAKECMDGOALS)) \
 )
