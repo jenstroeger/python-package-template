@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@d09bd5e6005b175076f227b13d9730d56e9dcfcb
       with:
         python-version: '3.10'
     - name: Install dependencies
@@ -29,7 +29,7 @@ jobs:
         make docs-md
         mv docs/_build/markdown/index.md docs/_build/markdown/Home.md
     - name: Push to Wiki
-      uses: SwiftDocOrg/github-wiki-publish-action@v1
+      uses: SwiftDocOrg/github-wiki-publish-action@a87db85ed06e4431be29cfdcb22b9653881305d0
       with:
         path: docs/_build/markdown
       env:
