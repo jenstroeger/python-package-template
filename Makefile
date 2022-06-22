@@ -12,8 +12,6 @@ NEED_VENV := $(or \
   $(findstring check,$(MAKECMDGOALS)), \
   $(findstring test,$(MAKECMDGOALS)), \
   $(findstring dist,$(MAKECMDGOALS)), \
-  $(findstring wheel,$(MAKECMDGOALS)), \
-  $(findstring sdist,$(MAKECMDGOALS)), \
   $(findstring docs,$(MAKECMDGOALS)) \
 )
 ifeq ($(NEED_VENV),)
@@ -91,17 +89,15 @@ test:
 	pre-commit run pytest --hook-stage push
 
 # Build a source distribution package and a binary wheel distribution artifact.
-.PHONY: dist wheel sdist
+.PHONY: dist
 ifeq ($(wildcard .upgraded),)
   PACKAGE_VERSION=unknown
 else
   PACKAGE_VERSION=$(shell python -c 'import package; print(package.__version__)')
 endif
-dist: wheel sdist
-wheel: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl
+dist: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl dist/package-$(PACKAGE_VERSION).tar.gz
 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl: check test
 	flit build --setup-py --format wheel
-sdist: dist/package-$(PACKAGE_VERSION).tar.gz
 dist/package-$(PACKAGE_VERSION).tar.gz: check test
 	flit build --setup-py --format sdist
 
