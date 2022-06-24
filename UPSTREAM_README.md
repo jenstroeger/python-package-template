@@ -90,6 +90,8 @@ If you’d like to start your own Python project from scratch, you can either co
 
 - Adjust the Dependabot settings in `.github/dependabot.yaml` to your desired target branch that you’d like to have monitored by Dependabot.
 
+- Create a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) (PAT) for your Github user account with [`repo` scope](https://docs.github.com/en/developers/apps/building-oauth-apps/scopes-for-oauth-apps#available-scopes) (including _all_ of the `repo` permissions), and then [create a secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) for the new Github repository with the name `REPO_ACCESS_TOKEN` whose value is that new PAT. This secret is important for some of the [Github Workflows](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows) in this repository.
+
 To develop your new package, first create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) by either using the [Makefile](https://www.gnu.org/software/make/manual/make.html#toc-An-Introduction-to-Makefiles):
 
 ```bash
@@ -210,7 +212,7 @@ open docs/_build/html/index.html
 
 To enable automation for versioning, package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a [semantic release Github Action](https://github.com/relekang/python-semantic-release) enabled which is set up to take care of all three of these aspects — every time changes are merged into the `main` branch.
 
-If you work with protected branches then make sure to add a `RELEASE_TOKEN` secret to your repository, see [here](https://github.com/relekang/python-semantic-release/issues/311#issuecomment-1157270026) for how to do that. For more configuration options, please refer to the `tool.semantic_release` section in the `pyproject.toml` file, and read the [semantic release documentation](https://python-semantic-release.readthedocs.io/en/latest/).
+For more configuration options, please refer to the `tool.semantic_release` section in the `pyproject.toml` file, and read the [semantic release documentation](https://python-semantic-release.readthedocs.io/en/latest/).
 
 You can also install and run the tool manually and locally, for example:
 
