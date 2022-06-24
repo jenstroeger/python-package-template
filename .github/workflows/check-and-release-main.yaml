@@ -13,6 +13,7 @@ jobs:
     uses: ./.github/workflows/build.yaml
 
   release:
+    if: "!startsWith(github.event.commits[0].message, 'bump:')"
     permissions:
       contents: write  # for relekang/python-semantic-release to push release notes and new commits/tags
     needs: build
