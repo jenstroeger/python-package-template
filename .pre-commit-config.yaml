@@ -24,6 +24,7 @@ repos:
   hooks:
   - id: isort
     name: Sort import statements
+    args: [--settings-path, pyproject.toml]
 
 # Add Black code formatters.
 - repo: https://github.com/ambv/black
