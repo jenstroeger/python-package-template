@@ -18,6 +18,9 @@ classifiers = [
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -28,6 +31,8 @@ classifiers = [
 
 [project.scripts]
 something = "package.__main__:main"
+
+[project.entry-points]
 
 [project.optional-dependencies]
 dev = [
@@ -52,6 +57,7 @@ test = [
 Homepage = "https://my.project/"
 Changelog = "https://my.project/CHANGELOG"
 Documentation = "https://my.project/docs/"
+Issues = "https://my.project/issues"
 
 
 # https://bandit.readthedocs.io/en/latest/config.html
@@ -94,16 +100,22 @@ show_error_codes = true
 show_column_numbers = true
 check_untyped_defs = true
 incremental = false
+strict_equality = true
 warn_return_any = true
 warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_configs = true
 warn_unused_ignores = true
 disallow_untyped_calls = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 disallow_untyped_decorators = true
+disable_error_code = []
 
 [[tool.mypy.overrides]]
-module = "pytest"
+module = [
+    "pytest.*",
+]
 ignore_missing_imports = true
 
 
