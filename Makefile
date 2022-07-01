@@ -76,9 +76,15 @@ requirements.txt: pyproject.toml
 all: check test dist docs
 
 # Run some or all checks over the package code base.
-.PHONY: quick-check check
-quick-check:
+.PHONY: check check-code check-bandit check-flake8 check-lint check-mypy
+check-code: check-bandit check-flake8 check-lint check-mypy
+check-bandit:
+	pre-commit run bandit --all-files
+check-flake8:
+	pre-commit run flake8 --all-files
+check-lint:
 	pre-commit run pylint --all-files
+check-mypy:
 	pre-commit run mypy --all-files
 check:
 	pre-commit run --all-files
