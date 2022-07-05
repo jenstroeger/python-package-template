@@ -47,7 +47,7 @@ docs = [
 hooks = [
     "pre-commit >=2.13.0,<=2.19.1",
 ]
-# Note that the `custom_exit_code` and `env` plugins maybe currently be unmaintained.
+# Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
     "hypothesis >=6.21.0,<=6.46.9",
     "pytest >=7.1.2,<8.0.0",
