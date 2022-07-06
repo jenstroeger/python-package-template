@@ -47,10 +47,13 @@ docs = [
 hooks = [
     "pre-commit >=2.13.0,<=2.19.1",
 ]
+# Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
     "hypothesis >=6.21.0,<=6.46.9",
     "pytest >=7.1.2,<8.0.0",
+    "pytest-custom_exit_code ==0.3.0",
     "pytest-cov ==3.0.0",
+    "pytest-env ==0.6.2",
 ]
 
 [project.urls]
@@ -158,6 +161,7 @@ doctest_optionflags = "IGNORE_EXCEPTION_DETAIL"
 testpaths = [
     "tests",
 ]
+env = []
 
 
 # https://python-semantic-release.readthedocs.io/en/latest/
