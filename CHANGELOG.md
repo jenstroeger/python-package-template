@@ -1,6 +1,5 @@
 <!--next-version-placeholder-->
 
-
 ## v1.6.1 (2022-06-26)
 ### Fix
 * Add explicit settings path to isort in pre-commit configuration ([#233](https://github.com/jenstroeger/python-package-template/issues/233)) ([`c75dc16`](https://github.com/jenstroeger/python-package-template/commit/c75dc1649c22e062d48af47ac8ac316971167780))
