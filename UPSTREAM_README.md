@@ -143,16 +143,16 @@ Using the pre-commit tool and its `.pre-commit-config.yaml` configuration, the f
 You can also run these hooks manually, which comes in very handy during daily development tasks. For example
 
 ```bash
-make quick-check
+make check-code
 ```
 
-runs `pylint` and `mypy` only, whereas
+runs all the code checks (i.e. `bandit`, `flake8`, `pylint` and `mypy`), whereas
 
 ```bash
 make check
 ```
 
-runs _all_ installed git hooks over your code.
+runs _all_ installed git hooks over your code. For more control over the code checks, the Makefile also implements the `check-bandit`, `check-flake8`, `check-lint`, and `check-mypy` goals.
 
 ## Testing
 
