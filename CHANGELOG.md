@@ -1,5 +1,19 @@
 <!--next-version-placeholder-->
 
+## v2.0.0 (2022-07-06)
+### Feature
+* Replace the Makefile’s quick-check goal with check-code ([#239](https://github.com/jenstroeger/python-package-template/issues/239)) ([`caba574`](https://github.com/jenstroeger/python-package-template/commit/caba574e55702c29aedca47614787f153f26a16f))
+* Add pytest-env and pytest-custom-exit-code plugin support ([#243](https://github.com/jenstroeger/python-package-template/issues/243)) ([`2e6e0ca`](https://github.com/jenstroeger/python-package-template/commit/2e6e0ca4f99212e9e03a5616d17ce202e156a056))
+
+### Fix
+* Flit doesn’t support MANIFEST.in, fix sdist accordingly ([#244](https://github.com/jenstroeger/python-package-template/issues/244)) ([`20b9044`](https://github.com/jenstroeger/python-package-template/commit/20b9044fc233ae1262d96d433b0260bea4431eb1))
+
+### Breaking
+* replace the Makefile’s quick-check goal with check-code ([#239](https://github.com/jenstroeger/python-package-template/issues/239)) ([`caba574`](https://github.com/jenstroeger/python-package-template/commit/caba574e55702c29aedca47614787f153f26a16f))
+
+### Documentation
+* Remove symlinks to UPSTREAM files, use proper community files ([#245](https://github.com/jenstroeger/python-package-template/issues/245)) ([`e64554b`](https://github.com/jenstroeger/python-package-template/commit/e64554bc313f5860684f5b8949bdd0b86e472b8e))
+
 ## v1.6.1 (2022-06-26)
 ### Fix
 * Add explicit settings path to isort in pre-commit configuration ([#233](https://github.com/jenstroeger/python-package-template/issues/233)) ([`c75dc16`](https://github.com/jenstroeger/python-package-template/commit/c75dc1649c22e062d48af47ac8ac316971167780))
