@@ -87,6 +87,23 @@ omit = [
 ]
 
 
+# https://flit.pypa.io/en/latest/pyproject_toml.html#sdist-section
+# See also: https://github.com/pypa/flit/issues/565
+[tool.flit.sdist]
+include = []
+exclude = [
+    ".github/",
+    "docs/",
+    "tests/",
+    ".flake8",
+    ".gitignore",
+    ".pre-commit-config.yaml",
+    "CHANGELOG.md",
+    "Makefile",
+    "SECURITY.md",
+]
+
+
 # https://pycqa.github.io/isort/
 [tool.isort]
 profile = "black"

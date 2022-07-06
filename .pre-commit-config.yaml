@@ -142,13 +142,6 @@ repos:
   # - id: pretty-format-toml
   #   args: [--autofix]
 
-# Make sure that the package's MANIFEST.in file works.
-- repo: https://github.com/mgedmin/check-manifest
-  rev: '0.48'
-  hooks:
-  - id: check-manifest
-    name: Check package manifest
-
 # On push to the remote, run the unit tests.
 - repo: local
   hooks:
