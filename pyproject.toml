@@ -101,7 +101,6 @@ exclude = [
     "CHANGELOG.md",
     "Makefile",
     "SECURITY.md",
-    "UPSTREAM_*.md",
 ]
 
 
