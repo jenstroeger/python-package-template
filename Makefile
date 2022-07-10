@@ -103,8 +103,14 @@ else
 endif
 dist: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl dist/package-$(PACKAGE_VERSION).tar.gz
 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl: check test
+	if [ -z "${SOURCE_DATE_EPOCH}" ]; then \
+	  echo "SOURCE_DATE_EPOCH variable not specified, building non-reproducible wheel"; \
+	fi
 	flit build --setup-py --format wheel
 dist/package-$(PACKAGE_VERSION).tar.gz: check test
+	if [ -z "${SOURCE_DATE_EPOCH}" ]; then \
+	  echo "SOURCE_DATE_EPOCH variable not specified, building non-reproducible sdist"; \
+	fi
 	flit build --setup-py --format sdist
 
 # Build the HTML documentation from the package's source.
