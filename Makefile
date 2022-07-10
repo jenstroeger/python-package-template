@@ -126,7 +126,7 @@ docs/_build/html/index.html: check test
 # Clean test caches and remove build artifacts.
 .PHONY: dist-clean clean
 dist-clean:
-	rm -fr build/ dist/*
+	rm -fr dist/*
 clean: dist-clean
 	rm -fr .coverage .hypothesis/ .mypy_cache/ .pytest_cache/
 	rm -fr docs/_build/
@@ -142,5 +142,4 @@ nuke: nuke-caches
 	  deactivate; \
 	  rm -fr $(VIRTUAL_ENV); \
 	fi
-	rm -fr src/package.egg-info/
 	rm -f requirements.txt
