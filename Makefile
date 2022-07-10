@@ -124,6 +124,7 @@ clean: dist-clean
 # Remove code caches, or the entire virtual environment.
 .PHONY: nuke-caches nuke
 nuke-caches: clean
+	pre-commit clean
 	find src/ -name __pycache__ -exec rm -fr {} +
 	find tests/ -name __pycache__ -exec rm -fr {} +
 nuke: nuke-caches
