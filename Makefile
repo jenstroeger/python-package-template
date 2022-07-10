@@ -1,3 +1,9 @@
+
+# Use bash as the shell when executing a rule's recipe. For more details:
+# https://www.gnu.org/software/make/manual/html_node/Choosing-the-Shell.html
+# https://stackoverflow.com/questions/10376206/what-is-the-preferred-bash-shebang
+SHELL := /usr/bin/env bash
+
 # This variable contains the first goal that matches any of the listed goals
 # here, else it contains an empty string. The net effect is to filter out
 # whether this current run of `make` requires a Python virtual environment.
