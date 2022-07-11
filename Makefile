@@ -103,6 +103,8 @@ test:
 	pre-commit run pytest --hook-stage push
 
 # Build a source distribution package and a binary wheel distribution artifact.
+# When building these artifacts, we need the environment variable SOURCE_DATE_EPOCH
+# set to the build date/epoch. For more details, see: https://flit.pypa.io/en/latest/reproducible.html
 .PHONY: dist
 ifeq ($(wildcard .venv/upgraded-on),)
   PACKAGE_VERSION=unknown
@@ -111,8 +113,14 @@ else
 endif
 dist: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl dist/package-$(PACKAGE_VERSION).tar.gz
 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl: check test
+	if [ -z "${SOURCE_DATE_EPOCH}" ]; then \
+	  echo "SOURCE_DATE_EPOCH variable not specified, building non-reproducible wheel"; \
+	fi
 	flit build --setup-py --format wheel
 dist/package-$(PACKAGE_VERSION).tar.gz: check test
+	if [ -z "${SOURCE_DATE_EPOCH}" ]; then \
+	  echo "SOURCE_DATE_EPOCH variable not specified, building non-reproducible sdist"; \
+	fi
 	flit build --setup-py --format sdist
 
 # Build the HTML documentation from the package's source.
