@@ -30,10 +30,22 @@ jobs:
       uses: actions/setup-python@d09bd5e6005b175076f227b13d9730d56e9dcfcb
       with:
         python-version: ${{ matrix.python }}
-    - name: Install dependencies
-      run: make setup
+    - name: Create and activate virtual environment
+      if: ${{ matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest' }}
+      run: |
+        make venv
+        source .venv/bin/activate
       env:
         PYTHON: python
+    - name: Create and activate virtual environment (Windows)
+      if: ${{ matrix.os == 'windows-latest' }}
+      run: |
+        make venv
+        .venv/Scripts/Activate.ps1
+      env:
+        PYTHON: python
+    - name: Install dependencies
+      run: make setup
     - name: Build the package
       # We don't need to check and test the package separately
       # because `make dist` runs those targets first and only
