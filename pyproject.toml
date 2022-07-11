@@ -13,6 +13,7 @@ license = {file = "LICENSE.md"}
 readme = "README.md"
 dependencies = []
 keywords = []
+# https://pypi.org/classifiers/
 classifiers = [
     "Development Status :: 1 - Planning",
     "Intended Audience :: Developers",
