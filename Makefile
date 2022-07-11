@@ -38,6 +38,10 @@ ifeq ($(shell test pyproject.toml -nt .venv/upgraded-on; echo $$?),0)
   $(warning If this is not correct then run `make upgrade-quiet`)
 endif
 
+# Check, test, and build artifacts for this package.
+.PHONY: all
+all: check test dist docs
+
 # Create a virtual environment, either for Python3.10 (default) or using
 # the Python interpreter specified in the PYTHON environment variable.
 .PHONY: venv
@@ -85,10 +89,6 @@ requirements.txt: pyproject.toml
 	echo "" > requirements.txt
 	# See also: https://github.com/peterbe/hashin/issues/139
 	for pkg in `python -m pip list --format freeze`; do hashin --verbose $$pkg; done
-
-# Check, test, and build artifacts for this package.
-.PHONY: all
-all: check test dist docs
 
 # Run some or all checks over the package code base.
 .PHONY: check check-code check-bandit check-flake8 check-lint check-mypy
