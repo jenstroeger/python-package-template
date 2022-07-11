@@ -1,5 +1,3 @@
-#! /usr/bin/env make -f
-
 # This variable contains the first goal that matches any of the listed goals
 # here, else it contains an empty string. The net effect is to filter out
 # whether this current run of `make` requires a Python virtual environment.
