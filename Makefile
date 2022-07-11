@@ -62,6 +62,7 @@ setup: force-upgrade
 upgrade: .venv/upgraded-on
 .venv/upgraded-on: pyproject.toml
 	python -m pip install --upgrade pip
+	python -m pip install --upgrade wheel
 	python -m pip install --upgrade --upgrade-strategy eager --editable .[hooks,dev,test,docs]
 	$(MAKE) upgrade-quiet
 force-upgrade:
