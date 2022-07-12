@@ -1,5 +1,15 @@
 <!--next-version-placeholder-->
 
+## v2.1.0 (2022-07-12)
+### Feature
+* Use Bash as the shell to execute Makefile recipes ([#256](https://github.com/jenstroeger/python-package-template/issues/256)) ([`e214bee`](https://github.com/jenstroeger/python-package-template/commit/e214beea2210f0f90659b205cf4bf2bb65ab2db3))
+* Warn if generated builds are not reproducible ([#253](https://github.com/jenstroeger/python-package-template/issues/253)) ([`0d385f7`](https://github.com/jenstroeger/python-package-template/commit/0d385f7e4fc5ed5d2e7950ff963ca779d1f4fc4d))
+* Move private file .upgraded into .venv/ folder ([#248](https://github.com/jenstroeger/python-package-template/issues/248)) ([`2a24e24`](https://github.com/jenstroeger/python-package-template/commit/2a24e248a543f5e58020a7b522c73adbc3271d47))
+
+### Fix
+* Default goal for make should be to build the entire package ([#257](https://github.com/jenstroeger/python-package-template/issues/257)) ([`b0c8511`](https://github.com/jenstroeger/python-package-template/commit/b0c8511b4a2572e7a814ef6aba3b1453c8d1faad))
+* Remove shebang comment from Makefile which isn’t actually runable ([#252](https://github.com/jenstroeger/python-package-template/issues/252)) ([`29e32ca`](https://github.com/jenstroeger/python-package-template/commit/29e32ca657207c8f9396405146743f075c55dd9f))
+
 ## v2.0.0 (2022-07-06)
 ### Feature
 * Replace the Makefile’s quick-check goal with check-code ([#239](https://github.com/jenstroeger/python-package-template/issues/239)) ([`caba574`](https://github.com/jenstroeger/python-package-template/commit/caba574e55702c29aedca47614787f153f26a16f))
