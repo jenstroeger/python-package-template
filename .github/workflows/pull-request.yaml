@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   conventional-commits:
-    name: Check PR #${{ github.event.pull_request.number }} title and commit messages
+    name: Check PR title and commit messages
     runs-on: ubuntu-latest
     steps:
     - name: Harden Runner
@@ -38,9 +38,14 @@ jobs:
     - name: Install dependencies
       run: make setup
     - name: Check PR title
-      run: echo "${{ github.event.pull_request.title }}" | cz check
+      run: echo "$PR_TITLE" | cz check
+      env:
+        PR_TITLE: ${{ github.event.pull_request.title }}
     - name: Check PR commit messages
-      run: cz check --rev-range origin/${{ github.event.pull_request.base.ref }}..origin/${{ github.event.pull_request.head.ref }}
+      run: cz check --rev-range origin/$PR_BASE_BRANCH_NAME..origin/$PR_HEAD_BRANCH_NAME
+      env:
+        PR_BASE_BRANCH_NAME: ${{ github.event.pull_request.base.ref }}
+        PR_HEAD_BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
 
   build:
     needs: conventional-commits
