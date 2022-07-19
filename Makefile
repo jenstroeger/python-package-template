@@ -56,6 +56,10 @@ venv:
 	  echo "Creating virtual envirnoment in .venv/ for ${PYTHON}"; \
 	  ${PYTHON} -m venv --upgrade-deps .venv; \
 	fi
+	# Create an empty pip.conf file to ensure that `pip config` modifies
+	# this venv only, unless told otherwise. For more background, see
+	# https://github.com/jenstroeger/python-package-template/issues/262
+	touch .venv/pip.conf
 
 # Set up a newly created virtual environment. Note: pre-commit uses the
 # venv's Python interpreter, so if you've created multiple venvs then
