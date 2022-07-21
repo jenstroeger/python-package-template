@@ -1,4 +1,7 @@
-# This workflow will lint the PR's title and commit message.
+# This workflow lints the PR's title and commits. It uses the commitizen
+# package (https://github.com/commitizen-tools/commitizen) and its `cz`
+# tool to check the title of the PR and all commit messages of the branch
+# which triggers this Action.
 
 name: Pull Request
 on:
