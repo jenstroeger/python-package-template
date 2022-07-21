@@ -9,6 +9,7 @@ on:
     branches: [main, staging]
     types:
     - opened
+    - reopened
     - edited
     - synchronize
 permissions:
@@ -33,6 +34,10 @@ jobs:
       with:
         commitlintRulesPath: ./commitlint.rules.js
         commitTitleMatch: 'true'
+
   build:
     needs: pr
     uses: ./.github/workflows/build.yaml
+    permissions:
+      contents: write
+    secrets: inherit
