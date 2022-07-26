@@ -27,7 +27,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
     - name: Set up Python
-      uses: actions/setup-python@d09bd5e6005b175076f227b13d9730d56e9dcfcb
+      uses: actions/setup-python@c4e89fac7e8767b327bbad6cb4d859eda999cf08
       with:
         python-version: ${{ matrix.python }}
     - name: Create and activate virtual environment
