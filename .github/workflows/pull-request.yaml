@@ -1,38 +1,55 @@
-# This workflow will lint the PR's title and commit message.
-# https://github.com/CondeNast/conventional-pull-request-action
-# https://github.com/conventional-changelog/commitlint/blob/master/docs/reference-rules.md
-# https://github.com/CondeNast/conventional-pull-request-action/issues/15
+# This workflow lints the PR's title and commits. It uses the commitizen
+# package (https://github.com/commitizen-tools/commitizen) and its `cz`
+# tool to check the title of the PR and all commit messages of the branch
+# which triggers this Action.
 
 name: Pull Request
 on:
   pull_request:
-    branches: [main, staging]
+    branches:
+    - main
+    - staging
     types:
     - opened
+    - reopened
     - edited
     - synchronize
 permissions:
   contents: read
 
 jobs:
-  pr:
-    permissions:
-      pull-requests: read  # for CondeNast/conventional-pull-request-action to get specific PR & list commits
-    name: Lint PR title
+  conventional-commits:
+    name: Check PR title and commit messages
     runs-on: ubuntu-latest
     steps:
-    - name: Harden Runner
-      uses: step-security/harden-runner@74b568e8591fbb3115c70f3436a0c6b0909a8504
+    - name: Check out repository
+      uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
       with:
-        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+        fetch-depth: 0
+    - name: Set up Python
+      uses: actions/setup-python@c4e89fac7e8767b327bbad6cb4d859eda999cf08 # v4.1.0
+      with:
+        python-version: '3.10'
 
-    - name: Run conventional commits check
-      uses: CondeNast/conventional-pull-request-action@eef02ae6e88e4b462f39931113b1a75cc275beee
+    # Install Commitizen without using the package's Makefile: that's much faster than
+    # creating a venv and installing heaps of dependencies that aren't required for
+    # this job. Then run Commitizen to check the title of the PR which triggered this
+    # workflow, and check all commit messages of the PR's branch. If any of the checks
+    # fails then this job fails.
+    - name: Set up Commitizen
+      run: |
+        pip install --upgrade pip wheel
+        pip install 'commitizen ==2.28.0'
+    - name: Check PR title
+      run: echo "$PR_TITLE" | cz check
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        commitlintRulesPath: ./commitlint.rules.js
-        commitTitleMatch: 'true'
+        PR_TITLE: ${{ github.event.pull_request.title }}
+    - name: Check PR commit messages
+      run: cz check --rev-range origin/$PR_BASE_BRANCH_NAME..origin/$PR_HEAD_BRANCH_NAME
+      env:
+        PR_BASE_BRANCH_NAME: ${{ github.event.pull_request.base.ref }}
+        PR_HEAD_BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+
   build:
-    needs: pr
+    needs: conventional-commits
     uses: ./.github/workflows/build.yaml
