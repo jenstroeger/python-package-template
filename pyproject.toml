@@ -41,6 +41,9 @@ dev = [
     "hashin ==0.17.0",
     "mypy >=0.921,<=0.961",
     "pylint >=2.9.3,<=2.14.4",
+    "commitizen >=2.28.0,<3",
+    "cyclonedx-bom >=3.5.0,<4",
+    "twine >=4.0.1,<5",
 ]
 docs = [
     "sphinx >=4.1.2,<=4.5.0",
@@ -74,6 +77,18 @@ skips = ["B101"]
 # https://github.com/psf/black#configuration
 [tool.black]
 line-length = 120
+
+
+# https://github.com/commitizen-tools/commitizen
+# https://commitizen-tools.github.io/commitizen/bump/
+[tool.commitizen]
+bump_message = "bump: release $current_version → $new_version"
+tag_format = "v$major.$minor.$patch$prerelease"
+update_changelog_on_bump = true
+version_files = [
+    "src/package/__init__.py:__version__",
+]
+version = "2.1.0"
 
 
 # https://github.com/pytest-dev/pytest-cov
@@ -180,13 +195,3 @@ testpaths = [
     "tests",
 ]
 env = []
-
-
-# https://python-semantic-release.readthedocs.io/en/latest/
-[tool.semantic_release]
-branch = "main"
-version_variable = "src/package/__init__.py:__version__"
-upload_to_pypi = false
-commit_subject = "bump: release v{version}"
-changelog_file = "CHANGELOG.md"
-build_command = "pip install 'flit >=3.2.0,<4' && flit build"

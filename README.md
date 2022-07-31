@@ -21,6 +21,7 @@ This repository is intended to be a base template, a cookiecutter for a new Pyth
 [Testing](#testing)  
 [Generating documentation](#generating-documentation)  
 [Versioning, publishing and changelog](#versioning-publishing-and-changelog)  
+[Build integrity using SLSA framework](#build-integrity-using-slsa-framework)
 [Cleaning up](#cleaning-up)  
 [Frequently asked questions](#frequently-asked-questions)  
 
@@ -66,7 +67,7 @@ A _shared package_ or library is intended to be imported by another package or a
 
 **Application**: the [`__main__.py`](https://docs.python.org/3/library/__main__.html#main-py-in-python-packages) file ensures an entry point to run this package as a standalone application using Python’s [-m](https://docs.python.org/3/using/cmdline.html#cmdoption-m) command-line option. A wrapper script named `something` is also generated as an [entry point into this package](https://flit.pypa.io/en/latest/pyproject_toml.html#scripts-section) by `make setup` or `make upgrade`. In addition to specifying directly dependent packages and their version ranges in `pyproject.toml`, an application should _pin_ its entire environment using the [`requirements.txt`](https://pip.pypa.io/en/latest/user_guide/#requirements-files). Use the `make requirements` command to generate that file if you’re building an application.
 
-In the future, the generated `requirements.txt` file with its integrity hash for every dependent package will become an important provenance material to provide transparency in the packaging process (see also [SBOM + SLSA](https://slsa.dev/blog/2022/05/slsa-sbom)).
+The generated `requirements.txt` file with its integrity hash for every dependent package is used to generate [SBOM](https://www.cisa.gov/sbom) in [CycloneDX format](https://cyclonedx.org/). This is an important provenance material to provide transparency in the packaging process (see also [SBOM + SLSA](https://slsa.dev/blog/2022/05/slsa-sbom)).
 
 ## How to use this repository
 
@@ -210,29 +211,40 @@ open docs/_build/html/index.html
 
 ## Versioning, publishing and changelog
 
-To enable automation for versioning, package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a [semantic release Github Action](https://github.com/relekang/python-semantic-release) enabled which is set up to take care of all three of these aspects — every time changes are merged into the `main` branch.
-
-For more configuration options, please refer to the `tool.semantic_release` section in the `pyproject.toml` file, and read the [semantic release documentation](https://python-semantic-release.readthedocs.io/en/latest/).
-
-You can also install and run the tool manually and locally, for example:
-
-```bash
-pip install python-semantic-release
-semantic-release changelog
-semantic-release version
-```
-
-Use the `--verbosity=DEBUG` command-line argument for more details.
+To enable automation for versioning, package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a built-in semantic release support enabled which is set up to take care of all three of these aspects — every time changes are merged into the `main` branch.
 
 If you’d like to receive Slack notifications whenever a new release is published, follow the comments in the [Release Notification](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows/release-notifications.yaml) Action and set up a Slack bot by following [the instructions here](https://github.com/slackapi/slack-github-action#setup-2).
 
-In order to build a distribution of your package locally instead of publishing it through the Github Action, you can simply call:
+In order to build a distribution of your package locally instead of publishing it through the Github Actions workflow, you can simply call:
 
 ```bash
 make dist
 ```
 
 This builds a source package and a binary distribution, and stores the files in your local `dist/` folder.
+
+You can also generate a changelog and bump the version manually and locally using commitizen (already installed as a dev dependency), for example:
+
+```bash
+cz changelog
+cz bump
+```
+
+## Build integrity using SLSA framework
+
+The build process in this repository follows the requirements in the [SLSA framework](https://slsa.dev/) to be compliant at level 3. An important aspect of SLSA to improve the supply chain security posture is to generate a verifiable provenance for the build pipeline. Such a provenance can be used to verify the builder and let the consumers check the materials and configurations used while building an artifact. In this repository we use the [generic provenance generator reusable workflow](https://github.com/slsa-framework/slsa-github-generator) to generate a provenance that can attest to the following artifacts in every release:
+
+- Binary dist (wheel)
+- Source dist (tarball)
+- SBOM (CycloneDx format)
+- HTML Docs
+
+To verify the artifact using the provenance follow the instructions in the [SLSA verifier](https://github.com/slsa-framework/slsa-verifier) project to install the verifier tool. After downloading the artifacts and provenance, verify each artifact individually, e.g.,:
+
+```bash
+slsa-verifier -artifact-path  ~/Downloads/package-2.2.0.tar.gz -provenance attestation.intoto.jsonl -source github.com/jenstroeger/python-package-template
+```
+Which should pass and provide the verification details.
 
 ## Cleaning up
 
