@@ -35,15 +35,15 @@ jobs:
 
     steps:
     - name: Harden Runner
-      uses: step-security/harden-runner@74b568e8591fbb3115c70f3436a0c6b0909a8504
+      uses: step-security/harden-runner@74b568e8591fbb3115c70f3436a0c6b0909a8504 # v1.4.4
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
     - name: Checkout repository
-      uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
+      uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
 
     - name: Set up Python ${{ matrix.python }}
-      uses: actions/setup-python@98f2ad02fd48d057ee3b4d4f66525b231c3e52b6
+      uses: actions/setup-python@c4e89fac7e8767b327bbad6cb4d859eda999cf08 # v4.1.0
       with:
         python-version: ${{ matrix.python }}
     - name: Create and activate virtual environment
