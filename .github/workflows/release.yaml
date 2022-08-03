@@ -8,7 +8,7 @@ on:
 permissions:
   contents: read
 env:
-  ARTIFACT_NAME: artifact-ubuntu-latest-3.10
+  ARTIFACT_NAME: artifact-ubuntu-latest-python-3.10
 
 jobs:
   build:
