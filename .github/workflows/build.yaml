@@ -45,6 +45,11 @@ jobs:
       uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
       with:
         fetch-depth: 0
+        # We need to trigger the Actions workflows when a release commit is pushed to main.
+        # To trigger a workflow from within a workflow run, we need to use a personal access
+        # token instead of GITHUB_TOKEN.
+        # See https://docs.github.com/en/actions/using-workflows/triggering-a-workflow.
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
     - name: Set up Python
       uses: actions/setup-python@c4e89fac7e8767b327bbad6cb4d859eda999cf08 # v4.1.0
       with:
@@ -71,7 +76,7 @@ jobs:
     - name: Install dependencies
       run: make setup
     - name: Create changelog and bump
-      if: github.ref == 'refs/heads/main' && matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
+      if: ${{ github.ref == 'refs/heads/main' && !startsWith(github.event.commits[0].message, 'bump:') && matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON }}
       run: |
         # Set up the GitHub user and email as author for the release commit.
         git config --global user.name $USER_NAME
@@ -81,7 +86,7 @@ jobs:
         cz changelog --dry-run --incremental --unreleased-version "Release Notes" > dist/RELEASE_NOTES.md
         # Update the CHANGELOG.md.
         cz changelog
-        cz bump
+        cz bump --yes
     - name: Build the package
       # We don't need to check and test the package separately because `make dist` runs
       # those targets first and only builds the package if they succeed.
@@ -115,7 +120,7 @@ jobs:
       if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
       uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # v3.1.0
       with:
-        name: artifact-${{ matrix.os }}-${{ matrix.python }}
+        name: artifact-${{ matrix.os }}-python-${{ matrix.python }}
         path: dist
         if-no-files-found: error
         retention-days: 1
