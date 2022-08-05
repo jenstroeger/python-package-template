@@ -95,14 +95,16 @@ upgrade-quiet:
 sbom: requirements
 	cyclonedx-bom --force --requirements --format json --output dist/package-$(PACKAGE_VERSION)-sbom.json
 
-# Generate a requirements.txt file containing version and integrity
-# hashes for all packages currently installed in the virtual environment.
+# Generate a requirements.txt file containing version and integrity hashes for all
+# packages currently installed in the virtual environment. There's no easy way to
+# do this, and we have to use yet another external package. For more discussion, see
+# https://github.com/pypa/pip/issues/4732
+# https://github.com/peterbe/hashin/issues/139
 .PHONY: requirements
 requirements: requirements.txt
 requirements.txt: pyproject.toml
 	echo "" > requirements.txt
-	# See also: https://github.com/peterbe/hashin/issues/139
-	for pkg in `python -m pip list --format freeze`; do hashin --verbose $$pkg; done
+	for pkg in `python -m pip list --format freeze --disable-pip-version-check`; do hashin --verbose $$pkg; done
 
 # Run some or all checks over the package code base.
 .PHONY: check check-code check-bandit check-flake8 check-lint check-mypy
