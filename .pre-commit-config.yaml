@@ -12,7 +12,7 @@ repos:
 
 # Commitizen enforces semantic and conventional commit messages.
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v2.28.0
+  rev: v2.32.1
   hooks:
   - id: commitizen
     name: Check conventional commit message
@@ -43,7 +43,7 @@ repos:
 
 # Upgrade and rewrite Python idioms.
 - repo: https://github.com/asottile/pyupgrade
-  rev: v2.34.0
+  rev: v2.37.3
   hooks:
   - id: pyupgrade
     name: Upgrade code idioms
@@ -53,13 +53,13 @@ repos:
 # Similar to pylint, with a few more/different checks. For more available
 # extensions: https://github.com/DmytroLitvinov/awesome-flake8-extensions
 - repo: https://github.com/pycqa/flake8
-  rev: 4.0.1
+  rev: 5.0.4
   hooks:
   - id: flake8
     name: Check flake8 issues
     files: ^src/package/|^tests/
     types: [text, python]
-    additional_dependencies: [flake8-bugbear==22.4.25, flake8-builtins==1.5.3, flake8-comprehensions==3.10.0, flake8-docstrings==1.6.0, flake8-mutable==1.2.0, flake8-noqa==1.2.5, flake8-pytest-style==1.6.0, flake8-rst-docstrings==0.2.3, pep8-naming==0.12.1]
+    additional_dependencies: [flake8-bugbear==22.7.1, flake8-builtins==1.5.3, flake8-comprehensions==3.10.0, flake8-docstrings==1.6.0, flake8-mutable==1.2.0, flake8-noqa==1.2.9, flake8-pytest-style==1.6.0, flake8-rst-docstrings==0.2.6, pep8-naming==0.13.2]
 
 # Run Pylint from the local repo to make sure venv packages
 # specified in pyproject.toml are available.
