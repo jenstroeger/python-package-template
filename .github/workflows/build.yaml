@@ -92,15 +92,16 @@ jobs:
       # those targets first and only builds the package if they succeed.
       run: |
         # Build the sdist and wheel distribution of the package and docs as a zip file.
-        # Generate the requirements.txt that contains the hash digests of the dependencies.
-        # Generate the SBOM using CyclonDX SBOM generator.
-        make dist requirements sbom
+        make dist
     - name: Compute package hash
       if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
       id: compute-hash
       shell: bash
       run: |
         set -euo pipefail
+        # Generate the requirements.txt that contains the hash digests of the dependencies and
+        # generate the SBOM using CyclonDX SBOM generator.
+        make requirements sbom
         # Find the paths to the files that will be included in the release.
         TARBALL_PATH=$(find dist -name "*.tar.gz")
         WHEEL_PATH=$(find dist -name "*.whl")
