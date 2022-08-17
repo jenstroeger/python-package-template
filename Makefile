@@ -149,13 +149,13 @@ dist/package-$(PACKAGE_VERSION)-docs-html.zip: docs
 # Build the HTML documentation from the package's source.
 .PHONY: docs-html
 docs-html: docs/_build/html/index.html
-docs/_build/html/index.html: check test
+docs/_build/html/index.html:
 	$(MAKE) -C docs/ html
 
 # Build the Markdown documentation from the package's source.
 .PHONY: docs-md
 docs-md: docs/_build/markdown/index.md
-docs/_build/markdown/index.md: check test
+docs/_build/markdown/index.md:
 	$(MAKE) -C docs/ markdown
 
 # Build both HTML and Markdown documentation from the package's source.
