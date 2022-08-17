@@ -1,8 +1,8 @@
 # This workflow publishes Markdown docs to Github Wiki.
 # Some manual setup is required before using it:
 #   1. Enable Wiki in repository and create at least one page.
-#   2. Generate a Personal Access Token (PAT) with "repo" scope enabled.
-#   3. Add the generated PAT as a secret named "GH_PERSONAL_ACCESS_TOKEN".
+#   2. Make sure there's a Personal Access Token (PAT) with "repo" scope enabled.
+#   3. Add the generated PAT as a secret named "REPO_ACCESS_TOKEN".
 # For details, see https://github.com/marketplace/actions/publish-to-github-wiki#setup
 name: Generate Wiki Pages
 
@@ -37,4 +37,4 @@ jobs:
       with:
         path: docs/_build/markdown
       env:
-        GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
