@@ -186,11 +186,11 @@ dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt:
 # Build the HTML and Markdown documentation from the package's source.
 .PHONY: docs-html
 docs-html: docs/_build/html/index.html
-docs/_build/html/index.html: check test
+docs/_build/html/index.html:
 	$(MAKE) -C docs/ html
 .PHONY: docs-md
 docs-md: docs/_build/markdown/index.md
-docs/_build/markdown/index.md: check test
+docs/_build/markdown/index.md:
 	$(MAKE) -C docs/ markdown
 .PHONY: docs
 docs: docs-html docs-md
