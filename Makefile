@@ -112,6 +112,7 @@ requirements: requirements.txt
 requirements.txt: pyproject.toml
 	echo "" > requirements.txt
 	for pkg in `python -m pip list --format freeze --disable-pip-version-check`; do hashin --verbose $$pkg; done
+	cp requirements.txt dist/package-$(PACKAGE_VERSION)-requirements.txt
 
 # Run some or all checks over the package code base.
 .PHONY: check check-code check-bandit check-flake8 check-lint check-mypy
