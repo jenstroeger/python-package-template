@@ -45,10 +45,14 @@ jobs:
       env:
         PR_TITLE: ${{ github.event.pull_request.title }}
     - name: Check PR commit messages
-      run: cz check --rev-range origin/$PR_BASE_BRANCH_NAME..origin/$PR_HEAD_BRANCH_NAME
+      run: |
+        git remote add other $PR_HEAD_REPO_CLONE_URL
+        git fetch other
+        cz check --rev-range origin/$PR_BASE_REF..other/$PR_HEAD_REF
       env:
-        PR_BASE_BRANCH_NAME: ${{ github.event.pull_request.base.ref }}
-        PR_HEAD_BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+        PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
+        PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        PR_HEAD_REPO_CLONE_URL: ${{ github.event.pull_request.head.repo.clone_url }}
 
   build:
     needs: conventional-commits
