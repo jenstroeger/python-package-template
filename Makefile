@@ -44,7 +44,10 @@ endif
 all: check test dist docs
 
 # Create a virtual environment, either for Python3.10 (default) or using
-# the Python interpreter specified in the PYTHON environment variable.
+# the Python interpreter specified in the PYTHON environment variable. Also
+# create an empty pip.conf file to ensure that `pip config` modifies this
+# venv only, unless told otherwise. For more background, see:
+# https://github.com/jenstroeger/python-package-template/issues/262
 .PHONY: venv
 venv:
 	if [ ! -z "${VIRTUAL_ENV}" ]; then \
@@ -57,9 +60,6 @@ venv:
 	  echo "Creating virtual envirnoment in .venv/ for ${PYTHON}"; \
 	  ${PYTHON} -m venv --upgrade-deps .venv; \
 	fi
-	# Create an empty pip.conf file to ensure that `pip config` modifies
-	# this venv only, unless told otherwise. For more background, see
-	# https://github.com/jenstroeger/python-package-template/issues/262
 	touch .venv/pip.conf
 
 # Set up a newly created virtual environment. Note: pre-commit uses the
