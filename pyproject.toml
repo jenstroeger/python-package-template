@@ -47,7 +47,7 @@ docs = [
     "sphinx >=5.1.1,<6.0.0",
 ]
 hooks = [
-    "pre-commit >=2.13.0,<=2.20.0",
+    "pre-commit >=2.18.0,<=2.20.0",
 ]
 # Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
