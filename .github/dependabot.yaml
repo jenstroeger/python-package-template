@@ -14,9 +14,9 @@ updates:
     include: scope
   open-pull-requests-limit: 13
   target-branch: staging
-  reviewers:
-  - jenstroeger
-  - behnazh
+  # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#reviewers
+  # reviewers:
+  # -
 
 - package-ecosystem: github-actions
   directory: /
@@ -28,6 +28,6 @@ updates:
     include: scope
   open-pull-requests-limit: 13
   target-branch: staging
-  reviewers:
-  - jenstroeger
-  - behnazh
+  # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#reviewers
+  # reviewers:
+  # -
