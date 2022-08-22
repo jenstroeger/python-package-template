@@ -39,6 +39,13 @@ ifeq ($(shell test pyproject.toml -nt .venv/upgraded-on; echo $$?),0)
   $(warning If this is not correct then run `make upgrade-quiet`)
 endif
 
+# The SOURCE_DATE_EPOCH environment variable allows the `flit` tool to
+# reproducibly build packages: https://flit.pypa.io/en/latest/reproducible.html
+# If that variable doesn't exist, then set it here to the current epoch.
+ifeq ($(origin SOURCE_DATE_EPOCH),undefined)
+  SOURCE_DATE_EPOCH := $(shell date +%s)
+endif
+
 # Check, test, and build artifacts for this package.
 .PHONY: all
 all: check test dist docs
@@ -132,19 +139,15 @@ ifeq ($(wildcard .venv/upgraded-on),)
 else
   PACKAGE_VERSION=$(shell python -c 'import package; print(package.__version__)')
 endif
-dist: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl dist/package-$(PACKAGE_VERSION).tar.gz dist/package-$(PACKAGE_VERSION)-docs-html.zip
+dist: dist/package-$(PACKAGE_VERSION)-py3-none-any.whl dist/package-$(PACKAGE_VERSION).tar.gz dist/package-$(PACKAGE_VERSION)-docs-html.zip dist/package-$(PACKAGE_VERSION)-build-epoch.txt
 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl: check test
-	if [ -z "${SOURCE_DATE_EPOCH}" ]; then \
-	  echo "SOURCE_DATE_EPOCH variable not specified, building non-reproducible wheel"; \
-	fi
 	flit build --setup-py --format wheel
 dist/package-$(PACKAGE_VERSION).tar.gz: check test
-	if [ -z "${SOURCE_DATE_EPOCH}" ]; then \
-	  echo "SOURCE_DATE_EPOCH variable not specified, building non-reproducible sdist"; \
-	fi
 	flit build --setup-py --format sdist
 dist/package-$(PACKAGE_VERSION)-docs-html.zip: docs
 	python -m zipfile -c dist/package-$(PACKAGE_VERSION)-docs-html.zip docs/_build/html
+dist/package-$(PACKAGE_VERSION)-build-epoch.txt:
+	echo $(SOURCE_DATE_EPOCH) > dist/package-$(PACKAGE_VERSION)-build-epoch.txt
 
 # Build the HTML documentation from the package's source.
 .PHONY: docs

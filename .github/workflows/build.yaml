@@ -106,11 +106,12 @@ jobs:
         WHEEL_PATH=$(find dist -name "*.whl")
         SBOM_PATH=$(find dist -name "*-sbom.json")
         HTML_DOCS_PATH=$(find dist -name *-docs-html.zip)
+        BUILD_EPOCH_PATH=$(find dist -name *-build-epoch.txt)
         # Make sure dist/RELEASE_NOTES.md (which contains the release notes) exists.
         touch dist/RELEASE_NOTES.md
         NOTES_PATH=$(find dist -name RELEASE_NOTES.md)
         # Compute the sha digest for all the release files and encode them using base64.
-        DIGEST=$(sha256sum $TARBALL_PATH $WHEEL_PATH $SBOM_PATH $HTML_DOCS_PATH $NOTES_PATH | base64 -w0)
+        DIGEST=$(sha256sum $TARBALL_PATH $WHEEL_PATH $SBOM_PATH $HTML_DOCS_PATH $BUILD_EPOCH_PATH $NOTES_PATH | base64 -w0)
         echo "Digest of artifacts is $DIGEST."
         # Set the computed sha digest as the output of this job.
         echo "::set-output name=artifacts-sha256::$DIGEST"
