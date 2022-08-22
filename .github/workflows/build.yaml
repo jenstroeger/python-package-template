@@ -54,25 +54,14 @@ jobs:
       uses: actions/setup-python@c4e89fac7e8767b327bbad6cb4d859eda999cf08 # v4.1.0
       with:
         python-version: ${{ matrix.python }}
-    - name: Create and activate virtual environment
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+    # Using the Makefile assumes an activated virtual environment, which doesn't exist
+    # when running in an Action environment (https://github.com/actions/setup-python/issues/359).
+    # Instead we create an empty .venv folder so that the Makefile continues to function
+    # while Python operates within the runner's global environment. It is safe to ignore
+    # warnings from the Makefile about the missing virtual environment.
+    - name: Create empty virtual environment for Actions
       run: |
-        make venv
-        source .venv/bin/activate
-      env:
-        PYTHON: python
-    - name: Create and activate virtual environment (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        make venv
-        .venv/Scripts/Activate.ps1
-      env:
-        PYTHON: python
-    # Note: There will be warnings from the Makefile about venv not being activated in
-    # the following steps. The `run:` shell is closed at the end of each step and the next
-    # step uses its own new shell, which doesn’t have an activated venv. Currently, we avoid
-    # activating the venv at the beginning of every step because activating is different
-    # on Windows and Linux as they put the scripts into different folders.
+        mkdir .venv
     - name: Install dependencies
       run: make setup
     - name: Create changelog and bump
