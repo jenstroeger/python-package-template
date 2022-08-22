@@ -38,7 +38,7 @@ jobs:
       contents: write # To create the release tag if run on the main branch.
     steps:
     - name: Harden Runner
-      uses: step-security/harden-runner@74b568e8591fbb3115c70f3436a0c6b0909a8504 # v1.4.4
+      uses: step-security/harden-runner@dd2c410b088af7c0dc8046f3ac9a8f4148492a95 # v1.4.5
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
     - name: Check out repository
@@ -51,7 +51,7 @@ jobs:
         # See https://docs.github.com/en/actions/using-workflows/triggering-a-workflow.
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
     - name: Set up Python
-      uses: actions/setup-python@c4e89fac7e8767b327bbad6cb4d859eda999cf08 # v4.1.0
+      uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 # v4.2.0
       with:
         python-version: ${{ matrix.python }}
     # Using the Makefile assumes an activated virtual environment, which doesn't exist
