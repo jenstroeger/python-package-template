@@ -161,6 +161,7 @@ fail-under = 10.0
 disable = [
     "fixme",
     "too-few-public-methods",
+    "too-many-ancestors",
     "too-many-arguments",
     "too-many-boolean-expressions",
     "too-many-branches",
