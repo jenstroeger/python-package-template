@@ -1,10 +1,12 @@
-# When pushing to main, we run checks and then release.
+# We run checks on pushing to the specified branches.
+# Pushing to main also triggers a release.
 
 name: Check and Release
 on:
   push:
     branches:
     - main
+    - staging
 permissions:
   contents: read
 env:
@@ -30,7 +32,7 @@ jobs:
       base64-subjects: ${{ needs.build.outputs.artifacts-sha256 }}
 
   release:
-    if: "!startsWith(github.event.commits[0].message, 'bump:')"
+    if: ${{ github.ref == 'refs/heads/main' && !startsWith(github.event.commits[0].message, 'bump:') }}
     needs: [build, provenance]
     name: Release
     runs-on: ubuntu-latest
