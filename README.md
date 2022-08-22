@@ -21,7 +21,7 @@ This repository is intended to be a base template, a cookiecutter for a new Pyth
 [Testing](#testing)  
 [Generating documentation](#generating-documentation)  
 [Versioning, publishing and changelog](#versioning-publishing-and-changelog)  
-[Build integrity using SLSA framework](#build-integrity-using-slsa-framework)
+[Build integrity using SLSA framework](#build-integrity-using-slsa-framework)  
 [Cleaning up](#cleaning-up)  
 [Frequently asked questions](#frequently-asked-questions)  
 
