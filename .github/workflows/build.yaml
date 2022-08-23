@@ -1,14 +1,19 @@
 # This is a trusted builder implemented as a reusable workflow that can be called by other
 # Actions workflows. It checks, tests, and builds the artifacts including SBOM and documentations,
-# and computes hash digests as output to be used by a SLSA provenance generator. Even though we
-# run the build in a matrix to check against different platforms, due to a known limitation of
+# and computes hash digests as output to be used by a SLSA provenance generator. The artifacts are always uploaded
+# for every job to be used for debugging purposes, but they will be removed within the specified retention days.
+# Even though we run the build in a matrix to check against different platforms, due to a known limitation of
 # reusable workflows that do not support setting strategy property from the caller workflow, we
-# only generate artifacts for ubuntu-latest and Python 3.10.
+# only generate artifacts for ubuntu-latest and Python 3.10, which can be used to create a release.
 # See: https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations.
 
 name: Build the package
 on:
   workflow_call:
+    inputs:
+      is_release_build: # To determine the context in which the build workflow is called.
+        required: true
+        type: boolean
     outputs:
       artifacts-sha256:
         description: The hash of the artifacts
@@ -18,8 +23,6 @@ permissions:
 env:
   ARTIFACT_OS: ubuntu-latest # The default OS for release.
   ARTIFACT_PYTHON: '3.10' # The default Python version for release.
-  USER_NAME: github-actions # The default user name for release.
-  USER_EMAIL: github-actions@github.com # The default email address for release.
 
 jobs:
   build:
@@ -34,22 +37,24 @@ jobs:
         # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners
         os: [ubuntu-latest, macos-latest, windows-latest]
         python: ['3.9', '3.10']
-    permissions:
-      contents: write # To create the release tag if run on the main branch.
     steps:
     - name: Harden Runner
       uses: step-security/harden-runner@dd2c410b088af7c0dc8046f3ac9a8f4148492a95 # v1.4.5
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
     - name: Check out repository
+      if: inputs.is_release_build == false
       uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
       with:
         fetch-depth: 0
-        # We need to trigger the Actions workflows when a release commit is pushed to main.
-        # To trigger a workflow from within a workflow run, we need to use a personal access
-        # token instead of GITHUB_TOKEN.
-        # See https://docs.github.com/en/actions/using-workflows/triggering-a-workflow.
-        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+    # If the workflow is called for a release, we need to check out the main
+    # branch, which contains the release bump commit.
+    - name: Check out for release
+      if: inputs.is_release_build == true
+      uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
+      with:
+        fetch-depth: 0
+        ref: main
     - name: Set up Python
       uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 # v4.2.0
       with:
@@ -60,28 +65,14 @@ jobs:
     # while Python operates within the runner's global environment. It is safe to ignore
     # warnings from the Makefile about the missing virtual environment.
     - name: Create empty virtual environment for Actions
-      run: |
-        mkdir .venv
+      run: mkdir .venv
     - name: Install dependencies
       run: make setup
-    - name: Create changelog and bump
-      if: ${{ github.ref == 'refs/heads/main' && !startsWith(github.event.commits[0].message, 'bump:') && matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON }}
-      run: |
-        # Set up the GitHub user and email as author for the release commit.
-        git config --global user.name $USER_NAME
-        git config --global user.email $USER_EMAIL
-        git config --list --global
-        # First generate the CHANGELOG diff to use as release notes.
-        cz changelog --dry-run --incremental --unreleased-version "Release Notes" > dist/RELEASE_NOTES.md
-        # Update the CHANGELOG.md.
-        cz changelog
-        cz bump --yes
     - name: Build the package
       # We don't need to check and test the package separately because `make dist` runs
       # those targets first and only builds the package if they succeed.
-      run: |
-        # Build the sdist and wheel distribution of the package and docs as a zip file.
-        make dist
+      # Build the sdist and wheel distribution of the package and docs as a zip file.
+      run: make dist
     - name: Compute package hash
       if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
       id: compute-hash
@@ -102,11 +93,8 @@ jobs:
         SBOM_PATH=$(find dist -name "*-sbom.json")
         HTML_DOCS_PATH=$(find dist -name *-docs-html.zip)
         BUILD_EPOCH_PATH=$(find dist -name *-build-epoch.txt)
-        # Make sure dist/RELEASE_NOTES.md (which contains the release notes) exists.
-        touch dist/RELEASE_NOTES.md
-        NOTES_PATH=$(find dist -name RELEASE_NOTES.md)
         # Compute the sha digest for all the release files and encode them using base64.
-        DIGEST=$(sha256sum $TARBALL_PATH $WHEEL_PATH $REQUIREMENTS_PATH $SBOM_PATH $HTML_DOCS_PATH $BUILD_EPOCH_PATH $NOTES_PATH | base64 -w0)
+        DIGEST=$(sha256sum $TARBALL_PATH $WHEEL_PATH $REQUIREMENTS_PATH $SBOM_PATH $HTML_DOCS_PATH $BUILD_EPOCH_PATH | base64 -w0)
         echo "Digest of artifacts is $DIGEST."
         # Set the computed sha digest as the output of this job.
         echo "::set-output name=artifacts-sha256::$DIGEST"
@@ -120,9 +108,3 @@ jobs:
         path: dist
         if-no-files-found: error
         retention-days: 1
-    - name: Update release tag
-      # Push the release tag only once when branch is main on the specified OS and Python version.
-      if: github.ref == 'refs/heads/main' && matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
-      run: |
-        git push
-        git push --tags
