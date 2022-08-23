@@ -91,6 +91,10 @@ jobs:
         # Generate the requirements.txt that contains the hash digests of the dependencies and
         # generate the SBOM using CyclonDX SBOM generator.
         make requirements sbom
+        # Remove the old requirements.txt file (which includes _all_ packages) and generate a
+        # new one for the package and its actual and required dependencies only.
+        rm requirements.txt
+        make prune requirements
         # Find the paths to the files that will be included in the release.
         TARBALL_PATH=$(find dist -name "*.tar.gz")
         WHEEL_PATH=$(find dist -name "*.whl")

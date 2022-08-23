@@ -107,11 +107,22 @@ sbom: requirements
 # do this, and we have to use yet another external package. For more discussion, see
 # https://github.com/pypa/pip/issues/4732
 # https://github.com/peterbe/hashin/issues/139
+# We also want to make sure that this package itself is added to the requirements.txt
+# file, and if possible even with proper hashes.
 .PHONY: requirements
 requirements: requirements.txt
 requirements.txt: pyproject.toml
 	echo "" > requirements.txt
-	for pkg in `python -m pip list --format freeze --disable-pip-version-check`; do hashin --verbose $$pkg; done
+	REQUIREMENTS=`python -m pip freeze --local --disable-pip-version-check --exclude-editable`; \
+	python -m pip install hashin; \
+	for pkg in $$REQUIREMENTS; do hashin --verbose --algorithm sha256 --include-prereleases $$pkg; done
+	echo -e "package==$(PACKAGE_VERSION) \\" >> requirements.txt
+	if [ -f dist/package-$(PACKAGE_VERSION).tar.gz ]; then \
+	  echo -e "    `pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'` \\" >> requirements.txt; \
+	fi
+	if [ -f dist/package-$(PACKAGE_VERSION)-py3-none-any.whl ]; then \
+	  echo -e "    `pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash'`" >> requirements.txt; \
+	fi
 	cp requirements.txt dist/package-$(PACKAGE_VERSION)-requirements.txt
 
 # Run some or all checks over the package code base.
@@ -157,6 +168,21 @@ dist/package-$(PACKAGE_VERSION)-build-epoch.txt:
 docs: docs/_build/html/index.html
 docs/_build/html/index.html: check test
 	$(MAKE) -C docs/ html
+
+# Prune the packages currently installed in the virtual environment down to the required
+# packages only. Pruning works in a roundabout way, where we first generate the wheels for
+# all installed packages into the build/wheelhouse/ folder. Next we wipe all packages and
+# then reinstall them from the wheels while disabling the PyPI index server. Thus we ensure
+# that the same package versions are reinstalled.
+.PHONY: prune
+prune:
+	mkdir -p build/
+	python -m pip freeze --local --disable-pip-version-check --exclude-editable > build/prune-requirements.txt
+	python -m pip wheel --wheel-dir build/wheelhouse/ --requirement build/prune-requirements.txt
+	python -m pip wheel --wheel-dir build/wheelhouse/ .
+	python -m pip uninstall --yes --requirement build/prune-requirements.txt
+	python -m pip install --no-index --find-links=build/wheelhouse/ --editable .
+	rm -fr build/
 
 # Clean test caches and remove build artifacts.
 .PHONY: dist-clean clean
