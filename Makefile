@@ -112,7 +112,7 @@ sbom: requirements
 .PHONY: requirements
 requirements: requirements.txt
 requirements.txt: pyproject.toml
-	echo "" > requirements.txt
+	touch requirements.txt
 	REQUIREMENTS=`python -m pip freeze --local --disable-pip-version-check --exclude-editable`; \
 	python -m pip install hashin; \
 	for pkg in $$REQUIREMENTS; do hashin --verbose --algorithm sha256 --include-prereleases $$pkg; done
