@@ -116,13 +116,14 @@ requirements.txt: pyproject.toml
 	REQUIREMENTS=`python -m pip freeze --local --disable-pip-version-check --exclude-editable`; \
 	python -m pip install hashin; \
 	for pkg in $$REQUIREMENTS; do hashin --verbose --algorithm sha256 --include-prereleases $$pkg; done
-	echo -e "package==$(PACKAGE_VERSION) \\" >> requirements.txt
+	echo -e -n "package==$(PACKAGE_VERSION)" >> requirements.txt
 	if [ -f dist/package-$(PACKAGE_VERSION).tar.gz ]; then \
-	  echo -e "    `pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'` \\" >> requirements.txt; \
+	  echo -e -n " \\\\\n    `pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'`" >> requirements.txt; \
 	fi
 	if [ -f dist/package-$(PACKAGE_VERSION)-py3-none-any.whl ]; then \
-	  echo -e "    `pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash'`" >> requirements.txt; \
+	  echo -e -n " \\\\\n    `pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash'`" >> requirements.txt; \
 	fi
+	echo "" >> requirements.txt
 	cp requirements.txt dist/package-$(PACKAGE_VERSION)-requirements.txt
 
 # Run some or all checks over the package code base.
@@ -173,7 +174,7 @@ docs/_build/html/index.html: check test
 # packages only. Pruning works in a roundabout way, where we first generate the wheels for
 # all installed packages into the build/wheelhouse/ folder. Next we wipe all packages and
 # then reinstall them from the wheels while disabling the PyPI index server. Thus we ensure
-# that the same package versions are reinstalled.
+# that the same package versions are reinstalled. Use with care!
 .PHONY: prune
 prune:
 	mkdir -p build/
