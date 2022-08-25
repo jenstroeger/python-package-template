@@ -104,18 +104,19 @@ sbom: requirements
 
 # Generate a requirements.txt file containing version and integrity hashes for all
 # packages currently installed in the virtual environment. There's no easy way to
-# do this, and we have to use yet another external package. For more discussion, see
-# https://github.com/pypa/pip/issues/4732
-# https://github.com/peterbe/hashin/issues/139
+# do this, see also: https://github.com/pypa/pip/issues/4732
+#
 # We also want to make sure that this package itself is added to the requirements.txt
 # file, and if possible even with proper hashes.
 .PHONY: requirements
 requirements: requirements.txt
 requirements.txt: pyproject.toml
 	echo -n "" > requirements.txt
-	REQUIREMENTS=`python -m pip freeze --local --disable-pip-version-check --exclude-editable`; \
-	python -m pip install hashin; \
-	for pkg in $$REQUIREMENTS; do hashin --verbose --algorithm sha256 --include-prereleases $$pkg; done
+	for pkg in `python -m pip freeze --local --disable-pip-version-check --exclude-editable`; do \
+	  echo -n $$pkg >> requirements.txt; \
+	  echo "Fetching package metadata for requirement '$$pkg'"; \
+	  [[ $$pkg =~ (.*)==(.*) ]] && curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['releases']['$${BASH_REMATCH[2]}']));" >> requirements.txt; \
+	done
 	echo -e -n "package==$(PACKAGE_VERSION)" >> requirements.txt
 	if [ -f dist/package-$(PACKAGE_VERSION).tar.gz ]; then \
 	  echo -e -n " \\\\\n    `pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'`" >> requirements.txt; \
