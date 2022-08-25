@@ -106,6 +106,9 @@ sbom: requirements
 # packages currently installed in the virtual environment. There's no easy way to
 # do this, see also: https://github.com/pypa/pip/issues/4732
 #
+# If using a private package index, make sure that it implements the JSON API:
+# https://warehouse.pypa.io/api-reference/json.html
+#
 # We also want to make sure that this package itself is added to the requirements.txt
 # file, and if possible even with proper hashes.
 .PHONY: requirements
