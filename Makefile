@@ -115,7 +115,7 @@ requirements.txt: pyproject.toml
 	for pkg in `python -m pip freeze --local --disable-pip-version-check --exclude-editable`; do \
 	  echo -n $$pkg >> requirements.txt; \
 	  echo "Fetching package metadata for requirement '$$pkg'"; \
-	  [[ $$pkg =~ (.*)==(.*) ]] && curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['releases']['$${BASH_REMATCH[2]}']));" >> requirements.txt; \
+	  [[ $$pkg =~ (.*)==(.*) ]] && curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['urls']));" >> requirements.txt; \
 	done
 	echo -e -n "package==$(PACKAGE_VERSION)" >> requirements.txt
 	if [ -f dist/package-$(PACKAGE_VERSION).tar.gz ]; then \
