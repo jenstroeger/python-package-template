@@ -11,8 +11,10 @@ permissions:
   contents: read
 env:
   ARTIFACT_NAME: artifact-ubuntu-latest-python-3.10
-  USER_NAME: github-actions # The default user name for release.
-  USER_EMAIL: github-actions@github.com # The default email address for release.
+  # This is the username and email for the user who commits and pushes the release
+  # commit. In an organisation that should be a dedicated devops account.
+  USER_NAME: jenstroeger
+  USER_EMAIL: jenstroeger@users.noreply.github.com
 
 jobs:
   check:
