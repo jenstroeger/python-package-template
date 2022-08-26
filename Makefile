@@ -206,6 +206,6 @@ nuke: nuke-caches
 	if [ ! -z "${VIRTUAL_ENV}" ]; then \
 	  echo "Deactivating and nuking virtual environment!"; \
 	  deactivate; \
-	  rm -fr $(VIRTUAL_ENV); \
+	  rm -fr .venv; \
 	fi
 	rm -f requirements.txt
