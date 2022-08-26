@@ -11,28 +11,81 @@ permissions:
   contents: read
 env:
   ARTIFACT_NAME: artifact-ubuntu-latest-python-3.10
+  USER_NAME: github-actions # The default user name for release.
+  USER_EMAIL: github-actions@github.com # The default email address for release.
 
 jobs:
-  build:
+  check:
     uses: ./.github/workflows/build.yaml
+    with:
+      is_release_build: false
     permissions:
-      contents: write # To create the release tag.
-    secrets: inherit
-
+      contents: read
+  bump:
+    needs: check
+    if: ${{ github.ref == 'refs/heads/main' && !startsWith(github.event.commits[0].message, 'bump:') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@dd2c410b088af7c0dc8046f3ac9a8f4148492a95 # v1.4.5
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+    - name: Check out repository
+      uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+    - name: Set up Python
+      uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 # v4.2.0
+      with:
+        python-version: '3.10'
+    - name: Set up Commitizen
+      run: |
+        pip install --upgrade pip wheel
+        pip install 'commitizen ==2.32.1'
+    - name: Create changelog and bump
+      run: |
+        # Set up the GitHub user and email as author for the release commit.
+        git config --global user.name $USER_NAME
+        git config --global user.email $USER_EMAIL
+        git config --list --global
+        # First generate the CHANGELOG diff to use as release notes.
+        mkdir -p dist
+        cz changelog --dry-run --incremental --unreleased-version "Release Notes" > dist/RELEASE_NOTES.md
+        # Update the CHANGELOG.md.
+        cz changelog
+        cz bump --yes
+        # Push the release tag.
+        git push
+        git push --tags
+    - name: Upload the Release Notes
+      uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # v3.1.0
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+        path: dist
+        if-no-files-found: error
+        retention-days: 1
+  build:
+    needs: bump
+    uses: ./.github/workflows/build.yaml
+    with:
+      is_release_build: true
+    permissions:
+      contents: read
   provenance:
     needs: build
-    permissions:
-      actions: read # To read the workflow path.
-      id-token: write # To sign the provenance.
-      contents: write # To add assets to a release.
     # The generator should be referenced with a semantic version.
     # The build will fail if we reference it using the commit sha.
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.2.0
     with:
       base64-subjects: ${{ needs.build.outputs.artifacts-sha256 }}
-
+    permissions:
+      actions: read # To read the workflow path.
+      id-token: write # To sign the provenance.
+      contents: write # To add assets to a release.
   release:
-    if: ${{ github.ref == 'refs/heads/main' && !startsWith(github.event.commits[0].message, 'bump:') }}
     needs: [build, provenance]
     name: Release
     runs-on: ubuntu-latest
@@ -69,9 +122,8 @@ jobs:
     - name: Upload assets
       env:
         GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
-      run: |
-        # Create the release including the artifacts and the SLSA L3 provenance.
-        gh release create `git describe --tags --abbrev=0` dist/* ${{ needs.provenance.outputs.attestation-name }} --notes-file dist/RELEASE_NOTES.md
+      # Create the release including the artifacts and the SLSA L3 provenance.
+      run: gh release create `git describe --tags --abbrev=0` dist/* ${{ needs.provenance.outputs.attestation-name }} --notes-file dist/RELEASE_NOTES.md
     # Uncomment the following steps to publish to a PyPI server.
     # At the moment PyPI does not provide a mechanism to publish
     # the provenance. So, users have to download the provenance from
