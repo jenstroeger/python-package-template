@@ -90,7 +90,7 @@ update_changelog_on_bump = true
 version_files = [
     "src/package/__init__.py:__version__",
 ]
-version = "2.3.0"
+version = "2.3.1"
 
 
 # https://github.com/pytest-dev/pytest-cov

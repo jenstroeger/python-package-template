@@ -1,3 +1,9 @@
+## v2.3.1 (2022-08-26)
+
+### Fix
+
+- **ci**: separate artifacts for release and debugging (#297) (#298)
+
 ## v2.3.0 (2022-08-26)
 
 ### Feat
