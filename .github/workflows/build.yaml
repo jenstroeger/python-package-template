@@ -91,9 +91,14 @@ jobs:
         # Generate the requirements.txt that contains the hash digests of the dependencies and
         # generate the SBOM using CyclonDX SBOM generator.
         make requirements sbom
+        # Remove the old requirements.txt file (which includes _all_ packages) and generate a
+        # new one for the package and its actual and required dependencies only.
+        rm requirements.txt
+        make prune requirements
         # Find the paths to the files that will be included in the release.
         TARBALL_PATH=$(find dist -name "*.tar.gz")
         WHEEL_PATH=$(find dist -name "*.whl")
+        REQUIREMENTS_PATH=$(find dist -name "*-requirements.txt")
         SBOM_PATH=$(find dist -name "*-sbom.json")
         HTML_DOCS_PATH=$(find dist -name *-docs-html.zip)
         BUILD_EPOCH_PATH=$(find dist -name *-build-epoch.txt)
@@ -101,7 +106,7 @@ jobs:
         touch dist/RELEASE_NOTES.md
         NOTES_PATH=$(find dist -name RELEASE_NOTES.md)
         # Compute the sha digest for all the release files and encode them using base64.
-        DIGEST=$(sha256sum $TARBALL_PATH $WHEEL_PATH $SBOM_PATH $HTML_DOCS_PATH $BUILD_EPOCH_PATH $NOTES_PATH | base64 -w0)
+        DIGEST=$(sha256sum $TARBALL_PATH $WHEEL_PATH $REQUIREMENTS_PATH $SBOM_PATH $HTML_DOCS_PATH $BUILD_EPOCH_PATH $NOTES_PATH | base64 -w0)
         echo "Digest of artifacts is $DIGEST."
         # Set the computed sha digest as the output of this job.
         echo "::set-output name=artifacts-sha256::$DIGEST"

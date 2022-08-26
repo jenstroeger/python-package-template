@@ -89,7 +89,7 @@ upgrade: .venv/upgraded-on
 .venv/upgraded-on: pyproject.toml
 	python -m pip install --upgrade pip
 	python -m pip install --upgrade wheel
-	python -m pip install --upgrade --upgrade-strategy eager --editable .[hooks,dev,test,docs]
+	python -m pip install --upgrade --upgrade-strategy eager --editable .[actions,dev,docs,hooks,test]
 	$(MAKE) upgrade-quiet
 force-upgrade:
 	rm -f .venv/upgraded-on
@@ -104,14 +104,31 @@ sbom: requirements
 
 # Generate a requirements.txt file containing version and integrity hashes for all
 # packages currently installed in the virtual environment. There's no easy way to
-# do this, and we have to use yet another external package. For more discussion, see
-# https://github.com/pypa/pip/issues/4732
-# https://github.com/peterbe/hashin/issues/139
+# do this, see also: https://github.com/pypa/pip/issues/4732
+#
+# If using a private package index, make sure that it implements the JSON API:
+# https://warehouse.pypa.io/api-reference/json.html
+#
+# We also want to make sure that this package itself is added to the requirements.txt
+# file, and if possible even with proper hashes.
 .PHONY: requirements
 requirements: requirements.txt
 requirements.txt: pyproject.toml
-	echo "" > requirements.txt
-	for pkg in `python -m pip list --format freeze --disable-pip-version-check`; do hashin --verbose $$pkg; done
+	echo -n "" > requirements.txt
+	for pkg in `python -m pip freeze --local --disable-pip-version-check --exclude-editable`; do \
+	  echo -n $$pkg >> requirements.txt; \
+	  echo "Fetching package metadata for requirement '$$pkg'"; \
+	  [[ $$pkg =~ (.*)==(.*) ]] && curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['urls']));" >> requirements.txt; \
+	done
+	echo -e -n "package==$(PACKAGE_VERSION)" >> requirements.txt
+	if [ -f dist/package-$(PACKAGE_VERSION).tar.gz ]; then \
+	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'`" >> requirements.txt; \
+	fi
+	if [ -f dist/package-$(PACKAGE_VERSION)-py3-none-any.whl ]; then \
+	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash'`" >> requirements.txt; \
+	fi
+	echo "" >> requirements.txt
+	cp requirements.txt dist/package-$(PACKAGE_VERSION)-requirements.txt
 
 # Run some or all checks over the package code base.
 .PHONY: check check-code check-bandit check-flake8 check-lint check-mypy
@@ -156,6 +173,21 @@ dist/package-$(PACKAGE_VERSION)-build-epoch.txt:
 docs: docs/_build/html/index.html
 docs/_build/html/index.html: check test
 	$(MAKE) -C docs/ html
+
+# Prune the packages currently installed in the virtual environment down to the required
+# packages only. Pruning works in a roundabout way, where we first generate the wheels for
+# all installed packages into the build/wheelhouse/ folder. Next we wipe all packages and
+# then reinstall them from the wheels while disabling the PyPI index server. Thus we ensure
+# that the same package versions are reinstalled. Use with care!
+.PHONY: prune
+prune:
+	mkdir -p build/
+	python -m pip freeze --local --disable-pip-version-check --exclude-editable > build/prune-requirements.txt
+	python -m pip wheel --wheel-dir build/wheelhouse/ --requirement build/prune-requirements.txt
+	python -m pip wheel --wheel-dir build/wheelhouse/ .
+	python -m pip uninstall --yes --requirement build/prune-requirements.txt
+	python -m pip install --no-index --find-links=build/wheelhouse/ --editable .
+	rm -fr build/
 
 # Clean test caches and remove build artifacts.
 .PHONY: dist-clean clean
