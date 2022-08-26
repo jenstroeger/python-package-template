@@ -1,23 +1,35 @@
+## v2.3.0 (2022-08-26)
+
+### Feat
+
+- persist requirements.txt as a build artifact (#284)
+- always create a reproducible build with `make dist` (#272)
+
+### Fix
+
+- **ci**: allow PR Action to check commits across branches of forks (#287)
+- disable noise when freezing the current venv (#273)
+- enable CI on release bump commit (#269)
+
+### Refactor
+
+- **ci**: remove write permissions from build.yaml (#291)
+
 ## v2.2.0 (2022-07-31)
 
 ### Feat
 
 - generate SLSA level 3 provenance for release artifacts (#259)
 
-### Refactor
-
-- **ci**: use commitizen tool for pull request action (#263)
-
 ### Fix
 
 - create empty pip.conf file inside a new virtual environment (#264)
 
+### Refactor
+
+- **ci**: use commitizen tool for pull request action (#263)
+
 ## v2.1.0 (2022-07-12)
-
-### Fix
-
-- default goal for make should be to build the entire package (#257)
-- remove shebang comment from Makefile which isn’t actually runable (#252)
 
 ### Feat
 
@@ -25,16 +37,21 @@
 - warn if generated builds are not reproducible (#253)
 - move private file .upgraded into .venv/ folder (#248)
 
-## v2.0.0 (2022-07-06)
-
 ### Fix
 
-- flit doesn’t support MANIFEST.in, fix sdist accordingly (#244)
+- default goal for make should be to build the entire package (#257)
+- remove shebang comment from Makefile which isn’t actually runable (#252)
+
+## v2.0.0 (2022-07-06)
 
 ### Feat
 
 - replace the Makefile’s quick-check goal with check-code (#239)
 - add pytest-env and pytest-custom-exit-code plugin support (#243)
+
+### Fix
+
+- flit doesn’t support MANIFEST.in, fix sdist accordingly (#244)
 
 ## v1.6.1 (2022-06-26)
 
@@ -44,13 +61,13 @@
 
 ## v1.6.0 (2022-06-24)
 
-### Fix
-
-- **ci**: run all Actions except the Release job on the release commit (#230)
-
 ### Feat
 
 - consolidate sdist and wheel into a single build target (#229)
+
+### Fix
+
+- **ci**: run all Actions except the Release job on the release commit (#230)
 
 ## v1.5.1 (2022-06-21)
 
@@ -65,15 +82,15 @@
 
 ## v1.5.0 (2022-06-20)
 
+### Feat
+
+- move package specification, tool configs to pyproject.toml (#208)
+
 ### Fix
 
 - **ci**: Release Action needs to use flit, too
 - **ci**: use dedicated RELEASE_TOKEN for Release Action job (#219)
 - **ci**: enable Release Action for private, protected branches (#209)
-
-### Feat
-
-- move package specification, tool configs to pyproject.toml (#208)
 
 ## v1.4.1 (2022-05-19)
 
@@ -112,15 +129,15 @@
 
 ## v1.2.0 (2022-01-19)
 
-### Fix
-
-- change .yml to .yaml in documentation (#101)
-- remove exclude option from mypy.ini (#98)
-
 ### Feat
 
 - enable CodeQL security analyzer (#92)
 - generate a command-line tool when installing this package (#89)
+
+### Fix
+
+- change .yml to .yaml in documentation (#101)
+- remove exclude option from mypy.ini (#98)
 
 ## v1.1.2 (2021-12-09)
 
