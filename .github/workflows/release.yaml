@@ -10,7 +10,7 @@ on:
 permissions:
   contents: read
 env:
-  ARTIFACT_NAME: artifact-ubuntu-latest-python-3.10
+  ARTIFACT_NAME: release-artifact-ubuntu-latest-python-3.10
   # This is the username and email for the user who commits and pushes the release
   # commit. In an organisation that should be a dedicated devops account.
   USER_NAME: jenstroeger
