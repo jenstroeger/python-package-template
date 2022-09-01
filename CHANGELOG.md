@@ -1,3 +1,13 @@
+## v2.3.2 (2022-09-01)
+
+### Fix
+
+- fix Makefile’s check for goals that require a virtual environment (#299)
+
+### Refactor
+
+- **ci**: improve the release workflow (#303)
+
 ## v2.3.1 (2022-08-26)
 
 ### Fix
