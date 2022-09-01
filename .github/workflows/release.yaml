@@ -123,7 +123,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       # Create the release including the artifacts and the SLSA L3 provenance.
-      run: gh release create `git describe --tags --abbrev=0` dist/* ${{ needs.provenance.outputs.attestation-name }} --notes-file RELEASE_NOTES.md
+      run: TAG=`git describe --tags --abbrev=0` && gh release create $TAG dist/* ${{ needs.provenance.outputs.attestation-name }} --title $TAG --notes-file RELEASE_NOTES.md
     # Uncomment the following steps to publish to a PyPI server.
     # At the moment PyPI does not provide a mechanism to publish
     # the provenance. So, users have to download the provenance from
