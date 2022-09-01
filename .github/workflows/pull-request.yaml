@@ -57,8 +57,6 @@ jobs:
   build:
     needs: conventional-commits
     uses: ./.github/workflows/build.yaml
-    with:
-      is_release_build: false
     permissions:
       contents: read
     # If the build workflow needs to access secrets, they need to be passed using `secrets: inherit`.

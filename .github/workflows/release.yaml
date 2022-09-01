@@ -10,7 +10,7 @@ on:
 permissions:
   contents: read
 env:
-  ARTIFACT_NAME: release-artifact-ubuntu-latest-python-3.10
+  ARTIFACT_NAME: artifact-ubuntu-latest-python-3.10
   # This is the username and email for the user who commits and pushes the release
   # commit. In an organisation that should be a dedicated devops account.
   USER_NAME: jenstroeger
@@ -18,14 +18,13 @@ env:
 
 jobs:
   check:
+    if: ${{ !startsWith(github.event.commits[0].message, 'bump:') }}
     uses: ./.github/workflows/build.yaml
-    with:
-      is_release_build: false
     permissions:
       contents: read
   bump:
     needs: check
-    if: ${{ github.ref == 'refs/heads/main' && !startsWith(github.event.commits[0].message, 'bump:') }}
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -47,33 +46,22 @@ jobs:
       run: |
         pip install --upgrade pip wheel
         pip install 'commitizen ==2.32.1'
-    - name: Create changelog and bump
+    - name: Set up user
       run: |
         # Set up the GitHub user and email as author for the release commit.
         git config --global user.name $USER_NAME
         git config --global user.email $USER_EMAIL
         git config --list --global
-        # First generate the CHANGELOG diff to use as release notes.
-        mkdir -p dist
-        cz changelog --dry-run --incremental --unreleased-version "Release Notes" > dist/RELEASE_NOTES.md
-        # Update the CHANGELOG.md.
-        cz changelog
-        cz bump --yes
-        # Push the release tag.
+    - name: Create changelog and bump
+      run: cz bump --changelog --yes
+    - name: Push the release
+      run: |
         git push
         git push --tags
-    - name: Upload the Release Notes
-      uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # v3.1.0
-      with:
-        name: ${{ env.ARTIFACT_NAME }}
-        path: dist
-        if-no-files-found: error
-        retention-days: 1
+  # When triggered by the version bump commit, build the package and publish the release artifacts.
   build:
-    needs: bump
+    if: startsWith(github.event.commits[0].message, 'bump:')
     uses: ./.github/workflows/build.yaml
-    with:
-      is_release_build: true
     permissions:
       contents: read
   provenance:
@@ -102,7 +90,6 @@ jobs:
       uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
       with:
         fetch-depth: 0
-        ref: main
     - name: Download provenance
       uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741 # v3.0.0
       with:
@@ -121,11 +108,22 @@ jobs:
         # Verify hashes by first computing hashes for the artifacts and
         # then comparing them against the hashes computed by the build job.
         echo "$ARTIFACT_HASH" | base64 -d | sha256sum --strict --check --status || exit 1
+    # Create the Release Notes using commitizen.
+    - name: Set up Python
+      uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 # v4.2.0
+      with:
+        python-version: '3.10'
+    - name: Set up Commitizen
+      run: |
+        pip install --upgrade pip wheel
+        pip install 'commitizen ==2.32.1'
+    - name: Create Release Notes
+      run: cz changelog --dry-run $(cz version --project) > RELEASE_NOTES.md
     - name: Upload assets
       env:
         GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       # Create the release including the artifacts and the SLSA L3 provenance.
-      run: gh release create `git describe --tags --abbrev=0` dist/* ${{ needs.provenance.outputs.attestation-name }} --notes-file dist/RELEASE_NOTES.md
+      run: gh release create `git describe --tags --abbrev=0` dist/* ${{ needs.provenance.outputs.attestation-name }} --notes-file RELEASE_NOTES.md
     # Uncomment the following steps to publish to a PyPI server.
     # At the moment PyPI does not provide a mechanism to publish
     # the provenance. So, users have to download the provenance from
