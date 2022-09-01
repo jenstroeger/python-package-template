@@ -6,19 +6,21 @@ SHELL := /usr/bin/env bash
 
 # This variable contains the first goal that matches any of the listed goals
 # here, else it contains an empty string. The net effect is to filter out
-# whether this current run of `make` requires a Python virtual environment.
+# whether this current run of `make` requires a Python virtual environment
+# by checking if any of the given goals requires a virtual environment (all
+# except the 'venv' and the various 'clean' and 'nuke' goals do). Note that
+# checking for 'upgrade' and 'check' goals includes all of their variations.
 NEED_VENV := $(or \
-  $(findstring setup,$(MAKECMDGOALS)), \
-  $(findstring upgrade-quiet,$(MAKECMDGOALS)), \
-  $(findstring upgrade,$(MAKECMDGOALS)), \
-  $(findstring requirements,$(MAKECMDGOALS)), \
-  $(findstring sbom,$(MAKECMDGOALS)), \
   $(findstring all,$(MAKECMDGOALS)), \
-  $(findstring quick-check,$(MAKECMDGOALS)), \
+  $(findstring setup,$(MAKECMDGOALS)), \
+  $(findstring upgrade,$(MAKECMDGOALS)), \
+  $(findstring sbom,$(MAKECMDGOALS)), \
+  $(findstring requirements,$(MAKECMDGOALS)), \
   $(findstring check,$(MAKECMDGOALS)), \
   $(findstring test,$(MAKECMDGOALS)), \
   $(findstring dist,$(MAKECMDGOALS)), \
-  $(findstring docs,$(MAKECMDGOALS)) \
+  $(findstring docs,$(MAKECMDGOALS)), \
+  $(findstring prune,$(MAKECMDGOALS)), \
 )
 ifeq ($(NEED_VENV),)
   # None of the current goals requires a virtual environment.
