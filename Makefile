@@ -120,17 +120,15 @@ requirements.txt: pyproject.toml
 	  echo "Fetching package metadata for requirement '$$pkg'"; \
 	  [[ $$pkg =~ (.*)==(.*) ]] && curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['urls']));" >> requirements.txt; \
 	done
-	if [ ! -x pip_audit ]; then python -m pip install "pip-audit ==2.4.4"; fi
-	python -m pip_audit --requirement requirements.txt --skip-editable --desc on --require-hashes --fix --dry-run
-	echo -e -n "package==$(PACKAGE_VERSION)" >> requirements.txt
+	cp requirements.txt dist/package-$(PACKAGE_VERSION)-requirements.txt
+	echo -e -n "package==$(PACKAGE_VERSION)" >> dist/package-$(PACKAGE_VERSION)-requirements.txt
 	if [ -f dist/package-$(PACKAGE_VERSION).tar.gz ]; then \
-	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'`" >> requirements.txt; \
+	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'`" >> dist/package-$(PACKAGE_VERSION)-requirements.txt; \
 	fi
 	if [ -f dist/package-$(PACKAGE_VERSION)-py3-none-any.whl ]; then \
-	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash'`" >> requirements.txt; \
+	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash'`" >> dist/package-$(PACKAGE_VERSION)-requirements.txt; \
 	fi
-	echo "" >> requirements.txt
-	cp requirements.txt dist/package-$(PACKAGE_VERSION)-requirements.txt
+	echo "" >> dist/package-$(PACKAGE_VERSION)-requirements.txt
 
 # Run some or all checks over the package code base.
 .PHONY: check check-code check-bandit check-flake8 check-lint check-mypy

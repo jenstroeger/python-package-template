@@ -85,6 +85,12 @@ jobs:
         echo "Digest of artifacts is $DIGEST."
         # Set the computed sha digest as the output of this job.
         echo "::set-output name=artifacts-sha256::$DIGEST"
+    # Audit the required packages for security vulnerabilities.
+    - name: Audit required packages
+      if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
+      uses: pypa/gh-action-pip-audit@v1.0.0
+      with:
+        inputs: requirements.txt
     # For now only generate artifacts for the specified OS and Python version in env variables.
     # Currently reusable workflows do not support setting strategy property from the caller workflow.
     - name: Upload the package artifact for debugging and release
