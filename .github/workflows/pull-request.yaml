@@ -22,37 +22,53 @@ jobs:
     name: Check PR title and commit messages
     runs-on: ubuntu-latest
     steps:
+
     - name: Check out repository
       uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
       with:
         fetch-depth: 0
+
     - name: Set up Python
       uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 # v4.2.0
       with:
         python-version: '3.10'
 
     # Install Commitizen without using the package's Makefile: that's much faster than
-    # creating a venv and installing heaps of dependencies that aren't required for
-    # this job. Then run Commitizen to check the title of the PR which triggered this
-    # workflow, and check all commit messages of the PR's branch. If any of the checks
-    # fails then this job fails.
+    # creating a venv and installing heaps of dependencies that aren't required for this job.
     - name: Set up Commitizen
       run: |
         pip install --upgrade pip wheel
         pip install 'commitizen ==2.32.1'
+
     - name: Check PR title
       run: echo "$PR_TITLE" | cz check
       env:
         PR_TITLE: ${{ github.event.pull_request.title }}
-    - name: Check PR commit messages
+
+    - name: Add and fetch remote branch
       run: |
         git remote add other $PR_HEAD_REPO_CLONE_URL
         git fetch other
-        cz check --rev-range origin/$PR_BASE_REF..other/$PR_HEAD_REF
+      env:
+        PR_HEAD_REPO_CLONE_URL: ${{ github.event.pull_request.head.repo.clone_url }}
+
+    - name: Check PR commit messages
+      run: cz check --rev-range origin/$PR_BASE_REF..other/$PR_HEAD_REF
       env:
         PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
         PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-        PR_HEAD_REPO_CLONE_URL: ${{ github.event.pull_request.head.repo.clone_url }}
+
+    - name: Check PR commit signatures
+      shell: bash
+      run: |
+        for sha in `git log --format=format:%H $PR_BASE_REF..$PR_HEAD_REF`
+        do
+          echo "Checking signature for commit $sha"
+          git verify-commit $sha
+        done
+      env:
+        PR_BASE_REF: ${{ github.event.pull_request.base.sha }}
+        PR_HEAD_REF: ${{ github.event.pull_request.head.sha }}
 
   build:
     needs: conventional-commits
