@@ -130,6 +130,15 @@ requirements.txt: pyproject.toml
 	fi
 	echo "" >> dist/package-$(PACKAGE_VERSION)-requirements.txt
 
+# Audit the installed packages. We disable the --require-hashes option because some packages
+# (e.g. alabaster==0.7.12) seem to miss hashes for some platforms (e.g. Windows).
+.PHONY: audit
+audit: requirements
+	if ! $$(python -c "import pip_audit" &> /dev/null); then \
+	  echo "No package pip_audit installed, upgrade your environment!" && exit 1; \
+	fi;
+	python -m pip_audit --requirement requirements.txt --skip-editable --desc on --fix --dry-run
+
 # Run some or all checks over the package code base.
 .PHONY: check check-code check-bandit check-flake8 check-lint check-mypy
 check-code: check-bandit check-flake8 check-lint check-mypy

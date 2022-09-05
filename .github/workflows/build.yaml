@@ -60,19 +60,25 @@ jobs:
       # those targets first and only builds the package if they succeed.
       # Build the sdist and wheel distribution of the package and docs as a zip file.
       run: make dist
+    # Generate the requirements.txt that contains the hash digests of the dependencies and
+    # generate the SBOM using CyclonDX SBOM generator.
+    - name: Generate requirements and SBOM for all packages
+      run: make requirements sbom
+    # Audit all required packages for security vulnerabilities.
+    - name: Audit required packages
+      run: make audit
+    # Remove the old requirements.txt file (which includes _all_ packages) and generate a
+    # new one for the package and its actual and required dependencies only.
+    - name: Prune requirements for shipping package
+      run: |
+        rm requirements.txt
+        make prune requirements
     - name: Compute package hash
       if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
       id: compute-hash
       shell: bash
       run: |
         set -euo pipefail
-        # Generate the requirements.txt that contains the hash digests of the dependencies and
-        # generate the SBOM using CyclonDX SBOM generator.
-        make requirements sbom
-        # Remove the old requirements.txt file (which includes _all_ packages) and generate a
-        # new one for the package and its actual and required dependencies only.
-        rm requirements.txt
-        make prune requirements
         # Find the paths to the files that will be included in the release.
         TARBALL_PATH=$(find dist -name "*.tar.gz")
         WHEEL_PATH=$(find dist -name "*.whl")
@@ -85,12 +91,6 @@ jobs:
         echo "Digest of artifacts is $DIGEST."
         # Set the computed sha digest as the output of this job.
         echo "::set-output name=artifacts-sha256::$DIGEST"
-    # Audit the required packages for security vulnerabilities.
-    - name: Audit required packages
-      if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
-      uses: pypa/gh-action-pip-audit@v1.0.0
-      with:
-        inputs: requirements.txt
     # For now only generate artifacts for the specified OS and Python version in env variables.
     # Currently reusable workflows do not support setting strategy property from the caller workflow.
     - name: Upload the package artifact for debugging and release
