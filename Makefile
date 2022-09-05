@@ -16,6 +16,7 @@ NEED_VENV := $(or \
   $(findstring upgrade,$(MAKECMDGOALS)), \
   $(findstring sbom,$(MAKECMDGOALS)), \
   $(findstring requirements,$(MAKECMDGOALS)), \
+  $(findstring audit,$(MAKECMDGOALS)), \
   $(findstring check,$(MAKECMDGOALS)), \
   $(findstring test,$(MAKECMDGOALS)), \
   $(findstring dist,$(MAKECMDGOALS)), \
@@ -120,24 +121,23 @@ requirements.txt: pyproject.toml
 	  echo "Fetching package metadata for requirement '$$pkg'"; \
 	  [[ $$pkg =~ (.*)==(.*) ]] && curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['urls']));" >> requirements.txt; \
 	done
-	cp requirements.txt dist/package-$(PACKAGE_VERSION)-requirements.txt
-	echo -e -n "package==$(PACKAGE_VERSION)" >> dist/package-$(PACKAGE_VERSION)-requirements.txt
+	echo -e -n "package==$(PACKAGE_VERSION)" >> requirements.txt
 	if [ -f dist/package-$(PACKAGE_VERSION).tar.gz ]; then \
-	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'`" >> dist/package-$(PACKAGE_VERSION)-requirements.txt; \
+	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'`" >> requirements.txt; \
 	fi
 	if [ -f dist/package-$(PACKAGE_VERSION)-py3-none-any.whl ]; then \
-	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash'`" >> dist/package-$(PACKAGE_VERSION)-requirements.txt; \
+	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash'`" >> requirements.txt; \
 	fi
-	echo "" >> dist/package-$(PACKAGE_VERSION)-requirements.txt
+	echo "" >> requirements.txt
+	cp requirements.txt dist/package-$(PACKAGE_VERSION)-requirements.txt
 
-# Audit the installed packages. We disable the --require-hashes option because some packages
-# (e.g. alabaster==0.7.12) seem to miss hashes for some platforms (e.g. Windows).
+# Audit the currently installed packages.
 .PHONY: audit
-audit: requirements
+audit:
 	if ! $$(python -c "import pip_audit" &> /dev/null); then \
 	  echo "No package pip_audit installed, upgrade your environment!" && exit 1; \
 	fi;
-	python -m pip_audit --requirement requirements.txt --skip-editable --desc on --fix --dry-run
+	python -m pip_audit --skip-editable --desc on --fix --dry-run
 
 # Run some or all checks over the package code base.
 .PHONY: check check-code check-bandit check-flake8 check-lint check-mypy

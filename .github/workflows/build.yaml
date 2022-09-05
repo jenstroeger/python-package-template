@@ -64,7 +64,7 @@ jobs:
     # generate the SBOM using CyclonDX SBOM generator.
     - name: Generate requirements and SBOM for all packages
       run: make requirements sbom
-    # Audit all required packages for security vulnerabilities.
+    # Audit all required and currently installed packages for security vulnerabilities.
     - name: Audit required packages
       run: make audit
     # Remove the old requirements.txt file (which includes _all_ packages) and generate a
