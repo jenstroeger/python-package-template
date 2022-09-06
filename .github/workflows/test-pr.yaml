@@ -1,0 +1,44 @@
+# Action to debug, DO NOT MERGE
+#
+name: Pull Request
+on:
+  pull_request:
+    branches:
+    - staging
+    types:
+    - opened
+    - reopened
+    - edited
+    - synchronize
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: TEST
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.9', '3.10']
+    steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@dd2c410b088af7c0dc8046f3ac9a8f4148492a95 # v1.4.5
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+    - name: Check out repository
+      uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
+      with:
+        fetch-depth: 0
+    - name: Set up Python
+      uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 # v4.2.0
+      with:
+        python-version: ${{ matrix.python }}
+    - name: Create empty virtual environment for Actions
+      run: mkdir .venv
+    - name: Install dependencies
+      run: make setup
+    - name: Make requirements
+      run: make requirements sbom
+    - name: Audit required packages
+      run: make audit
