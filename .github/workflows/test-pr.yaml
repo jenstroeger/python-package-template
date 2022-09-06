@@ -39,6 +39,8 @@ jobs:
     - name: Install dependencies
       run: make setup
     - name: Make requirements
-      run: make requirements sbom
+      run: |
+        make requirements
+        cat requirements.txt
     - name: Audit required packages
       run: make audit
