@@ -116,9 +116,15 @@ requirements: requirements.txt
 requirements.txt: pyproject.toml
 	echo -n "" > requirements.txt
 	for pkg in `python -m pip freeze --local --disable-pip-version-check --exclude-editable`; do \
+	  echo -n "'$$pkg'"; \
 	  echo -n $$pkg >> requirements.txt; \
 	  echo "Fetching package metadata for requirement '$$pkg'"; \
-	  [[ $$pkg =~ (.*)==(.*) ]] && curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['urls']));" >> requirements.txt; \
+	  if [[ $$pkg =~ (.*)==(.*) ]]; then \
+	    echo "'$${BASH_REMATCH[1]}'"; \
+	    echo "'$${BASH_REMATCH[2]}'"; \
+	    echo `curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json`; \
+	    curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['urls']));" >> requirements.txt; \
+	  fi; \
 	done
 	echo -e -n "package==$(PACKAGE_VERSION)" >> requirements.txt
 	if [ -f dist/package-$(PACKAGE_VERSION).tar.gz ]; then \
