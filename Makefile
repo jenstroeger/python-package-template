@@ -117,25 +117,21 @@ requirements.txt: pyproject.toml
 	echo -n "" > requirements.txt
 	for pkg in `python -m pip freeze --local --disable-pip-version-check --exclude-editable`; do \
 	  pkg=$${pkg//[$$'\r\n']}; \
-	  echo -n "'$$pkg'"; \
 	  echo -n $$pkg >> requirements.txt; \
 	  echo "Fetching package metadata for requirement '$$pkg'"; \
 	  if [[ $$pkg =~ (.*)==(.*) ]]; then \
-	    echo -n "'$${BASH_REMATCH[1]}'"; \
-	    echo -n "'$${BASH_REMATCH[2]}'"; \
-	    echo `curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json`; \
 	    curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['urls']));" >> requirements.txt; \
 	  fi; \
 	done
-	echo -e -n "package==$(PACKAGE_VERSION)" >> requirements.txt
+	cp requirements.txt dist/package-$(PACKAGE_VERSION)-requirements.txt
+	echo -e -n "package==$(PACKAGE_VERSION)" >> dist/package-$(PACKAGE_VERSION)-requirements.txt
 	if [ -f dist/package-$(PACKAGE_VERSION).tar.gz ]; then \
-	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'`" >> requirements.txt; \
+	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash'`" >> dist/package-$(PACKAGE_VERSION)-requirements.txt; \
 	fi
 	if [ -f dist/package-$(PACKAGE_VERSION)-py3-none-any.whl ]; then \
-	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash'`" >> requirements.txt; \
+	  echo -e -n " \\\\\n    `python -m pip hash --algorithm sha256 dist/package-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash'`" >> dist/package-$(PACKAGE_VERSION)-requirements.txt; \
 	fi
-	echo "" >> requirements.txt
-	cp requirements.txt dist/package-$(PACKAGE_VERSION)-requirements.txt
+	echo "" >> dist/package-$(PACKAGE_VERSION)-requirements.txt
 
 # Audit the installed packages. We disable the --require-hashes option because some packages
 # (e.g. alabaster==0.7.12) seem to miss hashes for some platforms (e.g. Windows).
