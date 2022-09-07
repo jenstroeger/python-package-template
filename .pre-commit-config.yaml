@@ -153,7 +153,7 @@ repos:
   hooks:
   - id: pytest
     name: Run unit tests
-    entry: python -W always::DeprecationWarning -m pytest
+    entry: python -W always::DeprecationWarning -m pytest -c pyproject.toml --cov-config pyproject.toml
     language: system
     verbose: true
     always_run: true
