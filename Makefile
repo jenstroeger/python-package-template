@@ -208,6 +208,7 @@ prune:
 .PHONY: dist-clean clean
 dist-clean:
 	rm -fr dist/*
+	rm -f requirements.txt
 clean: dist-clean
 	rm -fr .coverage .hypothesis/ .mypy_cache/ .pytest_cache/
 	rm -fr docs/_build/
@@ -223,4 +224,3 @@ nuke: nuke-caches
 	  deactivate; \
 	  rm -fr .venv; \
 	fi
-	rm -f requirements.txt
