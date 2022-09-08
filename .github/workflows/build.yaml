@@ -62,7 +62,6 @@ jobs:
       run: make dist
     # Audit all currently installed packages for security vulnerabilities.
     - name: Audit installed packages
-      if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
       run: make audit
     - name: Compute package hash
       if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
