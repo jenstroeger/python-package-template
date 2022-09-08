@@ -125,6 +125,7 @@ requirements: requirements.txt
 requirements.txt: pyproject.toml
 	echo -n "" > requirements.txt
 	for pkg in `python -m pip freeze --local --disable-pip-version-check --exclude-editable`; do \
+	  pkg=$${pkg//[$$'\r\n']}; \
 	  echo -n $$pkg >> requirements.txt; \
 	  echo "Fetching package metadata for requirement '$$pkg'"; \
 	  [[ $$pkg =~ (.*)==(.*) ]] && curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['urls']));" >> requirements.txt; \
