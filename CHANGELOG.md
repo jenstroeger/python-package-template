@@ -1,3 +1,16 @@
+## v2.4.0 (2022-09-08)
+
+### Feat
+
+- add git-audit support when building the package artifacts (#307)
+
+### Fix
+
+- **ci**: fix triggering event for the Release Notification action (#317)
+- remove trailing CR-LF from package spec when building requirements (#316)
+- remove requirements.txt when cleaning the distribution artifacts (#314)
+- ensure that config files are passed explicitly to pytest and coverage (#312)
+
 ## v2.3.3 (2022-09-01)
 
 ### Fix
