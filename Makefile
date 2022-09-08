@@ -216,8 +216,8 @@ clean: dist-clean
 # Remove code caches, or the entire virtual environment.
 .PHONY: nuke-caches nuke
 nuke-caches: clean
-	find src/ -name __pycache__ -exec rm -fr {} +
-	find tests/ -name __pycache__ -exec rm -fr {} +
+	find src/ -type d -name __pycache__ -exec rm -fr {} +
+	find tests/ -type d -name __pycache__ -exec rm -fr {} +
 nuke: nuke-caches
 	if [ ! -z "${VIRTUAL_ENV}" ]; then \
 	  echo "Deactivating and nuking virtual environment!"; \
