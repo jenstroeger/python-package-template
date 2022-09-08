@@ -59,6 +59,8 @@ Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/
 
 [OSSF Security Scorecards](https://github.com/ossf/scorecard) is enabled as a GitHub Actions workflow to give the consumers information about the supply-chain security posture of this project, assigning a score of 0–10. We upload the results as a SARIF (Static Analysis Results Interchange Format) artifact after each run and the results can be found at the Security tab of this GitHub project. We also allow publishing the data at [OpenSSF](https://metrics.openssf.org/). We use this data to continuously improve the security posture of this project. Note that this configuration supports the ``main`` (default) branch and requires the repository to be public and not forked.
 
+[pip-audit](https://github.com/pypa/pip-audit) is part of the default Python virtual environment, and can be used to check all installed packages for documented [VCE](https://www.cve.org/) by querying the [Python Packaging Advisory Database](https://github.com/pypa/advisory-database). The `build.yaml` workflow always runs a package audit before the artifacts are being built.
+
 ### Package or application?
 
 A _shared package_ or library is intended to be imported by another package or application; an _application_ is a self-contained, standalone, runnable package. Unfortunately, Python’s packaging ecosystem is mostly focused on packaging shared packages (libraries), and packaging Python applications is not as well-supported ([discussion](https://discuss.python.org/t/help-packaging-optional-application-features-using-extras/14074/7)). This template, however, supports both scenarios.
