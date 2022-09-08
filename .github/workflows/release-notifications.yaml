@@ -1,7 +1,8 @@
 name: Release Notifications
 on:
   release:
-    types: [published]
+    types:
+    - released
 
 # Grant no permissions to this workflow.
 permissions: {}
