@@ -60,6 +60,9 @@ jobs:
       # those targets first and only builds the package if they succeed.
       # Build the sdist and wheel distribution of the package and docs as a zip file.
       run: make dist
+    # Audit all currently installed packages for security vulnerabilities.
+    - name: Audit installed packages
+      run: make audit
     - name: Compute package hash
       if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
       id: compute-hash
