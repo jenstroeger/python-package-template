@@ -77,11 +77,7 @@ If you’d like to contribute to the project template, please open an issue for 
 
 If you’d like to start your own Python project from scratch, you can either copy the content of this repository into your new project folder or fork this repository. Either way, consider making the following adjustments to your local copy:
 
-- Change the `LICENSE.md` file and the license badge according to your needs, and adjust the `SECURITY.md` file to your needs (more details [here](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository)). Then remove all content from the `CHANGELOG.md` file and replace it with this one line:
-
-  ```markdown
-  <!--next-version-placeholder-->
-  ```
+- Change the `LICENSE.md` file and the license badge according to your needs, and adjust the `SECURITY.md` file to your needs (more details [here](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository)). Remove all content from the `CHANGELOG.md` file.
 
 - Rename the `src/package/` folder to whatever your own package’s name will be, adjust the Github Actions in `.github/workflows/`, and review the `Makefile`, `pyproject.toml`, `.pre-commit-config.yaml` files as well as the unit tests accordingly. **Note**: by default all Actions run on three different host types (Linux, MacOS, and Windows) whose [rates vary widely](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#minute-multipliers), so make sure that you disable or budget accordingly if you’re in a private repository!
 
