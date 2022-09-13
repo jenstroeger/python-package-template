@@ -146,7 +146,7 @@ requirements.txt: pyproject.toml
 # found an issue.
 .PHONY: audit
 audit:
-	if ! $$(python -c "import pip_audit" &> /dev/null); then \
+	if ! `python -c "import pip_audit" &> /dev/null`; then \
 	  echo "No package pip_audit installed, upgrade your environment!" && exit 1; \
 	fi;
 	python -m pip_audit --skip-editable --desc on --fix --dry-run
