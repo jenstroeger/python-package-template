@@ -201,4 +201,6 @@ doctest_optionflags = "IGNORE_EXCEPTION_DETAIL"
 testpaths = [
     "tests",
 ]
-env = []
+env = [
+    "PYTHONWARNINGS=always::DeprecationWarning",
+]
