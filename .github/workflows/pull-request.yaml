@@ -34,14 +34,14 @@ jobs:
         python-version: '3.10'
 
     # Install Commitizen without using the package's Makefile: that's much faster than
-    # creating a venv and installing heaps of dependencies that aren't required for
-    # this job. Then run Commitizen to check the title of the PR which triggered this
-    # workflow, and check all commit messages of the PR's branch. If any of the checks
-    # fails then this job fails.
+    # creating a venv and installing heaps of dependencies that aren't required for this job.
     - name: Set up Commitizen
       run: |
         pip install --upgrade pip wheel
         pip install 'commitizen ==2.32.1'
+
+    # Run Commitizen to check the title of the PR which triggered this workflow, and check
+    # all commit messages of the PR's branch. If any of the checks fails then this job fails.
     - name: Check PR title
       run: echo "$PR_TITLE" | cz check
       env:

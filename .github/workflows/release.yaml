@@ -75,11 +75,10 @@ jobs:
     permissions:
       contents: read
 
-  # Generate the build provenance.
+  # Generate the build provenance. The generator should be referenced with a semantic version.
+  # The build will fail if we reference it using the commit SHA.
   provenance:
     needs: build
-    # The generator should be referenced with a semantic version.
-    # The build will fail if we reference it using the commit SHA.
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.2.0
     with:
       base64-subjects: ${{ needs.build.outputs.artifacts-sha256 }}
@@ -162,8 +161,8 @@ jobs:
     # Read the password from GitHub secrets or via other trusted mechanisms.
     # Do not hardcode the password in the workflow.
     # - name: Publish to PyPI server
-    #   run: |
-    #     export TWINE_USERNAME=<USERNAME>
-    #     export TWINE_PASSWORD=<PASSWORD>
-    #     export TWINE_REPOSITORY_URL=<REPOSITORY_URL>
-    #     twine upload --verbose dist/*.tar.gz dist/*.whl
+    #   run: twine upload --verbose dist/*.tar.gz dist/*.whl
+    #   env:
+    #     TWINE_USERNAME=<USERNAME>
+    #     TWINE_PASSWORD=<PASSWORD>
+    #     TWINE_REPOSITORY_URL=<REPOSITORY_URL>
