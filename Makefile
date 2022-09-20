@@ -1,8 +1,8 @@
 
 # Use bash as the shell when executing a rule's recipe. For more details:
 # https://www.gnu.org/software/make/manual/html_node/Choosing-the-Shell.html
-# https://stackoverflow.com/questions/10376206/what-is-the-preferred-bash-shebang
-SHELL := /usr/bin/env bash
+SHELL := bash
+.SHELLFLAGS += -e
 
 # Set the package's name and version for use throughout the Makefile.
 PACKAGE_NAME=package
