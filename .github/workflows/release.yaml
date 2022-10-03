@@ -30,7 +30,7 @@ jobs:
       contents: write
     steps:
     - name: Harden Runner
-      uses: step-security/harden-runner@dd2c410b088af7c0dc8046f3ac9a8f4148492a95 # v1.4.5
+      uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34 # v1.4.5
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
     - name: Check out repository
@@ -83,7 +83,7 @@ jobs:
       contents: write # To publish release notes.
     steps:
     - name: Harden Runner
-      uses: step-security/harden-runner@dd2c410b088af7c0dc8046f3ac9a8f4148492a95 # v1.4.5
+      uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34 # v1.4.5
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
     - name: Check out repository
