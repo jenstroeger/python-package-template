@@ -58,6 +58,7 @@ jobs:
 
   build:
     needs: conventional-commits
+    if: ${{ github.event.action != 'edited' }}
     uses: ./.github/workflows/build.yaml
     permissions:
       contents: read
