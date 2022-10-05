@@ -76,12 +76,16 @@ jobs:
       contents: read
 
   # Generate the build provenance. The generator should be referenced with a semantic version.
-  # The build will fail if we reference it using the commit SHA.
+  # The build will fail if we reference it using the commit SHA. To avoid using a pre-built
+  # provenance generator which depends on an external service Rekor (https://github.com/sigstore/rekor)
+  # we build this generator from source. For more information see this discussion:
+  # https://github.com/slsa-framework/slsa-github-generator/issues/942
   provenance:
     needs: build
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.2.0
     with:
       base64-subjects: ${{ needs.build.outputs.artifacts-sha256 }}
+      compile-generator: true
     permissions:
       actions: read # To read the workflow path.
       id-token: write # To sign the provenance.
