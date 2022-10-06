@@ -2,7 +2,6 @@
 # Use bash as the shell when executing a rule's recipe. For more details:
 # https://www.gnu.org/software/make/manual/html_node/Choosing-the-Shell.html
 SHELL := bash
-.SHELLFLAGS += -e
 
 # Set the package's name and version for use throughout the Makefile.
 PACKAGE_NAME=package
