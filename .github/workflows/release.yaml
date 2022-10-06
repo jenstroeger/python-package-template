@@ -22,6 +22,9 @@ jobs:
     uses: ./.github/workflows/build.yaml
     permissions:
       contents: read
+
+  # On pushes to the 'main' branch create a new release by bumping the version
+  # and generating a change log. That's the new bump commit and associated tag.
   bump:
     needs: check
     if: github.ref == 'refs/heads/main'
@@ -29,45 +32,53 @@ jobs:
     permissions:
       contents: write
     steps:
+
     - name: Harden Runner
       uses: step-security/harden-runner@dd2c410b088af7c0dc8046f3ac9a8f4148492a95 # v1.4.5
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
     - name: Check out repository
       uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
       with:
         fetch-depth: 0
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
     - name: Set up Python
       uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 # v4.2.0
       with:
         python-version: '3.10'
+
     - name: Set up Commitizen
       run: |
         pip install --upgrade pip wheel
         pip install 'commitizen ==2.32.1'
+
     - name: Set up user
       run: |
-        # Set up the GitHub user and email as author for the release commit.
         git config --global user.name $USER_NAME
         git config --global user.email $USER_EMAIL
-        git config --list --global
+        git config --list --global # For debug purposes.
+
     - name: Create changelog and bump
       run: cz bump --changelog --yes
+
     - name: Push the release
       run: |
         git push
         git push --tags
+
   # When triggered by the version bump commit, build the package and publish the release artifacts.
   build:
     if: github.ref == 'refs/heads/main' && startsWith(github.event.commits[0].message, 'bump:')
     uses: ./.github/workflows/build.yaml
     permissions:
       contents: read
+
+  # Generate the build provenance. The generator should be referenced with a semantic version.
+  # The build will fail if we reference it using the commit SHA.
   provenance:
     needs: build
-    # The generator should be referenced with a semantic version.
-    # The build will fail if we reference it using the commit sha.
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.2.0
     with:
       base64-subjects: ${{ needs.build.outputs.artifacts-sha256 }}
@@ -75,6 +86,9 @@ jobs:
       actions: read # To read the workflow path.
       id-token: write # To sign the provenance.
       contents: write # To add assets to a release.
+
+  # Create a new Release on Github from the verified build artifacts, and optionally
+  # publish the artifacts to a PyPI server.
   release:
     needs: [build, provenance]
     name: Release
@@ -82,32 +96,38 @@ jobs:
     permissions:
       contents: write # To publish release notes.
     steps:
+
     - name: Harden Runner
       uses: step-security/harden-runner@dd2c410b088af7c0dc8046f3ac9a8f4148492a95 # v1.4.5
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
     - name: Check out repository
       uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
       with:
         fetch-depth: 0
+
     - name: Download provenance
       uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741 # v3.0.0
       with:
         name: ${{ needs.provenance.outputs.attestation-name }}
+
     - name: Download artifact
       uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741 # v3.0.0
       with:
         name: ${{ env.ARTIFACT_NAME }}
         path: dist
+
+    # Verify hashes by first computing hashes for the artifacts and then comparing them
+    # against the hashes computed by the build job.
     - name: Verify the artifact hash
       env:
         ARTIFACT_HASH: ${{ needs.build.outputs.artifacts-sha256 }}
       run: |
         set -euo pipefail
         echo "Hash of package should be $ARTIFACT_HASH."
-        # Verify hashes by first computing hashes for the artifacts and
-        # then comparing them against the hashes computed by the build job.
         echo "$ARTIFACT_HASH" | base64 -d | sha256sum --strict --check --status || exit 1
+
     # Create the Release Notes using commitizen.
     - name: Set up Python
       uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 # v4.2.0
@@ -119,11 +139,13 @@ jobs:
         pip install 'commitizen ==2.32.1'
     - name: Create Release Notes
       run: cz changelog --dry-run $(cz version --project) > RELEASE_NOTES.md
+
+    # Create the release including the artifacts and the SLSA L3 provenance.
     - name: Upload assets
       env:
         GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
-      # Create the release including the artifacts and the SLSA L3 provenance.
       run: TAG=`git describe --tags --abbrev=0` && gh release create $TAG dist/* ${{ needs.provenance.outputs.attestation-name }} --title $TAG --notes-file RELEASE_NOTES.md
+
     # Uncomment the following steps to publish to a PyPI server.
     # At the moment PyPI does not provide a mechanism to publish
     # the provenance. So, users have to download the provenance from
@@ -134,12 +156,13 @@ jobs:
     #   run: |
     #     pip install --upgrade pip wheel
     #     pip install 'twine ==4.0.1'
+
     # Pass the username, password, and PYPI repository URL via env variables.
     # Read the password from GitHub secrets or via other trusted mechanisms.
     # Do not hardcode the password in the workflow.
     # - name: Publish to PyPI server
-    #   run: |
-    #     export TWINE_USERNAME=<USERNAME>
-    #     export TWINE_PASSWORD=<PASSWORD>
-    #     export TWINE_REPOSITORY_URL=<REPOSITORY_URL>
-    #     twine upload --verbose dist/*.tar.gz dist/*.whl
+    #   run: twine upload --verbose dist/*.tar.gz dist/*.whl
+    #   env:
+    #     TWINE_USERNAME=<USERNAME>
+    #     TWINE_PASSWORD=<PASSWORD>
+    #     TWINE_REPOSITORY_URL=<REPOSITORY_URL>
