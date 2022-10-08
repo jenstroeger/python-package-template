@@ -3,7 +3,7 @@
 # tool to check the title of the PR and all commit messages of the branch
 # which triggers this Action.
 
-name: Pull Request
+name: 'Pull Request: conventional commits'
 on:
   pull_request:
     branches:
@@ -19,7 +19,6 @@ permissions:
 
 jobs:
   conventional-commits:
-    name: Check PR title and commit messages
     runs-on: ubuntu-latest
     steps:
 
@@ -55,10 +54,3 @@ jobs:
         PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
         PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
         PR_HEAD_REPO_CLONE_URL: ${{ github.event.pull_request.head.repo.clone_url }}
-
-  build:
-    needs: conventional-commits
-    if: ${{ github.event.action != 'edited' }}
-    uses: ./.github/workflows/build.yaml
-    permissions:
-      contents: read

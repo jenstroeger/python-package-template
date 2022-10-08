@@ -1,0 +1,26 @@
+# This workflow checks and tests the package code, and it builds all package
+# artifacts whenever there were changes to a pull request.
+
+name: 'Pull Request: change set'
+on:
+  pull_request:
+    branches:
+    - main
+    - staging
+    types:
+    - opened
+    - reopened
+    - synchronize
+permissions:
+  contents: read
+
+jobs:
+
+  # If the build workflow needs to access secrets, they need to be passed using `secrets: inherit`.
+  # See https://docs.github.com/en/actions/using-workflows/reusing-workflows to learn more.
+  # See  https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+  # for the security recommendations.
+  build:
+    uses: ./.github/workflows/build.yaml
+    permissions:
+      contents: read
