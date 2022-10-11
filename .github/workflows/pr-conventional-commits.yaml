@@ -3,7 +3,7 @@
 # tool to check the title of the PR and all commit messages of the branch
 # which triggers this Action.
 
-name: 'Pull Request: conventional commits'
+name: Check conventional commits
 on:
   pull_request:
     branches:
