@@ -1,0 +1,21 @@
+# This workflow checks and tests the package code, and it builds all package
+# artifacts whenever there were changes to a pull request.
+
+name: Check change set
+on:
+  pull_request:
+    branches:
+    - main
+    - staging
+    types:
+    - opened
+    - reopened
+    - synchronize
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+    permissions:
+      contents: read
