@@ -165,15 +165,17 @@ jobs:
   # https://github.com/slsa-framework/slsa-github-generator/issues/942
   provenance:
     needs: [build, release]
-    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.2.0
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.2.1
     with:
       base64-subjects: ${{ needs.build.outputs.artifacts-sha256 }}
-      compile-generator: true
+      compile-generator: true # Build the generator from source.
+      # Set private-repository to true for private repositories. Note that the repository name is
+      # uploaded as part of the transparency log entry on the public Rekor instance (rekor.sigstore.dev).
+      private-repository: false
     permissions:
       actions: read # To read the workflow path.
       id-token: write # To sign the provenance.
       contents: write # To add assets to a release.
-
 
   # Publish the SLSA provenance as the GitHub release asset.
   publish_provenance:
