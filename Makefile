@@ -167,7 +167,7 @@ check:
 # Run all unit tests.
 .PHONY: test
 test:
-	pre-commit run pytest --hook-stage push
+	pre-commit run pytest --hook-stage push --files test/
 
 # Build a source distribution package and a binary wheel distribution artifact.
 # When building these artifacts, we need the environment variable SOURCE_DATE_EPOCH
