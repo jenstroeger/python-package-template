@@ -164,7 +164,8 @@ check-mypy:
 check:
 	pre-commit run --all-files
 
-# Run all unit tests.
+# Run all unit tests. The --files option avoids stashing but passes files; however,
+# the hook setup itself does not pass files to pytest (see .pre-commit-config.yaml).
 .PHONY: test
 test:
 	pre-commit run pytest --hook-stage push --files test/
