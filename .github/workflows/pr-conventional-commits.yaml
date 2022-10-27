@@ -7,8 +7,7 @@ name: Check conventional commits
 on:
   pull_request:
     branches:
-    - main
-    - staging
+    - '*'
     types:
     - opened
     - reopened
