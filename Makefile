@@ -71,7 +71,7 @@ venv:
 	  echo "Found an activated Python virtual environment, exiting" && exit 1; \
 	fi
 	if [ -d .venv/ ]; then \
-	  echo "Found an inactive Python virtual environment, please activate" && exit 1; \
+	  echo "Found an inactive Python virtual environment, please activate or nuke it" && exit 1; \
 	fi
 	if [ -z "${PYTHON}" ]; then \
 	  echo "Creating virtual envirnoment in .venv/ for python3.10"; \
