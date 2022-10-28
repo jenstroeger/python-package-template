@@ -199,9 +199,9 @@ jobs:
     - name: Download provenance
       uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741 # v3.0.0
       with:
-        name: ${{ needs.provenance.outputs.attestation-name }}
+        name: ${{ needs.provenance.outputs.provenance-name }}
 
     - name: Upload provenance
-      run: gh release upload ${{ needs.release.outputs.release-tag }} ${{ needs.provenance.outputs.attestation-name }}
+      run: gh release upload ${{ needs.release.outputs.release-tag }} ${{ needs.provenance.outputs.provenance-name }}
       env:
         GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
