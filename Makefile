@@ -70,6 +70,9 @@ venv:
 	if [ ! -z "${VIRTUAL_ENV}" ]; then \
 	  echo "Found an activated Python virtual environment, exiting" && exit 1; \
 	fi
+	if [ -d .venv/ ]; then \
+	  echo "Found an inactive Python virtual environment, please activate or nuke it" && exit 1; \
+	fi
 	if [ -z "${PYTHON}" ]; then \
 	  echo "Creating virtual envirnoment in .venv/ for python3.10"; \
 	  python3.10 -m venv --upgrade-deps --prompt . .venv; \
