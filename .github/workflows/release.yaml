@@ -56,8 +56,8 @@ jobs:
 
     - name: Set up user
       run: |
-        git config --global user.name $USER_NAME
-        git config --global user.email $USER_EMAIL
+        git config --global user.name "$USER_NAME"
+        git config --global user.email "$USER_EMAIL"
         git config --list --global # For debug purposes.
 
     - name: Create changelog and bump
@@ -125,7 +125,7 @@ jobs:
         pip install 'commitizen ==2.32.1'
 
     - name: Create Release Notes
-      run: cz changelog --dry-run $(cz version --project) > RELEASE_NOTES.md
+      run: cz changelog --dry-run "$(cz version --project)" > RELEASE_NOTES.md
 
     # Create the release including the artifacts and the SLSA L3 provenance.
     - name: Upload assets
@@ -133,9 +133,9 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       run: |
-        TAG=`git describe --tags --abbrev=0`
-        gh release create $TAG dist/* --title $TAG --notes-file RELEASE_NOTES.md
-        echo "release-tag=$TAG" >> $GITHUB_OUTPUT
+        TAG=$(git describe --tags --abbrev=0)
+        gh release create "$TAG" dist/* --title "$TAG" --notes-file RELEASE_NOTES.md
+        echo "release-tag=$TAG" >> "$GITHUB_OUTPUT"
 
     # Uncomment the following steps to publish to a PyPI server.
     # At the moment PyPI does not provide a mechanism to publish

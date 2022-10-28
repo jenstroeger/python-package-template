@@ -47,9 +47,9 @@ jobs:
         PR_TITLE: ${{ github.event.pull_request.title }}
     - name: Check PR commit messages
       run: |
-        git remote add other $PR_HEAD_REPO_CLONE_URL
+        git remote add other "$PR_HEAD_REPO_CLONE_URL"
         git fetch other
-        cz check --rev-range origin/$PR_BASE_REF..other/$PR_HEAD_REF
+        cz check --rev-range "origin/$PR_BASE_REF..other/$PR_HEAD_REF"
       env:
         PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
         PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}

@@ -111,7 +111,7 @@ jobs:
         SBOM_PATH=$(find dist/ -type f -name "*-sbom.json")
         HTML_DOCS_PATH=$(find dist/ -type f -name "*-docs-html.zip")
         BUILD_EPOCH_PATH=$(find dist/ -type f -name "*-build-epoch.txt")
-        DIGEST=$(sha256sum $TARBALL_PATH $WHEEL_PATH $REQUIREMENTS_PATH $SBOM_PATH $HTML_DOCS_PATH $BUILD_EPOCH_PATH | base64 -w0)
+        DIGEST=$(sha256sum "$TARBALL_PATH" "$WHEEL_PATH" "$REQUIREMENTS_PATH" "$SBOM_PATH" "$HTML_DOCS_PATH" "$BUILD_EPOCH_PATH" | base64 -w0)
         echo "Digest of artifacts is $DIGEST."
         echo "artifacts-sha256=$DIGEST" >> "$GITHUB_OUTPUT"
 
