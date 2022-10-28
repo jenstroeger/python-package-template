@@ -1,3 +1,26 @@
+## v2.4.1 (2022-10-28)
+
+### Fix
+
+- **ci**: trigger PR actions for all target branches (#357)
+- **ci**: fix actionlint warnings (#348)
+- run pytest hook on unstaged files (#347)
+- determine an activated venv correctly when running make (#346)
+- exit Makefile gracefully if an inactive venv was found (#345)
+- **ci**: use GITHUB_OUTPUT instead of deprecated set-output (#358)
+- **ci**: change deprecated SLSA attestation-name to provenance-name (#359)
+- **ci**: update pytest to drop dependency on vulnerable py package (#354)
+- don’t build the package again if a PR was only edited (#336)
+- the ‘upgrade-quiet’ Makefile goal now works with BSD date command too (#335)
+- a Makefile’s SHELL variable is not an executable shebang (#329)
+- use simple expansion consistently for all Makefile variables (#328)
+- explicitly specify flake8 configuration for git hooks (#327)
+- **docs**: update README with correct CHANGELOG setup instructions (#320)
+
+### Refactor
+
+- **ci**: allow release when provenance generation fails (#342)
+
 ## v2.4.0 (2022-09-08)
 
 ### Feat
