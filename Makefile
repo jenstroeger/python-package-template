@@ -167,10 +167,11 @@ check-mypy:
 check:
 	pre-commit run --all-files
 
-# Run all unit tests.
+# Run all unit tests. The --files option avoids stashing but passes files; however,
+# the hook setup itself does not pass files to pytest (see .pre-commit-config.yaml).
 .PHONY: test
 test:
-	pre-commit run pytest --hook-stage push
+	pre-commit run pytest --hook-stage push --files test/
 
 # Build a source distribution package and a binary wheel distribution artifact.
 # When building these artifacts, we need the environment variable SOURCE_DATE_EPOCH
