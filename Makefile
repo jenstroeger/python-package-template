@@ -5,7 +5,7 @@ SHELL := bash
 
 # Set the package's name and version for use throughout the Makefile.
 PACKAGE_NAME := package
-ifeq ($(wildcard .venv/upgraded-on),)
+ifeq ($(origin VIRTUAL_ENV),undefined)
   PACKAGE_VERSION := unknown
 else
   PACKAGE_VERSION := $(shell python -c 'import $(PACKAGE_NAME); print($(PACKAGE_NAME).__version__)')
