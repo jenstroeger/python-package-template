@@ -1,3 +1,9 @@
+## v2.4.2 (2022-10-29)
+
+### Fix
+
+- **ci**: as of v2 Scorecard requires extra permissions (#366)
+
 ## v2.4.1 (2022-10-28)
 
 ### Fix
