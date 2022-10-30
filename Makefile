@@ -224,7 +224,6 @@ nuke-caches: clean
 	find tests/ -type d -name __pycache__ -exec rm -fr {} +
 nuke: nuke-caches
 	if [ ! -z "${VIRTUAL_ENV}" ]; then \
-	  echo "Deactivating and nuking virtual environment!"; \
-	  deactivate; \
-	  rm -fr .venv; \
+	  echo "Please deactivate the virtual environment first!" && exit 1; \
 	fi
+	rm -fr .venv/
