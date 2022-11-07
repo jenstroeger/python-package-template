@@ -85,7 +85,7 @@ If you’d like to start your own Python project from scratch, you can either co
 
 - If you import packages that do not provide type hints into your new repository, then `mypy` needs to be configured accordingly: add these packages to the `pyproject.toml` file using the [`ignore_missing_imports`](https://mypy.readthedocs.io/en/stable/config_file.html#confval-ignore_missing_imports) option.
 
-- If you’d like to publish your package to PyPI then set the `upload_to_pypi` variable in the `pyproject.toml` file to `true`.
+- If you’d like to publish your package to PyPI then uncomment the code in the [`release.yaml`](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/release.yaml) Action, and add the appropriate environment variables.
 
 - Adjust the Dependabot settings in `.github/dependabot.yaml` to your desired target branch that you’d like to have monitored by Dependabot.
 
@@ -136,7 +136,7 @@ make upgrade
 Using the pre-commit tool and its `.pre-commit-config.yaml` configuration, the following git hooks are active in this repository:
 
 - When committing code, a number of [pre-commit hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_committing_workflow_hooks) ensure that your code is formatted according to [PEP 8](https://www.python.org/dev/peps/pep-0008/) using the [`black`](https://github.com/psf/black) tool, and they’ll invoke [`flake8`](https://github.com/PyCQA/flake8) (and various plugins), [`pylint`](https://github.com/PyCQA/pylint) and [`mypy`](https://github.com/python/mypy) to check for lint and correct types. There are more checks, but those two are the important ones. You can adjust the settings for these tools in the `pyproject.toml` or `.flake8` configuration files.
-- The [commit message hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_committing_workflow_hooks) enforces [conventional commit messages](https://www.conventionalcommits.org/) and that, in turn, enables a _semantic release_ of this package on the Github side: upon merging changes into the `main` branch, the [semantic release action](https://github.com/relekang/python-semantic-release) produces a [changelog](https://en.wikipedia.org/wiki/Changelog) and computes the next version of this package and publishes a release — all based on the commit messages.
+- The [commit message hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_committing_workflow_hooks) enforces [conventional commit messages](https://www.conventionalcommits.org/) and that, in turn, enables a _semantic release_ of this package on the Github side: upon merging changes into the `main` branch, the [release action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/release.yaml) uses the [Commitizen tool](https://commitizen-tools.github.io/commitizen/) to produce a [changelog](https://en.wikipedia.org/wiki/Changelog) and it computes the next version of this package and publishes a release — all based on the commit messages of a release.
 - Using a [pre-push hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_other_client_hooks) this package is also set up to run [`pytest`](https://github.com/pytest-dev/pytest); in addition, the [`coverage`](https://github.com/nedbat/coveragepy) plugin makes sure that _all_ of your package’s code is covered by tests and [Hypothesis](https://hypothesis.works/) is already installed to help with generating test payloads.
 
 You can also run these hooks manually, which comes in very handy during daily development tasks. For example
@@ -209,7 +209,7 @@ open docs/_build/html/index.html
 
 ## Versioning, publishing and changelog
 
-To enable automation for versioning, package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a built-in semantic release support enabled which is set up to take care of all three of these aspects — every time changes are merged into the `main` branch.
+To enable automation for [semantic versioning](https://semver.org/), package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a built-in semantic release support enabled which is set up to take care of all three of these aspects — every time changes are merged into the `main` branch.
 
 If you’d like to receive Slack notifications whenever a new release is published, follow the comments in the [Release Notification](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows/release-notifications.yaml) Action and set up a Slack bot by following [the instructions here](https://github.com/slackapi/slack-github-action#setup-2).
 
