@@ -65,6 +65,14 @@ jobs:
       with:
         fetch-depth: 0
 
+    # Dependency review scans for introduced vulnerabilities and compatible licenses.
+    - name: Dependency Review
+      uses: actions/dependency-review-action@0efb1d1d84fc9633afcdaad14c485cbbc90ef46c # v2.5.1
+      with:
+        fail-on-severity: moderate
+        license-check: true
+        vulnerability-check: true
+
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
