@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
           pull-requests: write
-    needs: build
+    needs: [build]
     steps:
 
     - name: Download artifact from Build
