@@ -22,16 +22,16 @@ jobs:
   comment-audit:
     runs-on: ubuntu-latest
     permissions:
-          pull-requests: write
+      pull-requests: write
     needs: build
     steps:
 
     - name: Download artifact from Build
       uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7 #v3
-      if: steps.audit-packages.outputs.exit_code == 1 
+      if: steps.audit-packages.outputs.exit_code == 1
       with:
         name: vulnerabilities.txt
-        
+
     - name: comment PR
       id: comment-pr
       run: gh pr comment ${{ github.event.number }} --body-file vulnerabilities.txt
