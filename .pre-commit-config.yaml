@@ -117,6 +117,9 @@ repos:
     args: [--allow-missing-credentials]
   - id: check-yaml
   - id: check-toml
+  - id: check-json
+  - id: pretty-format-json
+    args: [--autofix]
 - repo: https://github.com/pre-commit/pygrep-hooks
   rev: v1.9.0
   hooks:
