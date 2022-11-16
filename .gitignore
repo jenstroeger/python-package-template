@@ -132,3 +132,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# pip audit vulnerabilities file
+
+pip-audit-vulnerabilities.txt

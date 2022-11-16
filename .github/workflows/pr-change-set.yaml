@@ -30,11 +30,11 @@ jobs:
       uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7 #v3
       if: steps.audit-packages.outputs.exit_code == 1
       with:
-        name: vulnerabilities.txt
+        name: pip-audit-vulnerabilities.txt
 
-    - name: comment PR
+    - name: Comment on PR
       id: comment-pr
-      run: gh pr comment ${{ github.event.number }} --body-file vulnerabilities.txt
+      run: gh pr comment ${{ github.event.number }} --body-file pip-audit-vulnerabilities.txt
       if: steps.audit-packages.outputs.exit_code == 1
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
