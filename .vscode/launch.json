@@ -25,7 +25,7 @@
         "PYTHONPATH": "./src"
       },
       "envFile": "${workspaceRoot}/.env",
-      "console": "integratedTerminal",
+      "console": "integratedTerminal"
     }
   ]
 }
