@@ -3,14 +3,15 @@
 # https://www.gnu.org/software/make/manual/html_node/Choosing-the-Shell.html
 SHELL := bash
 
-# Set the package's name and version for use throughout the Makefile.
+# Set the package's name and version for use throughout the Makefile. If the
+# version can not be determined then error out.
 PACKAGE_NAME := package
 ifneq ($(origin VIRTUAL_ENV),undefined)
   PACKAGE_VERSION := $(shell python -c 'import $(PACKAGE_NAME); print($(PACKAGE_NAME).__version__)')
 else ifneq ($(wildcard .venv/upgraded-on),)
   PACKAGE_VERSION := $(shell .venv/bin/python -c 'import $(PACKAGE_NAME); print($(PACKAGE_NAME).__version__)')
 else
-  PACKAGE_VERSION := unknown
+  $(error Unable to determine package version)
 endif
 
 # This variable contains the first goal that matches any of the listed goals
