@@ -1,19 +1,31 @@
 {
+  "version": "0.2.0",
   "configurations": [
     {
-      "justMyCode": true,
-      "module": "package",
       "name": "Python: Module",
+      "type": "python",
       "request": "launch",
-      "type": "python"
+      "justMyCode": true,
+      "module": "package"
     },
     {
-      "console": "integratedTerminal",
-      "name": "Python: Current File",
-      "program": "${file}",
+      "name": "Python: Run Current File",
+      "type": "python",
       "request": "launch",
-      "type": "python"
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: pytest",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "cwd": "${workspaceRoot}",
+      "env": {
+        "PYTHONPATH": "./src"
+      },
+      "envFile": "${workspaceRoot}/.env",
+      "console": "integratedTerminal",
     }
-  ],
-  "version": "0.2.0"
+  ]
 }
