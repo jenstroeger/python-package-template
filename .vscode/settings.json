@@ -20,7 +20,7 @@
   "python.linting.flake8Args": [
     "--config=.flake8"
   ],
-  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Enabled": false,
   "python.linting.mypyArgs": [
     "--config-file=pyproject.toml"
   ],
