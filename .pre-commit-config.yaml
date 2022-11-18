@@ -2,7 +2,6 @@
 # See https://pre-commit.com/hooks.html for more hooks
 default_install_hook_types: [pre-commit, commit-msg, pre-push]
 default_stages: [commit]
-exclude: ^.vscode/
 minimum_pre_commit_version: 2.18.0
 
 repos:
@@ -118,9 +117,6 @@ repos:
     args: [--allow-missing-credentials]
   - id: check-yaml
   - id: check-toml
-  - id: check-json
-  - id: pretty-format-json
-    args: [--autofix]
 - repo: https://github.com/pre-commit/pygrep-hooks
   rev: v1.9.0
   hooks:
