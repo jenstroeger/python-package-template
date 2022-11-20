@@ -171,7 +171,7 @@ check:
 # the hook setup itself does not pass files to pytest (see .pre-commit-config.yaml).
 .PHONY: test
 test:
-	pre-commit run pytest --hook-stage push --files test/
+	pre-commit run pytest --hook-stage push --files tests/
 
 # Build a source distribution package and a binary wheel distribution artifact.
 # When building these artifacts, we need the environment variable SOURCE_DATE_EPOCH
