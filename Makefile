@@ -190,9 +190,15 @@ dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt:
 docs: docs-html docs-md
 docs-html: docs/_build/html/index.html
 docs/_build/html/index.html:
+	if [ ! -d docs/source/_static ]; then \
+	  mkdir docs/source/_static/; \
+	fi
 	$(MAKE) -C docs/ html
 docs-md: docs/_build/markdown/index.md
 docs/_build/markdown/index.md:
+	if [ ! -d docs/source/_static ]; then \
+	  mkdir docs/source/_static/; \
+	fi
 	$(MAKE) -C docs/ markdown
 
 # Prune the packages currently installed in the virtual environment down to the required
