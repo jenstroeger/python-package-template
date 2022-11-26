@@ -2,9 +2,20 @@
 
 name: Release Notifications
 on:
-  release:
-    types:
-    - released
+  workflow_call:
+    inputs:
+      repo_name:
+        required: true
+        type: string
+      release_tag:
+        required: true
+        type: string
+      release_url:
+        required: true
+        type: string
+    secrets:
+      SLACK_WEBHOOK_URL:
+        required: true
 
 # Grant no permissions to this workflow.
 permissions: {}
@@ -28,13 +39,13 @@ jobs:
       with:
         payload: |
           {
-            "text": "${{ github.event.repository.name }} published a new release ${{ github.event.release.tag_name }}",
+            "text": "${{ inputs.repo_name }} published a new release ${{ inputs.release_tag }}",
             "blocks": [
               {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*${{ github.event.repository.name }}* published a new release <${{ github.event.release.html_url }}|${{ github.event.release.tag_name }}>"
+                  "text": "*${{ inputs.repo_name }}* published a new release <${{ inputs.release_url }}|${{ inputs.release_tag }}>"
                 }
               }
             ]
