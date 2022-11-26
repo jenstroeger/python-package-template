@@ -189,13 +189,13 @@ dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt:
 .PHONY: docs docs-html docs-md
 docs: docs-html docs-md
 docs-html: docs/_build/html/index.html
-docs/_build/html/index.html:
+docs/_build/html/index.html: check test
 	if [ ! -d docs/source/_static ]; then \
 	  mkdir docs/source/_static/; \
 	fi
 	$(MAKE) -C docs/ html
 docs-md: docs/_build/markdown/index.md
-docs/_build/markdown/index.md:
+docs/_build/markdown/index.md: check test
 	if [ ! -d docs/source/_static ]; then \
 	  mkdir docs/source/_static/; \
 	fi
