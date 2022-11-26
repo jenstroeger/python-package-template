@@ -186,16 +186,14 @@ dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt:
 	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 
 # Build the HTML and Markdown documentation from the package's source.
-.PHONY: docs-html
+.PHONY: docs docs-html docs-md
+docs: docs-html docs-md
 docs-html: docs/_build/html/index.html
 docs/_build/html/index.html:
 	$(MAKE) -C docs/ html
-.PHONY: docs-md
 docs-md: docs/_build/markdown/index.md
 docs/_build/markdown/index.md:
 	$(MAKE) -C docs/ markdown
-.PHONY: docs
-docs: docs-html docs-md
 
 # Prune the packages currently installed in the virtual environment down to the required
 # packages only. Pruning works in a roundabout way, where we first generate the wheels for
