@@ -15,6 +15,6 @@ permissions:
 
 jobs:
   build:
-    uses: ./.github/workflows/build.yaml
+    uses: ./.github/workflows/_build.yaml
     permissions:
       contents: read

@@ -49,7 +49,7 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
 
-    # For more details see the comment in build.yaml.
+    # For more details see the comment in _build.yaml.
     - name: Create empty virtual environment for Actions
       run: mkdir .venv
     - name: Install dependencies
