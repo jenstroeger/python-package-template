@@ -74,7 +74,19 @@ jobs:
 
     # Audit all currently installed packages for security vulnerabilities.
     - name: Audit installed packages
-      run: make audit
+      id: audit-packages
+      continue-on-error: true
+      run: make --silent audit > pip-audit-vulnerabilities.txt
+
+    # Upload the vulnerabilities file output.
+    - name: Upload Artifact
+      uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb #v3.1.1
+      with:
+        name: pip-audit-vulnerabilities.txt
+        path: .
+        if-no-files-found: error
+        retention-days: 1
+      if: steps.audit-packages.outputs.exit_code == 1
 
     # Build the sdist and wheel distribution of the package and docs as a zip file.
     # We don't need to check and test the package separately because `make dist` runs
