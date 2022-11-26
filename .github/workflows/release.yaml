@@ -19,7 +19,7 @@ env:
 jobs:
   check:
     if: ${{ !startsWith(github.event.commits[0].message, 'bump:') }}
-    uses: ./.github/workflows/build.yaml
+    uses: ./.github/workflows/_build.yaml
     permissions:
       contents: read
 
@@ -71,7 +71,7 @@ jobs:
   # When triggered by the version bump commit, build the package and publish the release artifacts.
   build:
     if: github.ref == 'refs/heads/main' && startsWith(github.event.commits[0].message, 'bump:')
-    uses: ./.github/workflows/build.yaml
+    uses: ./.github/workflows/_build.yaml
     permissions:
       contents: read
 
