@@ -194,12 +194,13 @@ docs/_build/html/index.html: check test
 	  mkdir docs/source/_static/; \
 	fi
 	$(MAKE) -C docs/ html
-docs-md: docs/_build/markdown/index.md
-docs/_build/markdown/index.md: check test
+docs-md: docs/_build/markdown/Home.md
+docs/_build/markdown/Home.md: check test
 	if [ ! -d docs/source/_static ]; then \
 	  mkdir docs/source/_static/; \
 	fi
 	$(MAKE) -C docs/ markdown
+	mv docs/_build/markdown/index.md docs/_build/markdown/Home.md
 
 # Prune the packages currently installed in the virtual environment down to the required
 # packages only. Pruning works in a roundabout way, where we first generate the wheels for
