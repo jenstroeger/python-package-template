@@ -1,4 +1,5 @@
-# Send a Slack release notification.
+# Send a Slack release notification. Instructions to set up Slack to receive
+# messages can be found here: https://github.com/slackapi/slack-github-action#setup-2
 
 name: Release Notifications
 on:
@@ -23,21 +24,15 @@ permissions: {}
 jobs:
   slack:
     name: Slack release notification
-    # Remove the next line after your Slack app has been set up. See also:
-    # https://github.com/slackapi/slack-github-action#setup-2
-    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
 
-    - name: Harden Runner
-      uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34 # v1.5.0
-      with:
-        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
-
     - name: Notify via Slack
-      uses: slackapi/slack-github-action@936158bbe252e9a6062e793ea4609642c966e302 # v1.21.0
-      with:
-        payload: |
+      run: |
+        curl --header "Content-Type: application/json; charset=UTF-8" --request POST --data "$SLACK_WEBHOOK_MSG" "$SLACK_WEBHOOK_URL"
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_MSG: |
           {
             "text": "${{ inputs.repo_name }} published a new release ${{ inputs.release_tag }}",
             "blocks": [
@@ -50,6 +45,3 @@ jobs:
               }
             ]
           }
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
