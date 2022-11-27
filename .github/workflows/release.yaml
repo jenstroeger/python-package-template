@@ -209,7 +209,9 @@ jobs:
         GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
   # Send out release notifications after the Release was published on GitHub.
+  # Uncomment the `if` to disable sending release notifications.
   notifications:
+    # if: ${{ false }}
     needs: [release]
     name: Send Release notifications
     uses: ./.github/workflows/_release-notifications.yaml
