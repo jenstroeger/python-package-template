@@ -43,7 +43,7 @@ Comprehensive unit testing is enabled using [pytest](https://pytest.org/) combin
 
 ### Documentation
 
-Documentation is important, and [Sphinx](https://www.sphinx-doc.org/en/master/) is set up already to produce standard documentation for the package, assuming that code contains [docstrings with reStructuredText](https://www.python.org/dev/peps/pep-0287/) (see [below](#generating-documentation)).
+Documentation is important, and [Sphinx](https://www.sphinx-doc.org/en/master/) is already set up to produce standard documentation in HTML and Markdown formats for the package, assuming that code contains [docstrings with reStructuredText](https://www.python.org/dev/peps/pep-0287/); the generated Markdown documentation can also optionally be pushed to the repository’s Github Wiki (see [below](#generating-documentation)).
 
 ### Versioning and publishing
 
@@ -93,6 +93,7 @@ If you’d like to start your own Python project from scratch, you can either co
   - one PAT with `repo` scope (including _all_ of the `repo` permissions) for the secret named `REPO_ACCESS_TOKEN`; this secret is used by the [Release Action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/release.yaml) to push the release commit and attach assets to the generated [Github release](https://github.com/jenstroeger/python-package-template/releases).
   - one PAT with `public_repo`, `read:discussion`, `read:org`, and `read:repo_hook` scopes ([detailed docs](https://github.com/ossf/scorecard-action#authentication-with-pat)) for the secret named `SCORECARD_READ_TOKEN`; this secret is used by the [Scorecard Action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/scorecards-analysis.yaml) to analyze the code and add its results to your repository.
   - one PAT with `repo` scope for the secret named `DEPENDABOT_AUTOMERGE_TOKEN`; this secret is used by the [Dependabot Automerge Action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/dependabot-automerge.yaml) to comment on Dependabot PRs.
+- Create a Wiki and a first empty Wiki page for your new repository. Using the [Wiki Documentation](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/_wiki-documentation.yaml) Action the repository’s Wiki will be automatically updated as part of publishing a new release.
 
 To develop your new package, first create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) by either using the [Makefile](https://www.gnu.org/software/make/manual/make.html#toc-An-Introduction-to-Makefiles):
 
@@ -209,6 +210,8 @@ This example generates documentation in HTML, which can then be found here:
 ```bash
 open docs/_build/html/index.html
 ```
+
+In addition to the default HTML, Sphinx also generates Markdown documentation compatible with [Github Wiki](https://docs.github.com/en/communities/documenting-your-project-with-wikis), and the [Wiki Documentation](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/_wiki-documentation.yaml) Action automatically updates the project repository’s Wiki.
 
 ## Versioning, publishing and changelog
 
