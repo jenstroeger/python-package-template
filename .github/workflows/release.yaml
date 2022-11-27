@@ -112,7 +112,7 @@ jobs:
       run: |
         set -euo pipefail
         echo "Hash of package should be $ARTIFACT_HASH."
-        echo "$ARTIFACT_HASH" | base64 -d | sha256sum --strict --check --status || exit 1
+        echo "$ARTIFACT_HASH" | base64 --decode | sha256sum --strict --check --status || exit 1
 
     # Create the Release Notes using commitizen.
     - name: Set up Python
