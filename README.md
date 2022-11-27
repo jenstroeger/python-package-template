@@ -213,7 +213,7 @@ open docs/_build/html/index.html
 
 To enable automation for [semantic versioning](https://semver.org/), package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a built-in semantic release support enabled which is set up to take care of all three of these aspects — every time changes are merged into the `main` branch.
 
-If you’d like to receive Slack notifications whenever a new release is published, follow the comments in the [Release Notification](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows/release-notifications.yaml) Action and set up a Slack bot by following [the instructions here](https://github.com/slackapi/slack-github-action#setup-2).
+If you’d like to receive Slack notifications whenever a new release is published, follow the comments in the [Release Notification](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows/_release-notifications.yaml) Action and set up a Slack bot by following [the instructions here](https://github.com/slackapi/slack-github-action#setup-2).
 
 In order to build a distribution of your package locally instead of publishing it through the Github Actions workflow, you can simply call:
 
