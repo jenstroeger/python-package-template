@@ -82,6 +82,7 @@ jobs:
     name: Release
     outputs:
       release-tag: ${{ steps.upload-assets.outputs.release-tag }}
+      release-url: ${{ steps.upload-assets.outputs.release-url }}
     runs-on: ubuntu-latest
     permissions:
       contents: write # To publish release notes.
@@ -136,6 +137,7 @@ jobs:
         TAG=$(git describe --tags --abbrev=0)
         gh release create "$TAG" dist/* --title "$TAG" --notes-file RELEASE_NOTES.md
         echo "release-tag=$TAG" >> "$GITHUB_OUTPUT"
+        echo "release-url=$(gh release view """$TAG""" --json url --jq .url)" >> "$GITHUB_OUTPUT"
 
     # Uncomment the following steps to publish to a PyPI server.
     # At the moment PyPI does not provide a mechanism to publish
@@ -205,3 +207,19 @@ jobs:
       run: gh release upload ${{ needs.release.outputs.release-tag }} ${{ needs.provenance.outputs.provenance-name }}
       env:
         GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+  # Send out release notifications after the Release was published on GitHub.
+  # Uncomment the `if` to disable sending release notifications.
+  notifications:
+    # if: ${{ false }}
+    needs: [release]
+    name: Send Release notifications
+    uses: ./.github/workflows/_release-notifications.yaml
+    permissions:
+      contents: read
+    with:
+      repo_name: ${{ github.event.repository.name }}
+      release_tag: ${{ needs.release.outputs.release-tag }}
+      release_url: ${{ needs.release.outputs.release-url }}
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
