@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Module",
+      "type": "python",
+      "request": "launch",
+      "justMyCode": true,
+      "module": "package"
+    },
+    {
+      "name": "Python: Run Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: pytest",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "cwd": "${workspaceRoot}",
+      "env": {
+        "PYTHONPATH": "./src"
+      },
+      "envFile": "${workspaceRoot}/.env",
+      "console": "integratedTerminal"
+    }
+  ]
+}
