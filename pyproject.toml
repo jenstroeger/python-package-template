@@ -38,14 +38,14 @@ something = "package.__main__:main"
 # We keep them listed here to ensure the infrastructure BOM is consistent with what's
 # installed. Make sure to keep the requirements in sync with the workflows!
 actions = [
-    "commitizen ==2.32.1",
+    "commitizen ==2.37.0",
     "twine ==4.0.1",
 ]
 dev = [
     "flit >=3.2.0,<4.0.0",
-    "mypy >=0.921,<=0.971",
+    "mypy >=0.921,<0.992",
     "pip-audit >=2.4.4,<3.0.0",
-    "pylint >=2.9.3,<=2.14.5",
+    "pylint >=2.9.3,<2.15.7",
     "cyclonedx-bom >=3.5.0,<4.0.0",
 ]
 docs = [
@@ -56,11 +56,11 @@ hooks = [
 ]
 # Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
-    "hypothesis >=6.21.0,<=6.54.4",
+    "hypothesis >=6.21.0,<6.58.2",
     "pytest >=7.2.0,<8.0.0",
     "pytest-custom_exit_code ==0.3.0",
     "pytest-cov ==4.0.0",
-    "pytest-env ==0.6.2",
+    "pytest-env ==0.8.1",
 ]
 
 [project.urls]
