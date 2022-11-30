@@ -1,3 +1,18 @@
+## v2.5.0 (2022-11-30)
+
+### Feat
+
+- add more default settings for VSCode (#388)
+- automatically merge Dependabot PRs on approval (#390)
+
+### Fix
+
+- **ci**: make Release Notification a reusable workflow to avoid artifact race (#398)
+- determine package version gracefully, even for a deactivated venv (#387)
+- **ci**: update deprecated SLSA provenance generator, again (#394)
+- incorrect folder name for pytest (#376)
+- don’t nuke an activated virtual environment (#367)
+
 ## v2.4.2 (2022-10-29)
 
 ### Fix
