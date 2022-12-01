@@ -43,7 +43,7 @@ Comprehensive unit testing is enabled using [pytest](https://pytest.org/) combin
 
 ### Documentation
 
-Documentation is important, and [Sphinx](https://www.sphinx-doc.org/en/master/) is set up already to produce standard documentation for the package, assuming that code contains [docstrings with reStructuredText](https://www.python.org/dev/peps/pep-0287/) (see [below](#documentation)).
+Documentation is important, and [Sphinx](https://www.sphinx-doc.org/en/master/) is set up already to produce standard documentation for the package, assuming that code contains [docstrings with reStructuredText](https://www.python.org/dev/peps/pep-0287/) (see [below](#generating-documentation)).
 
 ### Versioning and publishing
 
