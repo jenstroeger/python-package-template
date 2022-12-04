@@ -3,8 +3,9 @@
 #
 # Disabling the following noise:
 # D105: Missing docstring in magic method
+# E501: line too long, managed better by Bugbear's B950
 [flake8]
-ignore = D105
+ignore = D105, E501
 per-file-ignores =
 max-line-length = 120
 show-source = true
