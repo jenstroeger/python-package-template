@@ -39,7 +39,7 @@ something = "package.__main__:main"
 # installed. Make sure to keep the requirements in sync with the workflows!
 actions = [
     "commitizen ==2.37.1",
-    "twine ==4.0.1",
+    "twine ==4.0.2",
 ]
 dev = [
     "flit >=3.2.0,<4.0.0",
