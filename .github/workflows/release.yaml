@@ -148,7 +148,7 @@ jobs:
     # - name: Set up Twine
     #   run: |
     #     pip install --upgrade pip wheel
-    #     pip install 'twine ==4.0.1'
+    #     pip install 'twine ==4.0.2'
 
     # Pass the username, password, and PYPI repository URL via env variables.
     # Read the password from GitHub secrets or via other trusted mechanisms.
