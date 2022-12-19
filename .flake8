@@ -1,7 +1,10 @@
 # Unfortunately, flake8 does not support pyproject.toml configuration.
 # https://github.com/PyCQA/flake8/issues/234
+#
+# Disabling the following noise:
+# D105: Missing docstring in magic method
 [flake8]
-ignore =
+ignore = D105
 per-file-ignores =
 max-line-length = 120
 show-source = true
