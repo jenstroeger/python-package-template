@@ -70,7 +70,7 @@ repos:
 - repo: local
   hooks:
   - id: pylint
-    name: Check lint
+    name: Check pylint issues
     entry: pylint
     language: python
     files: ^src/package/|^tests/
