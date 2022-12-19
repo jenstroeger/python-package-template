@@ -154,7 +154,7 @@ jobs:
     # Read the password from GitHub secrets or via other trusted mechanisms.
     # Do not hardcode the password in the workflow.
     # - name: Publish to PyPI server
-    #   run: twine upload --verbose dist/*.tar.gz dist/*.whl
+    #   run: twine upload --verbose --skip-existing dist/*.tar.gz dist/*.whl
     #   env:
     #     TWINE_USERNAME=<USERNAME>
     #     TWINE_PASSWORD=<PASSWORD>
