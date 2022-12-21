@@ -61,7 +61,7 @@ jobs:
         git config --list --global # For debug purposes.
 
     - name: Create changelog and bump
-      run: cz bump --changelog --yes
+      run: cz --no-raise 21 bump --changelog --yes
 
     - name: Push the release
       run: |
