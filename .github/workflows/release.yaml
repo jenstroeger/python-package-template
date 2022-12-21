@@ -52,7 +52,7 @@ jobs:
     - name: Set up Commitizen
       run: |
         pip install --upgrade pip wheel
-        pip install 'commitizen ==2.37.1'
+        pip install 'commitizen ==2.38.0'
 
     - name: Set up user
       run: |
@@ -123,7 +123,7 @@ jobs:
     - name: Set up Commitizen
       run: |
         pip install --upgrade pip wheel
-        pip install 'commitizen ==2.37.1'
+        pip install 'commitizen ==2.38.0'
 
     - name: Create Release Notes
       run: cz changelog --dry-run "$(cz version --project)" > RELEASE_NOTES.md
