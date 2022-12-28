@@ -1,3 +1,14 @@
+## v2.7.0 (2022-12-28)
+
+### Feat
+
+- add workflow to publish code documentation to the Github Wiki upon package releases (#396)
+
+### Fix
+
+- **ci**: don’t fail bump job if there are no commits to bump (#428)
+- line-length checks are now a bit more tolerant using Bugbear only (#410)
+
 ## v2.6.0 (2022-12-01)
 
 ### Feat
