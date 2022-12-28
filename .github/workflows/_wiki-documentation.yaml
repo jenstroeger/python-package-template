@@ -1,0 +1,85 @@
+# This reusable workflow publishes Markdown docs to Github Wiki. Some manual
+# setup is required before using it: enable Wiki in repository and create at
+# least one page.
+
+name: Publish Github Wiki documentation
+on:
+  workflow_call:
+    inputs:
+      release_tag:
+        required: true
+        type: string
+      release_url:
+        required: true
+        type: string
+      artifact_name:
+        required: true
+        type: string
+      git_user_name:
+        required: true
+        type: string
+      git_user_email:
+        required: true
+        type: string
+    secrets:
+      REPO_ACCESS_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish-wiki:
+    name: Publish Github Wiki
+    if: github.repository.has_wiki == true
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Harden Runner
+      uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34 # v1.5.0
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+    # Check out the repository's Wiki repo into the wiki/ folder. The token is required
+    # only for private repositories.
+    - name: Check out repository
+      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      with:
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        repository: ${{ format('{0}.wiki', github.repository) }}
+        path: wiki
+
+    # Download the build artifacts attached to this workflow run.
+    - name: Download artifact
+      uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7 # v3.0.1
+      with:
+        name: ${{ inputs.artifact_name }}
+        path: dist
+
+    # Unpack the Markdown docs into the Wiki repository. Delete existing files first
+    # to ensure that no stale files stay behind.
+    - name: Copy Markdown documentation
+      run: |
+        mkdir docs/
+        unzip -d docs/ "$(ls dist/*-docs-md.zip)"
+        rm --recursive --force wiki/*
+        cp --recursive --verbose --target-directory wiki/ docs/markdown/*
+
+    # If there was any change to the Wiki then push the update.
+    - name: Push to Wiki
+      run: |
+        cd wiki/
+        if [ -n "$(git status --porcelain)" ]; then
+          git add .
+          git config --global user.name "$USER_NAME"
+          git config --global user.email "$USER_EMAIL"
+          git commit --message "$WIKI_COMMIT_MESSAGE"
+          git push
+        fi
+      env:
+        USER_NAME: ${{ inputs.git_user_name }}
+        USER_EMAIL: ${{ inputs.git_user_email }}
+        WIKI_COMMIT_MESSAGE: |
+          docs: update for ${{ inputs.release_tag }}
+
+          Link: ${{ inputs.release_url }}

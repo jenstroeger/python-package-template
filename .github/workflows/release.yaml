@@ -10,6 +10,7 @@ on:
 permissions:
   contents: read
 env:
+  # Duplicate these values for the `wiki` job below!
   ARTIFACT_NAME: artifact-ubuntu-latest-python-3.10
   # This is the username and email for the user who commits and pushes the release
   # commit. In an organisation that should be a dedicated devops account.
@@ -226,3 +227,24 @@ jobs:
       release_url: ${{ needs.release.outputs.release-url }}
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # Publish the generated Markdown documentation to the repository's Wiki.
+  # Uncomment the `if` to disable generating Wiki documentation.
+  wiki:
+    # if: ${{ false }}
+    needs: [release]
+    name: Publish Github Wiki documentation
+    uses: ./.github/workflows/_wiki-documentation.yaml
+    permissions:
+      contents: read
+    with:
+      release_tag: ${{ needs.release.outputs.release-tag }}
+      release_url: ${{ needs.release.outputs.release-url }}
+      # Github disallows passing environment variables as arguments to a reusable
+      # workflow, so we have to duplicate these values here. Related discussion
+      # here: https://github.com/actions/toolkit/issues/931
+      artifact_name: artifact-ubuntu-latest-python-3.10
+      git_user_name: jenstroeger
+      git_user_email: jenstroeger@users.noreply.github.com
+    secrets:
+      REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}

@@ -173,21 +173,34 @@ test:
 # When building these artifacts, we need the environment variable SOURCE_DATE_EPOCH
 # set to the build date/epoch. For more details, see: https://flit.pypa.io/en/latest/reproducible.html
 .PHONY: dist
-dist: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
+dist: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl: check test
 	flit build --setup-py --format wheel
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz: check test
 	flit build --setup-py --format sdist
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip: docs
-	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip docs/_build/html
+dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip: docs-html
+	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip docs/_build/html/
+dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip: docs-md
+	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip docs/_build/markdown/
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt:
 	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 
-# Build the HTML documentation from the package's source.
-.PHONY: docs
-docs: docs/_build/html/index.html
+# Build the HTML and Markdown documentation from the package's source.
+.PHONY: docs docs-html docs-md
+docs: docs-html docs-md
+docs-html: docs/_build/html/index.html
 docs/_build/html/index.html: check test
+	if [ ! -d docs/source/_static ]; then \
+	  mkdir docs/source/_static/; \
+	fi
 	$(MAKE) -C docs/ html
+docs-md: docs/_build/markdown/Home.md
+docs/_build/markdown/Home.md: check test
+	if [ ! -d docs/source/_static ]; then \
+	  mkdir docs/source/_static/; \
+	fi
+	$(MAKE) -C docs/ markdown
+	mv docs/_build/markdown/index.md docs/_build/markdown/Home.md
 
 # Prune the packages currently installed in the virtual environment down to the required
 # packages only. Pruning works in a roundabout way, where we first generate the wheels for
