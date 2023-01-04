@@ -65,10 +65,10 @@ test = [
 ]
 
 [project.urls]
-Homepage = "https://my.project/"
-Changelog = "https://my.project/CHANGELOG"
-Documentation = "https://my.project/docs/"
-Issues = "https://my.project/issues"
+Homepage = "https://github.com/jenstroeger/python-package-template"
+Changelog = "https://github.com/jenstroeger/python-package-template/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/jenstroeger/python-package-template/wiki"
+Issues = "https://github.com/jenstroeger/python-package-template/issues"
 
 
 # https://bandit.readthedocs.io/en/latest/config.html
