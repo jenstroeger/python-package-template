@@ -31,7 +31,7 @@ The badges above give you an idea of what this project template provides. It’s
 
 ### Typing
 
-The package requires a minimum of [Python 3.9](https://www.python.org/downloads/release/python-390/) and supports [Python 3.10](https://www.python.org/downloads/release/python-3100/) as well as [Python 3.11](https://www.python.org/downloads/release/python-3110a6/). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker is invoked by a git hook and through a Github Action to enforce continuous type checks. Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
+The package requires a minimum of [Python 3.10](https://www.python.org/downloads/release/python-3109/) and supports [Python 3.11](https://www.python.org/downloads/release/python-3111/). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker is invoked by a git hook and through a Github Action to enforce continuous type checks. Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
 
 ### Quality assurance
 
@@ -104,13 +104,13 @@ make venv  # Create a new virtual environment in .venv folder using Python 3.10.
 or for a specific version of Python:
 
 ```bash
-PYTHON=python3.9 make venv  # Same virtual environment for a different Python version.
+PYTHON=python3.10 make venv  # Same virtual environment for a different Python version.
 ```
 
 or manually:
 
 ```bash
-python3.11 -m venv .venv  # Or use .venv310 for more than one local virtual environments.
+python3.11 -m venv .venv  # Or use .venv311 for more than one local virtual environments.
 ```
 
 When working with this Makefile _it is important to always [activate the virtual environment](https://docs.python.org/3/library/venv.html)_ because some of the [git hooks](#git-hooks) (see below) depend on that:

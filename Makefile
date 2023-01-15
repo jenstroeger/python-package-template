@@ -56,7 +56,7 @@ endif
 .PHONY: all
 all: check test dist docs
 
-# Create a virtual environment, either for Python3.10 (default) or using
+# Create a virtual environment, either for Python3.11 (default) or using
 # the Python interpreter specified in the PYTHON environment variable. Also
 # create an empty pip.conf file to ensure that `pip config` modifies this
 # venv only, unless told otherwise. For more background, see:
@@ -70,8 +70,8 @@ venv:
 	  echo "Found an inactive Python virtual environment, please activate or nuke it" && exit 1; \
 	fi
 	if [ -z "${PYTHON}" ]; then \
-	  echo "Creating virtual environment in .venv/ for python3.10"; \
-	  python3.10 -m venv --upgrade-deps --prompt . .venv; \
+	  echo "Creating virtual environment in .venv/ for python3.11"; \
+	  python3.11 -m venv --upgrade-deps --prompt . .venv; \
 	else \
 	  echo "Creating virtual environment in .venv/ for ${PYTHON}"; \
 	  ${PYTHON} -m venv --upgrade-deps --prompt . .venv; \
