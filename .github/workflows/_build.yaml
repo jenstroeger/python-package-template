@@ -82,6 +82,8 @@ jobs:
     # those targets first and only builds the package if they succeed.
     - name: Build the package
       run: make dist
+      env:
+        HYPOTHESIS_PROFILE: github
 
     # Generate the requirements.txt that contains the hash digests of the dependencies and
     # generate the SBOM using CyclonDX SBOM generator.
