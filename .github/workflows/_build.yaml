@@ -6,7 +6,7 @@
 #
 # Even though we run the build in a matrix to check against different platforms, due to a known
 # limitation of reusable workflows that do not support setting strategy property from the caller
-# workflow, we only generate artifacts for ubuntu-latest and Python 3.10, which can be used to
+# workflow, we only generate artifacts for ubuntu-latest and Python 3.11, which can be used to
 # create a release. For details see:
 #
 # https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations
@@ -30,7 +30,7 @@ permissions:
   contents: read
 env:
   ARTIFACT_OS: ubuntu-latest # The default OS for release.
-  ARTIFACT_PYTHON: '3.10' # The default Python version for release.
+  ARTIFACT_PYTHON: '3.11' # The default Python version for release.
 
 jobs:
   build:
