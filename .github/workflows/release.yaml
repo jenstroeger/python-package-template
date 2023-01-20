@@ -11,7 +11,7 @@ permissions:
   contents: read
 env:
   # Duplicate these values for the `wiki` job below!
-  ARTIFACT_NAME: artifact-ubuntu-latest-python-3.10
+  ARTIFACT_NAME: artifact-ubuntu-latest-python-3.11
   # This is the username and email for the user who commits and pushes the release
   # commit. In an organisation that should be a dedicated devops account.
   USER_NAME: jenstroeger
@@ -48,7 +48,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # v4.5.0
       with:
-        python-version: '3.10'
+        python-version: '3.11'
 
     - name: Set up Commitizen
       run: |
@@ -122,7 +122,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # v4.5.0
       with:
-        python-version: '3.10'
+        python-version: '3.11'
 
     - name: Set up Commitizen
       run: |
@@ -243,7 +243,7 @@ jobs:
       # Github disallows passing environment variables as arguments to a reusable
       # workflow, so we have to duplicate these values here. Related discussion
       # here: https://github.com/actions/toolkit/issues/931
-      artifact_name: artifact-ubuntu-latest-python-3.10
+      artifact_name: artifact-ubuntu-latest-python-3.11
       git_user_name: jenstroeger
       git_user_email: jenstroeger@users.noreply.github.com
     secrets:
