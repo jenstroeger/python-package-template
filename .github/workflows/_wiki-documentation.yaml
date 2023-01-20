@@ -39,6 +39,7 @@ jobs:
       uses: step-security/harden-runner@18bf8ad2ca49c14cbb28b91346d626ccfb00c518 # v2.1.0
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+        disable-sudo: true
 
     # Check out the repository's Wiki repo into the wiki/ folder. The token is required
     # only for private repositories.
