@@ -36,7 +36,7 @@ jobs:
     - name: Set up Commitizen
       run: |
         pip install --upgrade pip wheel
-        pip install 'commitizen ==2.39.1'
+        pip install 'commitizen ==2.40.0'
 
     # Run Commitizen to check the title of the PR which triggered this workflow, and check
     # all commit messages of the PR's branch. If any of the checks fails then this job fails.
