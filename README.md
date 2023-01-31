@@ -190,6 +190,19 @@ src/package/something.py       4      0   100%
 TOTAL                          5      0   100%
 
 Required test coverage of 100.0% reached. Total coverage: 100.00%
+============================ Hypothesis Statistics =============================
+
+tests/test_something.py::test_something:
+
+  - during reuse phase (0.00 seconds):
+    - Typical runtimes: ~ 1ms, ~ 28% in data generation
+    - 1 passing examples, 0 failing examples, 0 invalid examples
+
+  - during generate phase (0.00 seconds):
+    - Typical runtimes: < 1ms, ~ 43% in data generation
+    - 1 passing examples, 0 failing examples, 0 invalid examples
+
+  - Stopped because nothing left to do
 
 ============================== 1 passed in 0.16s ===============================
 ```
