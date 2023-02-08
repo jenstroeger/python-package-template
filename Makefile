@@ -5,7 +5,7 @@ SHELL := bash
 
 # Set the package's name and version for use throughout the Makefile.
 PACKAGE_NAME := package
-PACKAGE_VERSION := $(shell python -c $$'try: import $(PACKAGE_NAME); print($(PACKAGE_NAME).__version__);\nexcept: print("unknown");')
+PACKAGE_VERSION := $(shell python3 -c $$'try: import $(PACKAGE_NAME); print($(PACKAGE_NAME).__version__);\nexcept: print("unknown");')
 
 # This variable contains the first goal that matches any of the listed goals
 # here, else it contains an empty string. The net effect is to filter out
