@@ -31,22 +31,22 @@ repos:
 
 # Add Black code formatters.
 - repo: https://github.com/ambv/black
-  rev: 22.10.0
+  rev: 22.12.0
   hooks:
   - id: black
     name: Format code
     args: [--config, pyproject.toml]
 - repo: https://github.com/asottile/blacken-docs
-  rev: v1.12.1
+  rev: 1.13.0
   hooks:
   - id: blacken-docs
     name: Format code in docstrings
     args: [--line-length, '120']
-    additional_dependencies: [black==22.10.0]
+    additional_dependencies: [black==22.12.0]
 
 # Upgrade and rewrite Python idioms.
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.2.3
+  rev: v3.3.1
   hooks:
   - id: pyupgrade
     name: Upgrade code idioms
@@ -62,7 +62,7 @@ repos:
     name: Check flake8 issues
     files: ^src/package/|^tests/
     types: [text, python]
-    additional_dependencies: [flake8-bugbear==22.10.27, flake8-builtins==2.0.1, flake8-comprehensions==3.10.1, flake8-docstrings==1.6.0, flake8-mutable==1.2.0, flake8-noqa==1.3.0, flake8-pytest-style==1.6.0, flake8-rst-docstrings==0.3.0, pep8-naming==0.13.2]
+    additional_dependencies: [flake8-bugbear==23.1.20, flake8-builtins==2.1.0, flake8-comprehensions==3.10.1, flake8-docstrings==1.7.0, flake8-mutable==1.2.0, flake8-noqa==1.3.0, flake8-pytest-style==1.6.0, flake8-rst-docstrings==0.3.0, pep8-naming==0.13.3]
     args: [--config, .flake8]
 
 # Run Pylint from the local repo to make sure venv packages
@@ -119,7 +119,7 @@ repos:
   - id: check-yaml
   - id: check-toml
 - repo: https://github.com/pre-commit/pygrep-hooks
-  rev: v1.9.0
+  rev: v1.10.0
   hooks:
   - id: python-check-blanket-noqa
   - id: python-check-blanket-type-ignore
@@ -140,7 +140,7 @@ repos:
 
 # Check and prettify the configuration files.
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.4.0
+  rev: v2.6.0
   hooks:
   - id: pretty-format-ini
     args: [--autofix]
