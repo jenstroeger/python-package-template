@@ -254,7 +254,7 @@ The build process in this repository follows the requirements in the [SLSA frame
 - Binary dist (wheel)
 - Source dist (tarball)
 - SBOM (CycloneDx format)
-- HTML Docs
+- HTML and Markdown Docs
 - A [UNIX epoch](https://en.wikipedia.org/wiki/Unix_time) timestamp file of the build time for [reproducible builds](https://reproducible-builds.org/)
 
 To verify the artifact using the provenance follow the instructions in the [SLSA verifier](https://github.com/slsa-framework/slsa-verifier) project to install the verifier tool. After downloading the artifacts and provenance, verify each artifact individually, e.g.,:
