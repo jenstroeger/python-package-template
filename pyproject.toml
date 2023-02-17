@@ -46,7 +46,7 @@ dev = [
     "mypy >=0.921,<1.1",
     "pip-audit >=2.4.4,<3.0.0",
     "pylint >=2.9.3,<2.16.3",
-    "cyclonedx-bom >=3.5.0,<4.0.0",
+    "cyclonedx-bom >=3.11.0,<4.0.0",
 ]
 docs = [
     "sphinx >=5.1.1,<7.0.0",
