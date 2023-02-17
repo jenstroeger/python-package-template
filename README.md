@@ -20,6 +20,7 @@ This repository is intended to be a base template, a cookiecutter for a new Pyth
 [Git hooks](#git-hooks)  
 [Testing](#testing)  
 [Generating documentation](#generating-documentation)  
+[Synchronizing with this template repo](#synchronizing-with-this-template-repo)  
 [Versioning, publishing and changelog](#versioning-publishing-and-changelog)  
 [Build integrity using SLSA framework](#build-integrity-using-slsa-framework)  
 [Cleaning up](#cleaning-up)  
@@ -90,7 +91,7 @@ If you’d like to start your own Python project from scratch, you can either co
 - Adjust the Dependabot settings in `.github/dependabot.yaml` to your desired target branch that you’d like to have monitored by Dependabot.
 
 - Create the following [Personal Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) (PAT) with certain [scopes](https://docs.github.com/en/developers/apps/building-oauth-apps/scopes-for-oauth-apps#available-scopes) for your Github user account and then [create secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) for the new Github repository whose values are these new PATs:
-  - one PAT with `repo` scope (including _all_ of the `repo` permissions) for the secret named `REPO_ACCESS_TOKEN`; this secret is used by the [Release Action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/release.yaml) to push the release commit and attach assets to the generated [Github release](https://github.com/jenstroeger/python-package-template/releases).
+  - one PAT with `workflow` and `repo` scope (including _all_ of the `repo` permissions) for the secret named `REPO_ACCESS_TOKEN`; this secret is used by the [Release Action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/release.yaml) to push the release commit and attach assets to the generated [Github release](https://github.com/jenstroeger/python-package-template/releases).
   - one PAT with `public_repo`, `read:discussion`, `read:org`, and `read:repo_hook` scopes ([detailed docs](https://github.com/ossf/scorecard-action#authentication-with-pat-optional)) for the secret named `SCORECARD_READ_TOKEN`; this secret is used by the [Scorecard Action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/scorecards-analysis.yaml) to analyze the code and add its results to your repository.
   - one PAT with `repo` scope for the secret named `DEPENDABOT_AUTOMERGE_TOKEN`; this secret is used by the [Dependabot Automerge Action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/dependabot-automerge.yaml) to comment on Dependabot PRs.
 - Create a Wiki and a first empty Wiki page for your new repository. Using the [Wiki Documentation](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/_wiki-documentation.yaml) Action the repository’s Wiki will be automatically updated as part of publishing a new release.
@@ -225,6 +226,10 @@ open docs/_build/html/index.html
 ```
 
 In addition to the default HTML, Sphinx also generates Markdown documentation compatible with [Github Wiki](https://docs.github.com/en/communities/documenting-your-project-with-wikis), and the [Wiki Documentation](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/_wiki-documentation.yaml) Action automatically updates the project repository’s Wiki.
+
+## Synchronizing with this template repo
+
+The [sync-with-upstream.yaml](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/sync-with-upstream.yaml) GitHub Acions workflow checks this template repo daily and automatically creates a pull request in the downstream repo if there is a new release. Make sure to set up the GitHub username and email address in this workflow accordingly.
 
 ## Versioning, publishing and changelog
 
