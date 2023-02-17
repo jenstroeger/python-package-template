@@ -20,7 +20,7 @@ This repository is intended to be a base template, a cookiecutter for a new Pyth
 [Git hooks](#git-hooks)  
 [Testing](#testing)  
 [Generating documentation](#generating-documentation)  
-[Synchronizing with this template repo](#Synchronizing-with-this-template-repo)  
+[Synchronizing with this template repo](#synchronizing-with-this-template-repo)  
 [Versioning, publishing and changelog](#versioning-publishing-and-changelog)  
 [Build integrity using SLSA framework](#build-integrity-using-slsa-framework)  
 [Cleaning up](#cleaning-up)  
