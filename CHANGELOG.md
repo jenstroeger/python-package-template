@@ -1,3 +1,20 @@
+## v2.8.0 (2023-02-20)
+
+### Feat
+
+- add a workflow to create sync PRs (#444)
+- add flake8-print plugin to the flake8 git pre-commit hook (#473)
+
+### Fix
+
+- **docs**: update OSSF Scorecard URL (#468)
+- **ci**: update isort to latest fix because of PyCQA/isort/issues/2077 (#455)
+- update project URLs in the package metadata
+
+### Refactor
+
+- **test**: configure warnings for pytest through pyproject.toml only (#436)
+
 ## v2.7.0 (2022-12-28)
 
 ### Feat
