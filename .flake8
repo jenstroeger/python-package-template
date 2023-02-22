@@ -1,18 +1,33 @@
 # Unfortunately, flake8 does not support pyproject.toml configuration.
 # https://github.com/PyCQA/flake8/issues/234
 #
-# Disabling the following noise:
-# D105: Missing docstring in magic method
-# E501: line too long, managed better by Bugbear's B950
+# More details regarding Flake8 and Black interplay:
+# https://github.com/psf/black/blob/main/docs/guides/using_black_with_other_tools.md#flake8
 [flake8]
-ignore = D105, E501
-per-file-ignores =
-max-line-length = 120
-show-source = true
 
 # Enable Bugbear's extended opinionated checks.
 # https://github.com/PyCQA/flake8-bugbear#how-to-enable-opinionated-warnings
-extend-select = B9
+#
+# Enable W504: line break after binary operator (Black compliant)
+# https://pycodestyle.pycqa.org/en/latest/intro.html#error-codes
+extend-select = B9, W504
+
+# Disabling several warnings that don't play nice with PEP8 or Black,
+# or that are a bit of a nuisance in general.
+#
+# http://www.pydocstyle.org/en/latest/error_codes.html
+# D105: Missing docstring in magic method
+#
+# https://pycodestyle.pycqa.org/en/latest/intro.html#error-codes
+# E203: whitespace before ‘,’, ‘;’, or ‘:’ (not Black compliant)
+# E501: line too long, managed better by Bugbear's B950
+# W503: line break before binary operator (not Black compliant)
+ignore = D105, E203, E501, W503
+per-file-ignores =
+
+# More asorted googness.
+max-line-length = 120
+show-source = true
 
 # Ensure that flake8 warnings are silenced correctly.
 # https://github.com/plinss/flake8-noqa#options
