@@ -1,4 +1,4 @@
-# Unfortunately, flake8 does not support pyproject.toml configuration.
+# Unfortunately, Flake8 does not support pyproject.toml configuration.
 # https://github.com/PyCQA/flake8/issues/234
 #
 # More details regarding Flake8 and Black interplay:
@@ -12,7 +12,7 @@
 # https://pycodestyle.pycqa.org/en/latest/intro.html#error-codes
 extend-select = B9, W504
 
-# Disabling several warnings that don't play nice with PEP8 or Black,
+# Disable several warnings that don't play nice with PEP8 or Black,
 # or that are a bit of a nuisance in general.
 #
 # http://www.pydocstyle.org/en/latest/error_codes.html
@@ -25,10 +25,10 @@ extend-select = B9, W504
 ignore = D105, E203, E501, W503
 per-file-ignores =
 
-# More asorted googness.
+# More assorted goodness.
 max-line-length = 120
 show-source = true
 
-# Ensure that flake8 warnings are silenced correctly.
+# Ensure that Flake8 warnings are silenced correctly.
 # https://github.com/plinss/flake8-noqa#options
 noqa-require-code = true
