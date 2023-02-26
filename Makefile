@@ -175,9 +175,9 @@ test:
 .PHONY: dist
 dist: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl: check test
-	flit build --setup-py --format wheel
+	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) flit build --setup-py --format wheel
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz: check test
-	flit build --setup-py --format sdist
+	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) flit build --setup-py --format sdist
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip: docs-html
 	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip docs/_build/html/
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip: docs-md
