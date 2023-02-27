@@ -53,7 +53,7 @@ docs = [
     "sphinxnotes-markdown-builder >=0.5.6,<1.0.0",
 ]
 hooks = [
-    "pre-commit >=2.18.0,<3.1.0",
+    "pre-commit >=2.18.0,<3.2.0",
 ]
 # Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
