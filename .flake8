@@ -22,7 +22,10 @@ extend-select = B9, W504
 # E203: whitespace before ‘,’, ‘;’, or ‘:’ (not Black compliant)
 # E501: line too long, managed better by Bugbear's B950
 # W503: line break before binary operator (not Black compliant)
-ignore = D105, E203, E501, W503
+#
+# https://github.com/peterjc/flake8-rst-docstrings#configuration
+# RST307: Error in "XXX" directive
+ignore = D105, E203, E501, RST307, W503
 per-file-ignores =
 
 # More assorted goodness.
@@ -32,3 +35,9 @@ show-source = true
 # Ensure that Flake8 warnings are silenced correctly.
 # https://github.com/plinss/flake8-noqa#options
 noqa-require-code = true
+
+# Ensure that Sphinx extensions of .rst are recognized:
+# https://github.com/peterjc/flake8-rst-docstrings#configuration
+rst-roles = class, func, ref
+rst-directives = envvar, exception
+rst-substitutions = version
