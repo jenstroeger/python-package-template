@@ -20,7 +20,7 @@ extend-select = B9, W504
 #
 # https://pycodestyle.pycqa.org/en/latest/intro.html#error-codes
 # E203: whitespace before ‘,’, ‘;’, or ‘:’ (not Black compliant)
-# E501: line too long, managed better by Bugbear's B950
+# E501: line too long (managed better by Bugbear's B950)
 # W503: line break before binary operator (not Black compliant)
 #
 # https://github.com/peterjc/flake8-rst-docstrings#configuration
