@@ -5,11 +5,13 @@
 # https://github.com/psf/black/blob/main/docs/guides/using_black_with_other_tools.md#flake8
 [flake8]
 
-# Enable Bugbear's extended opinionated checks.
-# https://github.com/PyCQA/flake8-bugbear#how-to-enable-opinionated-warnings
+# Enable a few additional checks.
 #
-# Enable W504: line break after binary operator (Black compliant)
+# https://github.com/PyCQA/flake8-bugbear#how-to-enable-opinionated-warnings
+# B9: Bugbear's extended opinionated checks
+#
 # https://pycodestyle.pycqa.org/en/latest/intro.html#error-codes
+# W504: line break after binary operator (Black compliant)
 extend-select = B9, W504
 
 # Disable several warnings that don't play nice with PEP8 or Black,
@@ -32,7 +34,7 @@ per-file-ignores =
 max-line-length = 120
 show-source = true
 
-# Ensure that Flake8 warnings are silenced correctly.
+# Ensure that Flake8 warnings are silenced correctly:
 # https://github.com/plinss/flake8-noqa#options
 noqa-require-code = true
 
