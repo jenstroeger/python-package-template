@@ -55,7 +55,7 @@ jobs:
         else
 
           # Copy the files from the template to the current repo.
-          rsync --recursive --verbose --verbose --exclude tests/ --exclude src/ \
+          rsync --recursive --verbose --verbose --exclude tests/ --exclude src/ --exclude docs/source/ \
             --exclude .git/ --exclude .github/workflows/.template_version template/ repo/
 
           # Check if the branch exists in the current repo.
