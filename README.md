@@ -40,7 +40,7 @@ A number of git hooks are invoked before and after a commit, and before push. Th
 
 ### Unit testing
 
-Comprehensive unit testing is enabled using [pytest](https://pytest.org/) combined with [Hypothesis](https://hypothesis.works/) (to generate test payloads and strategies), and test code coverage is measured using [coverage](https://github.com/nedbat/coveragepy) (see [below](#testing)).
+Comprehensive unit testing is enabled using [pytest](https://pytest.org/) combined with [Hypothesis](https://hypothesis.works/) (to generate test payloads and strategies), and test code and branch coverage is measured using [coverage](https://github.com/nedbat/coveragepy) (see [below](#testing)).
 
 ### Documentation
 
@@ -166,7 +166,7 @@ make test
 ```
 which runs all tests in both your local Python virtual environment. For more options, see the [pytest command-line flags](https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags). Also note that pytest includes [doctest](https://docs.python.org/3/library/doctest.html), which means that module and function [docstrings](https://www.python.org/dev/peps/pep-0257/#what-is-a-docstring) may contain test code that executes as part of the unit tests.
 
-Test code coverage is already tracked using [coverage](https://github.com/nedbat/coveragepy) and the [pytest-cov](https://github.com/pytest-dev/pytest-cov) plugin for pytest, and it measures how much code in the `src/package/` folder is covered by tests:
+Test code and branch coverage is already tracked using [coverage](https://github.com/nedbat/coveragepy) and the [pytest-cov](https://github.com/pytest-dev/pytest-cov) plugin for pytest, and it measures how much code in the `src/package/` folder is covered by tests:
 ```
 Run unit tests...........................................................Passed
 - hook id: pytest
@@ -183,12 +183,12 @@ collected 1 item
 tests/test_something.py::test_something PASSED                           [100%]
 
 ---------- coverage: platform darwin, python 3.10.2-final-0 ----------
-Name                       Stmts   Miss  Cover   Missing
---------------------------------------------------------
-src/package/__init__.py        1      0   100%
-src/package/something.py       4      0   100%
---------------------------------------------------------
-TOTAL                          5      0   100%
+Name                       Stmts   Miss Branch BrPart  Cover   Missing
+----------------------------------------------------------------------
+src/package/__init__.py        1      0      0      0   100%
+src/package/something.py       4      0      2      0   100%
+----------------------------------------------------------------------
+TOTAL                          5      0      2      0   100%
 
 Required test coverage of 100.0% reached. Total coverage: 100.00%
 ============================ Hypothesis Statistics =============================
@@ -207,7 +207,7 @@ tests/test_something.py::test_something:
 
 ============================== 1 passed in 0.16s ===============================
 ```
-Note that code that’s not covered by tests is listed under the `Missing` column. The net effect of enforcing 100% code coverage is that every new major and minor feature, every code change, and every fix are being tested (keeping in mind that _code coverage_ does not correlate with _test quality_).
+Note that code that’s not covered by tests is listed under the `Missing` column, and branches not taken too. The net effect of enforcing 100% code and branch coverage is that every new major and minor feature, every code change, and every fix are being tested (keeping in mind that high _coverage_ does not necessarily imply comprehensive _test data_).
 
 Hypothesis is a package that implements [property based testing](https://en.wikipedia.org/wiki/QuickCheck) and that provides payload generation for your tests based on strategy descriptions ([more](https://hypothesis.works/#what-is-hypothesis)). Using its [pytest plugin](https://hypothesis.readthedocs.io/en/latest/details.html#the-hypothesis-pytest-plugin) Hypothesis is ready to be used for this package.
 
