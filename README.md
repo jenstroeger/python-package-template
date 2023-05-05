@@ -32,7 +32,7 @@ The badges above give you an idea of what this project template provides. It’s
 
 ### Typing
 
-The package requires a minimum of [Python 3.10](https://www.python.org/downloads/release/python-3109/) and supports [Python 3.11](https://www.python.org/downloads/release/python-3111/). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker is invoked by a git hook and through a Github Action to enforce continuous type checks. Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
+The package requires a minimum of [Python 3.10](https://www.python.org/downloads/release/python-3109/) and supports [Python 3.11](https://www.python.org/downloads/release/python-3111/). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker and the [flake8-pyi](https://github.com/PyCQA/flake8-pyi) plugin are invoked by a git hooks and through a Github Action to enforce continuous type checks on Python source and [stub files](https://peps.python.org/pep-0484/#stub-files). Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
 
 ### Quality assurance
 
