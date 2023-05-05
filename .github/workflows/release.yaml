@@ -251,3 +251,19 @@ jobs:
       git_user_email: jenstroeger@users.noreply.github.com
     secrets:
       REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+  # Rebase the staging branch on top of the main branch, to keep histories in sync.
+  rebase_staging:
+    # if: ${{ false }}
+    needs: [release]
+    name: Rebase staging branch on main
+    uses: ./.github/workflows/_generate-rebase.yaml
+    permissions:
+      contents: read
+    with:
+      to_head: staging
+      from_base: origin/main
+      git_user_name: jenstroeger
+      git_user_email: jenstroeger@users.noreply.github.com
+    secrets:
+      REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}

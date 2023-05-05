@@ -1,0 +1,50 @@
+# Automatically rebase one branch branch on top of another; usually staging on top
+# of main after a new package version was published.
+
+name: Rebase branch
+on:
+  workflow_call:
+    inputs:
+      to_head:
+        type: string
+        required: true
+      from_base:
+        type: string
+        required: true
+      git_user_name:
+        required: true
+        type: string
+      git_user_email:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Harden Runner
+      uses: step-security/harden-runner@6b3083af2869dc3314a0257a42f4af696cc79ba3 # v2.3.1
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+    - name: Check out repository
+      uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        ref: ${{ github.ref_name }}
+
+    - name: Do rebase
+      run: |
+        git config --global user.name "$USER_NAME"
+        git config --global user.email "$USER_EMAIL"
+        git checkout ${{ inputs.to_head }}
+        git rebase ${{ inputs.from_base }}
+        git push --force-with-lease
+      env:
+        USER_NAME: ${{ inputs.git_user_name }}
+        USER_EMAIL: ${{ inputs.git_user_email }}
