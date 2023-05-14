@@ -216,7 +216,7 @@ emergency-release-pypi:
 	if [ "$$(git status --porcelain)" != "" ]; then \
 	  echo "Changes detected, please stash or commit them first" && exit 1; \
 	fi
-	cz --no-raise 21 bump --changelog --yes
+	python -m commitizen --no-raise 21 bump --changelog --yes
 	git push
 	git push --tags
 	$(MAKE) dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
