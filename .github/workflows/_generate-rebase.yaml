@@ -42,9 +42,11 @@ jobs:
       run: |
         git config --global user.name "$USER_NAME"
         git config --global user.email "$USER_EMAIL"
-        git checkout ${{ inputs.to_head }}
-        git rebase ${{ inputs.from_base }}
+        git checkout "$TO_HEAD"
+        git rebase "$FROM_BASE"
         git push --force-with-lease
       env:
         USER_NAME: ${{ inputs.git_user_name }}
         USER_EMAIL: ${{ inputs.git_user_email }}
+        TO_HEAD: ${{ inputs.to_head }}
+        FROM_BASE: ${{ inputs.from_base }}
