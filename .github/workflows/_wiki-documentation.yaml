@@ -31,7 +31,7 @@ permissions:
 jobs:
   publish-wiki:
     name: Publish Github Wiki
-    if: github.repository.has_wiki == true
+    if: github.event.repository.has_wiki == true
     runs-on: ubuntu-latest
     steps:
 

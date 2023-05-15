@@ -143,6 +143,7 @@ Using the pre-commit tool and its `.pre-commit-config.yaml` configuration, the f
 - When committing code, a number of [pre-commit hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_committing_workflow_hooks) ensure that your code is formatted according to [PEP 8](https://www.python.org/dev/peps/pep-0008/) using the [`black`](https://github.com/psf/black) tool, and they’ll invoke [`flake8`](https://github.com/PyCQA/flake8) (and various plugins), [`pylint`](https://github.com/PyCQA/pylint) and [`mypy`](https://github.com/python/mypy) to check for lint and correct types. There are more checks, but those two are the important ones. You can adjust the settings for these tools in the `pyproject.toml` or `.flake8` configuration files.
 - The [commit message hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_committing_workflow_hooks) enforces [conventional commit messages](https://www.conventionalcommits.org/) and that, in turn, enables a _semantic release_ of this package on the Github side: upon merging changes into the `main` branch, the [release action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/release.yaml) uses the [Commitizen tool](https://commitizen-tools.github.io/commitizen/) to produce a [changelog](https://en.wikipedia.org/wiki/Changelog) and it computes the next version of this package and publishes a release — all based on the commit messages of a release.
 - Using a [pre-push hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_other_client_hooks) this package is also set up to run [`pytest`](https://github.com/pytest-dev/pytest); in addition, the [`coverage`](https://github.com/nedbat/coveragepy) plugin makes sure that _all_ of your package’s code is covered by tests and [Hypothesis](https://hypothesis.works/) is already installed to help with generating test payloads.
+- The [`actionlint`](https://github.com/Mateusz-Grzelinski/actionlint-py) hook is set up to lint GitHub Actions workflows. If [`shellcheck`](https://github.com/koalaman/shellcheck) is installed on the system, `actionlint` runs `shellcheck` to lint the `run` steps in GitHub Actions. Note that `shellcheck` is available on [Ubuntu GitHub Actions runners](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md) by default.
 
 You can also run these hooks manually, which comes in very handy during daily development tasks. For example
 
@@ -150,13 +151,13 @@ You can also run these hooks manually, which comes in very handy during daily de
 make check-code
 ```
 
-runs all the code checks (i.e. `bandit`, `flake8`, `pylint` and `mypy`), whereas
+runs all the code checks (i.e. `bandit`, `flake8`, `pylint`, `mypy`, `actionlint`), whereas
 
 ```bash
 make check
 ```
 
-runs _all_ installed git hooks over your code. For more control over the code checks, the Makefile also implements the `check-bandit`, `check-flake8`, `check-lint`, and `check-mypy` goals.
+runs _all_ installed git hooks over your code. For more control over the code checks, the Makefile also implements the `check-bandit`, `check-flake8`, `check-lint`, `check-mypy`, and `check-actionlint` goals.
 
 ## Testing
 
