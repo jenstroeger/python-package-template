@@ -1,4 +1,4 @@
-# Automatically rebase one branch branch on top of another; usually staging on top
+# Automatically rebase one branch on top of another; usually staging on top
 # of main after a new package version was published.
 
 name: Rebase branch
