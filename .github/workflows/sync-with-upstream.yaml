@@ -58,8 +58,9 @@ jobs:
           rsync --recursive --verbose --verbose --exclude tests/ --exclude src/ \
             --exclude .git/ --exclude .github/workflows/.template_version template/ repo/
 
+          cd repo/ || (echo "Unable to find the cloned repository. Exiting..." && exit 1)
+
           # Check if the branch exists in the current repo.
-          cd repo/ || exit 1
           if [ "$(git rev-parse --verify origin/sync-"""$LATEST_VERSION""" 2>/dev/null)" ]; then
             echo "Branch sync-$LATEST_VERSION already exists. Exiting..."
             exit 0
@@ -72,7 +73,7 @@ jobs:
           git config --global user.name "$USER_NAME"
           git config --global user.email "$USER_EMAIL"
           git config --list --global # For debug purposes.
-          git commit -m "chore: sync with template"
+          git commit --message "chore: sync with template"
           git push --set-upstream origin sync-"$LATEST_VERSION"
 
           # Create the pull request.
