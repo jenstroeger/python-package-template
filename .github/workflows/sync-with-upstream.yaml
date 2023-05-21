@@ -58,7 +58,7 @@ jobs:
           rsync --recursive --verbose --verbose --exclude tests/ --exclude src/ \
             --exclude .git/ --exclude .github/workflows/.template_version template/ repo/
 
-          cd repo/ || (echo "Unable to find the cloned repository. Exiting..." && exit 1)
+          cd repo
 
           # Check if the branch exists in the current repo.
           if [ "$(git rev-parse --verify origin/sync-"""$LATEST_VERSION""" 2>/dev/null)" ]; then
