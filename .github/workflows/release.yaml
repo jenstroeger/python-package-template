@@ -254,7 +254,7 @@ jobs:
 
   # After the bump commit was pushed to the main branch, rebase the staging branch
   # (to_head argument) on top of the new main branch (from_base argument), to keep
-  # the histories of both both branches in sync.
+  # the histories of both branches in sync.
   rebase_staging:
     # if: ${{ false }}
     needs: [release]
