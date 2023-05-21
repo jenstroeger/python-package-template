@@ -21,6 +21,9 @@ on:
         required: true
         type: string
         description: Email address of said git user
+    secrets:
+      REPO_ACCESS_TOKEN:
+        required: true
 
 permissions:
   contents: read
