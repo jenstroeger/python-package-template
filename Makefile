@@ -151,7 +151,7 @@ audit:
 
 # Run some or all checks over the package code base.
 .PHONY: check check-code check-bandit check-flake8 check-lint check-mypy
-check-code: check-bandit check-flake8 check-lint check-mypy
+check-code: check-bandit check-flake8 check-lint check-mypy check-actionlint
 check-bandit:
 	pre-commit run bandit --all-files
 check-flake8:
@@ -160,6 +160,8 @@ check-lint:
 	pre-commit run pylint --all-files
 check-mypy:
 	pre-commit run mypy --all-files
+check-actionlint:
+	pre-commit run actionlint --all-files
 check:
 	pre-commit run --all-files
 

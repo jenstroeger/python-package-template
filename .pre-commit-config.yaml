@@ -150,6 +150,12 @@ repos:
   # - id: pretty-format-toml
   #   args: [--autofix]
 
+# Check GitHub Actions workflow files.
+- repo: https://github.com/Mateusz-Grzelinski/actionlint-py
+  rev: v1.6.24
+  hooks:
+  - id: actionlint
+
 # On push to the remote, run the unit tests.
 - repo: local
   hooks:
