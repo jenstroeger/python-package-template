@@ -1,3 +1,19 @@
+## v2.9.0 (2023-05-21)
+
+### Feat
+
+- **ci**: add a Rebase Branch workflow to rebase staging on top of main after a package was published (#536)
+- add actionlint hook and fix current errors (#505)
+- add flake8-pyi plugin to check .pyi files (if any) (#512)
+- add CODEOWNERS file to the repository (#511)
+
+### Fix
+
+- make Black, Flake8, Sphinx play nice together by tweaking a few Flake8 settings (#479)
+- **ci**: add docs/source/ folder to the excludes of the Sync Upstream workflow (#482)
+- **ci**: ensure correct epoch for packaged files to enable reproducible builds (#487)
+- **test**: make pytest a little more verbose when tests fail (#495)
+
 ## v2.8.0 (2023-02-20)
 
 ### Feat
