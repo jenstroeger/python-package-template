@@ -8,15 +8,19 @@ on:
       to_head:
         type: string
         required: true
+        description: Branch that is being rebased
       from_base:
         type: string
         required: true
+        description: Base branch
       git_user_name:
         required: true
         type: string
+        description: Name of the git user that rebases and pushes the to_head branch
       git_user_email:
         required: true
         type: string
+        description: Email address of said git user
 
 permissions:
   contents: read

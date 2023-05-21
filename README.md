@@ -233,7 +233,9 @@ The [sync-with-upstream.yaml](https://github.com/jenstroeger/python-package-temp
 
 ## Versioning, publishing and changelog
 
-To enable automation for [semantic versioning](https://semver.org/), package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a built-in semantic release support enabled which is set up to take care of all three of these aspects — every time changes are merged into the `main` branch. Furthermore, after a new package was published, the Github Actions workflow rebases the `staging` branch automatically on top of the bumped `main` branch.
+To enable automation for [semantic versioning](https://semver.org/), package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a built-in semantic release support enabled which is set up to take care of all three of these aspects — every time changes are pushed to the `main` branch.
+
+With every package release, a new `bump:` commit is pushed to the `main` branch and tagged with the package’s new version. In addition, the `staging` branch (which this repository uses to stage merged pull requests into for the next release) is rebased on top of the updated `main` branch automatically, so that subsequent pull requests can be merged while keeping a [linear history](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches#require-linear-history).
 
 If you’d like to receive Slack notifications whenever a new release is published, follow the comments in the [Release Notification](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows/_release-notifications.yaml) Action and set up a Slack bot by following [the instructions here](https://github.com/slackapi/slack-github-action#setup-2).
 

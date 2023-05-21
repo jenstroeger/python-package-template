@@ -252,7 +252,9 @@ jobs:
     secrets:
       REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
-  # Rebase the staging branch on top of the main branch, to keep histories in sync.
+  # After the bump commit was pushed to the main branch, rebase the staging branch
+  # (to_head argument) on top of the new main branch (from_base argument), to keep
+  # the histories of both both branches in sync.
   rebase_staging:
     # if: ${{ false }}
     needs: [release]
