@@ -53,38 +53,39 @@ jobs:
         # Check if the template repo was changed/updated.
         if [ "$CURRENT_VERSION" == "$LATEST_VERSION" ]; then
           echo "Unable to find a new version, exiting..."
-          exit 0
+        else
+
+          # Check if the branch already exists in the current repo.
+          BRANCH_NAME="sync-$LATEST_VERSION"
+          if [ "$(git rev-parse --verify origin/"""$BRANCH_NAME""" 2>/dev/null)" ]; then
+            echo "Branch $BRANCH_NAME already exists, exiting..."
+          else
+
+            # Generate a patch file of all template changes.
+            pushd template
+            git diff "$CURRENT_VERSION..$LATEST_VERSION" > diff.patch
+            popd
+
+            # Apply the generated patch to the current repo.
+            pushd repo
+            patch --strip 1 --batch --merge --input ../template/diff.patch || true
+            git checkout .github/workflows/.template_version src/ docs/ tests/ "*.md"
+            find . -name "*.orig" -type f -delete
+            find . -name "*.rej" -type f -delete
+
+            # Create a branch, commit, and push the changeset.
+            git checkout -b "$BRANCH_NAME"
+            echo "$LATEST_VERSION" > .github/workflows/.template_version
+            git add .
+            git config --global user.name "$USER_NAME"
+            git config --global user.email "$USER_EMAIL"
+            git config --list --global # For debug purposes.
+            git commit --message "chore(deps): sync with template $LATEST_VERSION"
+            git push --set-upstream origin "$BRANCH_NAME"
+
+            # Create the pull request.
+            gh pr create --base staging --title "chore(deps): sync with package template $LATEST_VERSION" \
+              --body "This PR was generated automatically." --head "$BRANCH_NAME"
+
+          fi
         fi
-
-        # Check if the branch already exists in the current repo.
-        BRANCH_NAME="sync-$LATEST_VERSION"
-        if [ "$(git rev-parse --verify origin/"""$BRANCH_NAME""" 2>/dev/null)" ]; then
-          echo "Branch $BRANCH_NAME already exists, exiting..."
-          exit 0
-        fi
-
-        # Generate a patch file of all template changes.
-        pushd template
-        git diff "$CURRENT_VERSION..$LATEST_VERSION" > diff.patch
-        popd
-
-        # Apply the patch to the current repo.
-        pushd repo
-        patch --strip 1 --batch --merge --input ../template/diff.patch || true
-        git checkout .github/workflows/.template_version src/ docs/ tests/ "*.md"
-        find . -name "*.orig" -type f -delete
-        find . -name "*.rej" -type f -delete
-
-        # Create a branch, commit, and push the changeset.
-        git checkout -b "$BRANCH_NAME"
-        echo "$LATEST_VERSION" > .github/workflows/.template_version
-        git add .
-        git config --global user.name "$USER_NAME"
-        git config --global user.email "$USER_EMAIL"
-        git config --list --global # For debug purposes.
-        git commit --message "chore(deps): sync with template $LATEST_VERSION"
-        git push --set-upstream origin "$BRANCH_NAME"
-
-        # Create the pull request.
-        gh pr create --base staging --title "chore(deps): sync with package template $LATEST_VERSION" \
-          --body "This PR was generated automatically." --head "$BRANCH_NAME"
