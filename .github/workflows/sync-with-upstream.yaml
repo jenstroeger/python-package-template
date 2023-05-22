@@ -80,11 +80,11 @@ jobs:
             git config --global user.name "$USER_NAME"
             git config --global user.email "$USER_EMAIL"
             git config --list --global # For debug purposes.
-            git commit --message "chore(deps): sync with template $LATEST_VERSION"
+            git commit --message "chore: sync with template $LATEST_VERSION"
             git push --set-upstream origin "$BRANCH_NAME"
 
             # Create the pull request.
-            gh pr create --base staging --title "chore(deps): sync with package template $LATEST_VERSION" \
+            gh pr create --base staging --title "chore: sync with package template $LATEST_VERSION" \
               --body "This PR was generated automatically." --head "$BRANCH_NAME"
 
           fi
