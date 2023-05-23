@@ -18,3 +18,5 @@ jobs:
     uses: ./.github/workflows/_build.yaml
     permissions:
       contents: read
+    with:
+      disable_pip_audit: ${{ vars.DISABLE_PIP_AUDIT == 'true' }}

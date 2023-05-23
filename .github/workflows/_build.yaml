@@ -22,6 +22,10 @@
 name: Build the package
 on:
   workflow_call:
+    inputs:
+      disable_pip_audit:
+        required: true
+        type: boolean
     outputs:
       artifacts-sha256:
         description: The hash of the artifacts
@@ -76,7 +80,7 @@ jobs:
     # Audit all currently installed packages for security vulnerabilities. This step can
     # be disabled by setting the repository variable DISABLE_PIP_AUDIT to 'true'.
     - name: Audit installed packages
-      if: ${{ vars.DISABLE_PIP_AUDIT != 'true' }}
+      if: ${{ !inputs.disable_pip_audit }}
       run: make audit
 
     # Build the sdist and wheel distribution of the package and docs as a zip file.
