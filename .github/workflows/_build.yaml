@@ -26,6 +26,7 @@ on:
       disable_pip_audit:
         required: true
         type: boolean
+        description: Enable or disable running pip_audit to check installed packages for vulnerabilities
     outputs:
       artifacts-sha256:
         description: The hash of the artifacts
