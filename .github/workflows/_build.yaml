@@ -73,8 +73,10 @@ jobs:
     - name: Install dependencies
       run: make setup
 
-    # Audit all currently installed packages for security vulnerabilities.
+    # Audit all currently installed packages for security vulnerabilities. This step can
+    # be disabled by setting the repository variable DISABLE_PIP_AUDIT to 'true'.
     - name: Audit installed packages
+      if: ${{ vars.DISABLE_PIP_AUDIT != 'true' }}
       run: make audit
 
     # Build the sdist and wheel distribution of the package and docs as a zip file.
