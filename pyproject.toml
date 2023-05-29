@@ -51,7 +51,7 @@ dev = [
 docs = [
     "sphinx >=5.1.1,<8.0.0",
     "sphinxnotes-markdown-builder >=0.5.6,<1.0.0",
-    "typing-extensions <4.6.0",  # markdown-builder uses pydash: https://github.com/dgilland/pydash/issues/197
+    "typing-extensions <4.7.0",  # markdown-builder uses pydash: https://github.com/dgilland/pydash/issues/197
 ]
 hooks = [
     "pre-commit >=2.18.0,<3.4.0",
