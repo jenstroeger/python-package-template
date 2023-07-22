@@ -1,3 +1,14 @@
+## v2.10.0 (2023-07-22)
+
+### Feat
+
+- **ci**: use a Github Repository Variable `DISABLE_PIP_AUDIT` to control running `pip-audit` in CI (#551)
+
+### Fix
+
+- **test**: fail pytest if an unraisable/unhandled thread exception was detected during the execution of a test (#576)
+- **deps**: temporarily pin typing-extensions deps, to avoid breaking the sphinxnotes-markdown-builder package (#552)
+
 ## v2.9.0 (2023-05-21)
 
 ### Feat
