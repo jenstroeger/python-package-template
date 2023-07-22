@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath("../../src"))
 # -- Project information -----------------------------------------------------
 
 project = "Package"
-copyright = "2022, Package"
+copyright = "2023, Package"
 author = ""
 
 
