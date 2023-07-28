@@ -46,6 +46,7 @@ jobs:
       uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 # v4.2.0
       with:
         python-version: ${{ matrix.python }}
+        cache: pip
     # Using the Makefile assumes an activated virtual environment, which doesn't exist
     # when running in an Action environment (https://github.com/actions/setup-python/issues/359).
     # Instead we create an empty .venv folder so that the Makefile continues to function
