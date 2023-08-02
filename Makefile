@@ -150,8 +150,10 @@ audit:
 	python -m pip_audit --skip-editable --desc on --fix --dry-run
 
 # Run some or all checks over the package code base.
-.PHONY: check check-code check-bandit check-flake8 check-lint check-mypy
-check-code: check-bandit check-flake8 check-lint check-mypy check-actionlint
+.PHONY: check check-code check-ruff check-bandit check-flake8 check-lint check-mypy
+check-code: check-ruff check-bandit check-flake8 check-lint check-mypy check-actionlint
+check-ruff:
+	pre-commit run ruff --all-files
 check-bandit:
 	pre-commit run bandit --all-files
 check-flake8:
@@ -228,7 +230,7 @@ dist-clean:
 	rm -fr dist/*
 	rm -f requirements.txt
 clean: dist-clean
-	rm -fr .coverage .hypothesis/ .mypy_cache/ .pytest_cache/
+	rm -fr .coverage .hypothesis/ .mypy_cache/ .pytest_cache/ .ruff_cache/
 	rm -fr docs/_build/
 
 # Remove code caches, or the entire virtual environment.
