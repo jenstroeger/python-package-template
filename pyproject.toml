@@ -175,6 +175,7 @@ ignore_missing_imports = true
 
 
 # https://pylint.pycqa.org/en/latest/user_guide/configuration/index.html
+# https://github.com/astral-sh/ruff/issues/970
 [tool.pylint.main]
 fail-under = 10.0
 load-plugins = [
@@ -273,4 +274,43 @@ filterwarnings = [
 markers = [
     "integration: more complex application-level integration tests.",
     "performance: performance tests.",
+]
+
+
+# https://docs.astral.sh/ruff/formatter/
+# https://docs.astral.sh/ruff/linter/
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 88
+
+# https://docs.astral.sh/ruff/configuration/
+# https://docs.astral.sh/ruff/rules/
+[tool.ruff.lint]
+exclude = ["docs/*"]
+select = [
+    "E",  # pycodestyle
+    "F",  # pyflakes
+    "I",  # isort
+    "UP",  # pyupgrade
+    "B",  # flake8-bugbear
+    "A",  # flake8-builtins
+    "C4",  # flake8-comprehensions
+    "LOG",  # flake8-logging
+    "T20",  # flake8-print
+    "PYI",  # flake8-pyi
+    "PT",  # flake8-pytest-style
+    "N",  # pep8-naming
+    "S",  # flake8-bandit
+]
+ignore = [
+    "E203",  # E203: whitespace before ‘,’, ‘;’, or ‘:’ (not Black compliant)
+    "E501",  # E501: line too long (managed better by Bugbear's B950)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "S101",  # S101 Use of `assert` detected
 ]
