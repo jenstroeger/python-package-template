@@ -62,16 +62,16 @@ jobs:
           else
 
             # Generate a patch file of all template changes.
-            pushd template
-            git diff "$CURRENT_VERSION..$LATEST_VERSION" > diff.patch
-            popd
+            pushd template || exit
+            git diff "$CURRENT_VERSION..$LATEST_VERSION" "$(find . docs/ .github/ .github/workflows/ .github/codeql/ -maxdepth 1 -type f ! -name """*.md""" ! -name """.template_version""")" > diff.patch
+            popd || exit
 
             # Apply the generated patch to the current repo.
-            pushd repo
+            pushd repo || exit
             patch --strip 1 --batch --merge --input ../template/diff.patch || true
-            git checkout .github/workflows/.template_version src/ docs/ tests/ "*.md"
             find . -name "*.orig" -type f -delete
             find . -name "*.rej" -type f -delete
+            popd || exit
 
             # Create a branch, commit, and push the changeset.
             git checkout -b "$BRANCH_NAME"
