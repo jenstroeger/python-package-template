@@ -1,3 +1,13 @@
+## v2.10.1 (2023-09-02)
+
+### Fix
+
+- **ci**: improve automatic template synchronization (#537)
+
+### Refactor
+
+- **docs**: switch to sphinx-markdown-builder package (#585)
+
 ## v2.10.0 (2023-07-22)
 
 ### Feat

@@ -96,7 +96,7 @@ version_files = [
     "src/package/__init__.py:__version__",
 ]
 major_version_zero = false
-version = "2.10.0"
+version = "2.10.1"
 
 
 # https://github.com/pytest-dev/pytest-cov
