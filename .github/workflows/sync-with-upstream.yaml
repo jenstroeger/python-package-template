@@ -38,7 +38,7 @@ jobs:
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         fetch-depth: 0
-        ref: main
+        ref: staging
         path: repo
 
     - name: Sync with template
@@ -50,34 +50,42 @@ jobs:
           && cat repo/.github/workflows/.template_version || echo "v0.0.0")
         echo "Latest version is $LATEST_VERSION and current version is $CURRENT_VERSION."
 
+        # Check if the template repo was changed/updated.
         if [ "$CURRENT_VERSION" == "$LATEST_VERSION" ]; then
           echo "Unable to find a new version, exiting..."
         else
 
-          # Copy the files from the template to the current repo.
-          rsync --recursive --verbose --verbose --exclude tests/ --exclude src/ --exclude docs/source/ \
-            --exclude CHANGELOG.md --exclude CODEOWNERS --exclude LICENSE.md --exclude README.md --exclude SECURITY.md \
-            --exclude .git/ --exclude .github/workflows/.template_version template/ repo/
+          # Check if the branch already exists in the current repo.
+          BRANCH_NAME="sync-$LATEST_VERSION"
+          if [ "$(git rev-parse --verify origin/"""$BRANCH_NAME""" 2>/dev/null)" ]; then
+            echo "Branch $BRANCH_NAME already exists, exiting..."
+          else
 
-          cd repo
+            # Generate a patch file of all template changes.
+            pushd template || exit
+            git diff "$CURRENT_VERSION..$LATEST_VERSION" "$(find . docs/ .github/ .github/workflows/ .github/codeql/ -maxdepth 1 -type f ! -name """*.md""" ! -name """.template_version""")" > diff.patch
+            popd || exit
 
-          # Check if the branch exists in the current repo.
-          if [ "$(git rev-parse --verify origin/sync-"""$LATEST_VERSION""" 2>/dev/null)" ]; then
-            echo "Branch sync-$LATEST_VERSION already exists. Exiting..."
-            exit 0
+            # Apply the generated patch to the current repo.
+            pushd repo || exit
+            patch --strip 1 --batch --merge --input ../template/diff.patch || true
+            find . -name "*.orig" -type f -delete
+            find . -name "*.rej" -type f -delete
+            popd || exit
+
+            # Create a branch, commit, and push the changeset.
+            git checkout -b "$BRANCH_NAME"
+            echo "$LATEST_VERSION" > .github/workflows/.template_version
+            git add .
+            git config --global user.name "$USER_NAME"
+            git config --global user.email "$USER_EMAIL"
+            git config --list --global # For debug purposes.
+            git commit --message "chore: sync with template $LATEST_VERSION"
+            git push --set-upstream origin "$BRANCH_NAME"
+
+            # Create the pull request.
+            gh pr create --base staging --title "chore: sync with package template $LATEST_VERSION" \
+              --body "This PR was generated automatically." --head "$BRANCH_NAME"
+
           fi
-
-          # Create a branch, commit, and push the changeset.
-          git checkout -b sync-"$LATEST_VERSION"
-          echo "$LATEST_VERSION" > .github/workflows/.template_version
-          git add .
-          git config --global user.name "$USER_NAME"
-          git config --global user.email "$USER_EMAIL"
-          git config --list --global # For debug purposes.
-          git commit --message "chore: sync with template"
-          git push --set-upstream origin sync-"$LATEST_VERSION"
-
-          # Create the pull request.
-          gh pr create --base main --title "chore: sync with package template $LATEST_VERSION" \
-            --body "This PR was automatically generated." --head sync-"$LATEST_VERSION"
         fi
