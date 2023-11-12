@@ -16,6 +16,16 @@ Package package
 Something
 =========
 
+The ``Something`` module contains a useful class which allows you to do something
+like the following:
+
+.. code: pycon
+
+    >>> from package import something
+    >>> s = something.Something()
+    >>> s.do_something()
+    True
+
 .. automodule:: package
    :members:
 
