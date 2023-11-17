@@ -1,3 +1,4 @@
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 # https://flit.pypa.io/en/latest/pyproject_toml.html
 [build-system]
 requires = ["flit_core >=3.2.0,<4.0.0"]
