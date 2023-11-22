@@ -86,7 +86,7 @@ repos:
     language: python
     files: ^src/package/|^tests/
     types: [text, python]
-    args: [--show-traceback, --config-file, pyproject.toml]
+    args: [--config-file, pyproject.toml]
 
 # Check for potential security issues.
 - repo: https://github.com/PyCQA/bandit
