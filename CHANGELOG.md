@@ -1,3 +1,12 @@
+## v2.11.0 (2023-11-22)
+
+### Feat
+
+- improve, clean up, and stricten the mypy configuration (#641)
+- treat Sphinx docs warnings as errors (#648)
+- enable Python’s “Development Mode” when running tests to enable resource tracking and add more warnings (#643)
+- add flake8-logging plugin to ensure module-level logging is being used correctly (#640)
+
 ## v2.10.1 (2023-09-02)
 
 ### Fix
