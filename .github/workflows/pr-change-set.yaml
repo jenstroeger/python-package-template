@@ -19,4 +19,4 @@ jobs:
     permissions:
       contents: read
     with:
-      disable_pip_audit: ${{ vars.DISABLE_PIP_AUDIT == 'true' }}
+      disable-pip-audit: ${{ vars.DISABLE_PIP_AUDIT == 'true' }}

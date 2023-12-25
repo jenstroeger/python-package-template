@@ -9,13 +9,6 @@ on:
     - staging
 permissions:
   contents: read
-env:
-  # Duplicate these values for the `wiki` job below!
-  ARTIFACT_NAME: artifact-ubuntu-latest-python-3.11
-  # This is the username and email for the user who commits and pushes the release
-  # commit. In an organisation that should be a dedicated devops account.
-  USER_NAME: jenstroeger
-  USER_EMAIL: jenstroeger@users.noreply.github.com
 
 jobs:
   check:
@@ -24,7 +17,7 @@ jobs:
     permissions:
       contents: read
     with:
-      disable_pip_audit: ${{ vars.DISABLE_PIP_AUDIT == 'true' }}
+      disable-pip-audit: ${{ vars.DISABLE_PIP_AUDIT == 'true' }}
 
   # On pushes to the 'main' branch create a new release by bumping the version
   # and generating a change log. That's the new bump commit and associated tag.
@@ -63,6 +56,11 @@ jobs:
         git config --global user.name "$USER_NAME"
         git config --global user.email "$USER_EMAIL"
         git config --list --global # For debug purposes.
+      env:
+        # This is the username and email for the user who commits and pushes the release
+        # commit. In an organisation that should be a dedicated devops account.
+        USER_NAME: jenstroeger
+        USER_EMAIL: jenstroeger@users.noreply.github.com
 
     # In some cases a user may merge commits that don't cause a version bump, which causes commitizen
     # to fail with error code 21 (NoneIncrementExit). Thus we silence that particular error to avoid
@@ -82,7 +80,7 @@ jobs:
     permissions:
       contents: read
     with:
-      disable_pip_audit: ${{ vars.DISABLE_PIP_AUDIT == 'true' }}
+      disable-pip-audit: ${{ vars.DISABLE_PIP_AUDIT == 'true' }}
 
   # Create a new Release on Github from the verified build artifacts, and optionally
   # publish the artifacts to a PyPI server.
@@ -111,7 +109,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
       with:
-        name: ${{ env.ARTIFACT_NAME }}
+        name: artifact-ubuntu-latest-python-3.11
         path: dist
 
     # Verify hashes by first computing hashes for the artifacts and then comparing them
@@ -229,9 +227,9 @@ jobs:
     permissions:
       contents: read
     with:
-      repo_name: ${{ github.event.repository.name }}
-      release_tag: ${{ needs.release.outputs.release-tag }}
-      release_url: ${{ needs.release.outputs.release-url }}
+      repo-name: ${{ github.event.repository.name }}
+      release-tag: ${{ needs.release.outputs.release-tag }}
+      release-url: ${{ needs.release.outputs.release-url }}
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
@@ -245,14 +243,14 @@ jobs:
     permissions:
       contents: read
     with:
-      release_tag: ${{ needs.release.outputs.release-tag }}
-      release_url: ${{ needs.release.outputs.release-url }}
+      release-tag: ${{ needs.release.outputs.release-tag }}
+      release-url: ${{ needs.release.outputs.release-url }}
       # Github disallows passing environment variables as arguments to a reusable
       # workflow, so we have to duplicate these values here. Related discussion
       # here: https://github.com/actions/toolkit/issues/931
-      artifact_name: artifact-ubuntu-latest-python-3.11
-      git_user_name: jenstroeger
-      git_user_email: jenstroeger@users.noreply.github.com
+      artifact-name: artifact-ubuntu-latest-python-3.11
+      git-user-name: jenstroeger
+      git-user-email: jenstroeger@users.noreply.github.com
     secrets:
       REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
@@ -267,9 +265,9 @@ jobs:
     permissions:
       contents: read
     with:
-      to_head: staging
-      from_base: origin/main
-      git_user_name: jenstroeger
-      git_user_email: jenstroeger@users.noreply.github.com
+      to-head: staging
+      from-base: origin/main
+      git-user-name: jenstroeger
+      git-user-email: jenstroeger@users.noreply.github.com
     secrets:
       REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}

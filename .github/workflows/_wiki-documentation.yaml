@@ -6,21 +6,26 @@ name: Publish Github Wiki documentation
 on:
   workflow_call:
     inputs:
-      release_tag:
-        required: true
+      release-tag:
         type: string
-      release_url:
         required: true
+        description: Tag name of the release used in the Wiki commit message
+      release-url:
         type: string
-      artifact_name:
         required: true
+        description: URL to the release page used in the Wiki commit message
+      artifact-name:
         type: string
-      git_user_name:
         required: true
+        description: Name of the build artifact from which to extract the Wiki pages
+      git-user-name:
         type: string
-      git_user_email:
         required: true
+        description: Name of the git user who commits and pushes the Wiki change set
+      git-user-email:
         type: string
+        required: true
+        description: Email address of said git user
     secrets:
       REPO_ACCESS_TOKEN:
         required: true
@@ -54,7 +59,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
       with:
-        name: ${{ inputs.artifact_name }}
+        name: ${{ inputs.artifact-name }}
         path: dist
 
     # Unpack the Markdown docs into the Wiki repository. Delete existing files first
@@ -78,9 +83,10 @@ jobs:
           git push
         fi
       env:
-        USER_NAME: ${{ inputs.git_user_name }}
-        USER_EMAIL: ${{ inputs.git_user_email }}
+        USER_NAME: ${{ inputs.git-user-name }}
+        USER_EMAIL: ${{ inputs.git-user-email }}
         WIKI_COMMIT_MESSAGE: |
-          docs: update for ${{ inputs.release_tag }}
+          docs: update for ${{ inputs.release-tag }}
 
-          Link: ${{ inputs.release_url }}
+          Refs: ${{ github.sha }}
+          Link: ${{ inputs.release-url }}
