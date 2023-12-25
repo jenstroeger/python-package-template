@@ -180,7 +180,7 @@ jobs:
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.9.0
     with:
       base64-subjects: ${{ needs.build.outputs.artifacts-sha256 }}
-      compile-generator: true # Build the generator from source.
+      compile-generator: false # Do not build the provenance generator from source anymore.
       # Set private-repository to true for private repositories. Note that the repository name is
       # uploaded as part of the transparency log entry on the public Rekor instance (rekor.sigstore.dev).
       private-repository: false
