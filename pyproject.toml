@@ -47,6 +47,7 @@ dev = [
     "mypy >=0.921,<1.8",
     "pip-audit >=2.4.4,<3.0.0",
     "pylint >=2.9.3,<3.0.3",
+    "perflint >=0.7.3,<1.0.0",
     "cyclonedx-bom >=3.11.0,<4.0.0",
 ]
 docs = [
@@ -172,6 +173,9 @@ ignore_missing_imports = true
 # https://pylint.pycqa.org/en/latest/user_guide/configuration/index.html
 [tool.pylint.MASTER]
 fail-under = 10.0
+load-plugins = [
+    "perflint", # A Linter for performance anti-patterns.
+]
 disable = [
     "fixme",
     "line-too-long",  # Replaced by Flake8 Bugbear B950 check.
