@@ -1,8 +1,10 @@
 # Create a PR to sync with the upstream template repo.
 # The template repo is https://github.com/jenstroeger/python-package-template.
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: Sync with template repository
-on:
+on: # yamllint disable-line rule:truthy
   schedule:
   - cron: 11 11 * * *
 

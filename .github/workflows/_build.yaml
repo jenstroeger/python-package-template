@@ -18,9 +18,11 @@
 # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
 #
 # for the security recommendations.
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: Build the package
-on:
+on: # yamllint disable-line rule:truthy
   workflow_call:
     inputs:
       disable_pip_audit:

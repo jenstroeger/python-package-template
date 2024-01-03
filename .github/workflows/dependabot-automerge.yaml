@@ -1,8 +1,10 @@
 # Automatically merge Dependabot PRs upon approval by leaving
 # a comment on Dependabot's pull-request.
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: Automerge Dependabot PR
-on:
+on: # yamllint disable-line rule:truthy
   pull_request_review:
     types: [submitted]
 

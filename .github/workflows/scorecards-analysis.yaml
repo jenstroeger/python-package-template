@@ -1,7 +1,9 @@
 # Run Scorecard for this repository to further check and harden software and process.
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: Scorecards supply-chain security
-on:
+on: # yamllint disable-line rule:truthy
   # Only the default branch is supported.
   branch_protection_rule:
   schedule:

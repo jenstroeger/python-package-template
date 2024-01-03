@@ -1,3 +1,5 @@
+# yamllint disable rule:document-start rule:document-end
+
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 default_install_hook_types: [pre-commit, commit-msg, pre-push]
@@ -117,7 +119,6 @@ repos:
   - id: detect-private-key
   - id: detect-aws-credentials
     args: [--allow-missing-credentials]
-  - id: check-yaml
   - id: check-toml
 - repo: https://github.com/pre-commit/pygrep-hooks
   rev: v1.10.0
@@ -147,15 +148,23 @@ repos:
     args: [--autofix]
   - id: pretty-format-yaml
     args: [--autofix]
-  # Commenting this out because https://github.com/pappasam/toml-sort/issues/11
-  # - id: pretty-format-toml
-  #   args: [--autofix]
+    # Commenting this out because https://github.com/pappasam/toml-sort/issues/11
+    # - id: pretty-format-toml
+    #   args: [--autofix]
 
 # Check GitHub Actions workflow files.
 - repo: https://github.com/Mateusz-Grzelinski/actionlint-py
   rev: v1.6.26.11
   hooks:
   - id: actionlint
+
+# Check and lint all YAML files.
+# https://yamllint.readthedocs.io/en/stable/rules.html
+- repo: https://github.com/adrienverge/yamllint
+  rev: v1.33.0
+  hooks:
+  - id: yamllint
+    args: [--strict]
 
 # On push to the remote, run the unit tests.
 - repo: local

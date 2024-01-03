@@ -1,9 +1,11 @@
 # This reusable workflow publishes Markdown docs to Github Wiki. Some manual
 # setup is required before using it: enable Wiki in repository and create at
 # least one page.
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: Publish Github Wiki documentation
-on:
+on: # yamllint disable-line rule:truthy
   workflow_call:
     inputs:
       release_tag:
