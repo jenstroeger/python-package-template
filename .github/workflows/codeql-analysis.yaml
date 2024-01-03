@@ -1,8 +1,10 @@
 # Run CodeQL over the package. For more configuration options see codeql/codeql-config.yaml
 # and: https://github.com/github/codeql-action
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: CodeQL
-on:
+on: # yamllint disable-line rule:truthy
   push:
     branches:
     - main

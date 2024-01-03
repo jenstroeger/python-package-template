@@ -1,8 +1,10 @@
 # This workflow checks and tests the package code, and it builds all package
 # artifacts whenever there were changes to a pull request.
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: Check change set
-on:
+on: # yamllint disable-line rule:truthy
   pull_request:
     branches:
     - '*'

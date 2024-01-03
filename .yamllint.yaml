@@ -1,0 +1,15 @@
+# Modify yamllint's defaults so that they work well and strictly with
+# ruamel's pretty-formatting of the YAML files.
+#
+# For more details: https://yamllint.readthedocs.io/en/stable/rules.html
+#
+# yamllint disable rule:document-start rule:document-end
+
+extends: default
+rules:
+  line-length:
+    max: 512
+  indentation:
+    indent-sequences: consistent
+  comments:
+    min-spaces-from-content: 1

@@ -1,8 +1,10 @@
 # Automatically rebase one branch on top of another; usually staging on top
 # of main after a new package version was published.
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: Rebase branch
-on:
+on: # yamllint disable-line rule:truthy
   workflow_call:
     inputs:
       to_head:

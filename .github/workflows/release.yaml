@@ -1,8 +1,10 @@
 # We run checks on pushing to the specified branches.
 # Pushing to main also triggers a release.
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: Check and Release
-on:
+on: # yamllint disable-line rule:truthy
   push:
     branches:
     - main

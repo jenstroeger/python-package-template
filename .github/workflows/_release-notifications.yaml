@@ -1,8 +1,10 @@
 # Send a Slack release notification. Instructions to set up Slack to receive
 # messages can be found here: https://github.com/slackapi/slack-github-action#setup-2
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: Release Notifications
-on:
+on: # yamllint disable-line rule:truthy
   workflow_call:
     inputs:
       repo_name:
