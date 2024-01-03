@@ -1,8 +1,10 @@
 # Automatically merge Dependabot PRs upon approval.
 # https://docs.github.com/en/code-security/tutorials/secure-your-dependencies/automating-dependabot-with-github-actions#enabling-automerge-on-a-pull-request
+#
+# yamllint disable rule:document-start rule:document-end
 
 name: Automerge Dependabot PR
-on:
+on: # yamllint disable-line rule:truthy
   pull_request_review:
     types: [submitted]
 
