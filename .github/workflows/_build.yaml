@@ -68,6 +68,12 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
 
+    - name: Set up pre-commit cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pre-commit
+        key: pre-commit|${{ matrix.os }}|${{ matrix.python }}|${{ hashFiles('.pre-commit-config.yaml') }}
+
     # Using the Makefile assumes an activated virtual environment, which doesn't exist
     # when running in an Action environment (https://github.com/actions/setup-python/issues/359).
     # Instead we create an empty .venv folder so that the Makefile continues to function
