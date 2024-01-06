@@ -40,7 +40,7 @@ A number of git hooks are invoked before and after a commit, and before push. Th
 
 ### Unit testing
 
-Comprehensive unit testing is enabled using [pytest](https://pytest.org/) combined with [Hypothesis](https://hypothesis.works/) (to generate test payloads and strategies), and test code and branch coverage is measured using [coverage](https://github.com/nedbat/coveragepy) (see [below](#testing)).
+Comprehensive unit testing is enabled using [pytest](https://pytest.org/) combined with [doctest](https://docs.python.org/3/library/doctest.html) and [Hypothesis](https://hypothesis.works/) (to support [property-based testing](https://en.wikipedia.org/wiki/Software_testing#Property_testing)), and both code and branch coverage are measured using [coverage](https://github.com/nedbat/coveragepy) (see [below](#testing)).
 
 ### Documentation
 
@@ -165,25 +165,28 @@ As mentioned above, this repository is set up to use [pytest](https://pytest.org
 ```bash
 make test
 ```
-which runs all tests in both your local Python virtual environment. For more options, see the [pytest command-line flags](https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags). Also note that pytest includes [doctest](https://docs.python.org/3/library/doctest.html), which means that module and function [docstrings](https://www.python.org/dev/peps/pep-0257/#what-is-a-docstring) may contain test code that executes as part of the unit tests.
+which runs all tests in both your local Python virtual environment. For more options, see the [pytest command-line flags](https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags). Also note that pytest includes [doctest](https://docs.python.org/3/library/doctest.html), which means that module and function [docstrings](https://www.python.org/dev/peps/pep-0257/#what-is-a-docstring), as well as the documentation, may contain test code that executes as part of the unit tests.
 
-Test code and branch coverage is already tracked using [coverage](https://github.com/nedbat/coveragepy) and the [pytest-cov](https://github.com/pytest-dev/pytest-cov) plugin for pytest, and it measures how much code in the `src/package/` folder is covered by tests:
+Both statement and branch coverage are being tracked using [coverage](https://github.com/nedbat/coveragepy) and the [pytest-cov](https://github.com/pytest-dev/pytest-cov) plugin for pytest, and it measures how much code in the `src/package/` folder is covered by tests:
 ```
 Run unit tests...........................................................Passed
 - hook id: pytest
-- duration: 0.48s
+- duration: 0.6s
 
 ============================= test session starts ==============================
-platform darwin -- Python 3.10.2, pytest-6.2.5, py-1.11.0, pluggy-1.0.0 -- /.../python-package-template/.venv/bin/python3.10
+platform darwin -- Python 3.11.7, pytest-7.4.4, pluggy-1.3.0 -- /path/to/python-package-template/.venv/bin/python
 cachedir: .pytest_cache
-hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/.../python-package-template/.hypothesis/examples')
-rootdir: /.../python-package-template, configfile: pyproject.toml, testpaths: tests
-plugins: hypothesis-6.41.0, cov-3.0.0
-collected 1 item  
+hypothesis profile 'default-with-verbose-verbosity-with-explain-phase' -> max_examples=500, verbosity=Verbosity.verbose, phases=(Phase.explicit, Phase.reuse, Phase.generate, Phase.target, Phase.shrink, Phase.explain), database=DirectoryBasedExampleDatabase('/path/to/python-package-template/.hypothesis/examples')
+rootdir: /path/to/python-package-template
+configfile: pyproject.toml
+plugins: doctestplus-1.0.0, hypothesis-6.82.6, env-1.0.1, custom-exit-code-0.3.0, cov-4.1.0
+collected 3 items
 
-tests/test_something.py::test_something PASSED                           [100%]
+src/package/something.py::package.something.Something.do_something PASSED [ 33%]
+tests/test_something.py::test_something PASSED                            [ 66%]
+docs/source/index.rst::index.rst PASSED                                   [100%]
 
----------- coverage: platform darwin, python 3.10.2-final-0 ----------
+---------- coverage: platform darwin, python 3.11.7-final-0 ----------
 Name                       Stmts   Miss Branch BrPart  Cover   Missing
 ----------------------------------------------------------------------
 src/package/__init__.py        1      0      0      0   100%
@@ -197,20 +200,20 @@ Required test coverage of 100.0% reached. Total coverage: 100.00%
 tests/test_something.py::test_something:
 
   - during reuse phase (0.00 seconds):
-    - Typical runtimes: ~ 1ms, ~ 28% in data generation
+    - Typical runtimes: < 1ms, of which < 1ms in data generation
     - 1 passing examples, 0 failing examples, 0 invalid examples
 
   - during generate phase (0.00 seconds):
-    - Typical runtimes: < 1ms, ~ 43% in data generation
+    - Typical runtimes: < 1ms, of which < 1ms in data generation
     - 1 passing examples, 0 failing examples, 0 invalid examples
 
   - Stopped because nothing left to do
 
-============================== 1 passed in 0.16s ===============================
+============================== 3 passed in 0.05s ===============================
 ```
-Note that code that’s not covered by tests is listed under the `Missing` column, and branches not taken too. The net effect of enforcing 100% code and branch coverage is that every new major and minor feature, every code change, and every fix are being tested (keeping in mind that high _coverage_ does not necessarily imply comprehensive _test data_).
+Note that code that’s not covered by tests is listed under the `Missing` column, and branches not taken too. The net effect of enforcing 100% code and branch coverage is that every new major and minor feature, every code change, and every fix are being tested (keeping in mind that high _coverage_ does not imply comprehensive, meaningful _test data_).
 
-Hypothesis is a package that implements [property based testing](https://en.wikipedia.org/wiki/QuickCheck) and that provides payload generation for your tests based on strategy descriptions ([more](https://hypothesis.works/#what-is-hypothesis)). Using its [pytest plugin](https://hypothesis.readthedocs.io/en/latest/details.html#the-hypothesis-pytest-plugin) Hypothesis is ready to be used for this package.
+Hypothesis is a package that implements [property based testing](https://en.wikipedia.org/wiki/Software_testing#Property_testing) and that provides payload generation for your tests based on strategy descriptions ([more](https://hypothesis.works/#what-is-hypothesis)). Using its [pytest plugin](https://hypothesis.readthedocs.io/en/latest/details.html#the-hypothesis-pytest-plugin) Hypothesis is ready to be used for this package.
 
 ## Generating documentation
 
