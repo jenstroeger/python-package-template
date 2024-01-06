@@ -179,7 +179,7 @@ cachedir: .pytest_cache
 hypothesis profile 'default-with-verbose-verbosity-with-explain-phase' -> max_examples=500, verbosity=Verbosity.verbose, phases=(Phase.explicit, Phase.reuse, Phase.generate, Phase.target, Phase.shrink, Phase.explain), database=DirectoryBasedExampleDatabase('/path/to/python-package-template/.hypothesis/examples')
 rootdir: /path/to/python-package-template
 configfile: pyproject.toml
-plugins: doctestplus-1.0.0, hypothesis-6.82.6, env-1.0.1, custom-exit-code-0.3.0, cov-4.1.0
+plugins: custom-exit-code-0.3.0, cov-4.1.0, doctestplus-1.1.0, hypothesis-6.90.0, env-1.1.1
 collected 3 items
 
 src/package/something.py::package.something.Something.do_something PASSED [ 33%]
