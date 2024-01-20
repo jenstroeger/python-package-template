@@ -260,6 +260,7 @@ env = [
     "PYTHONDEVMODE=1",  # https://docs.python.org/3/library/devmode.html
 ]
 filterwarnings = [
+    "error",
     "always::DeprecationWarning",
     # https://docs.pytest.org/en/latest/how-to/failures.html#warning-about-unraisable-exceptions-and-unhandled-thread-exceptions
     "error::pytest.PytestUnraisableExceptionWarning",
