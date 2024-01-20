@@ -46,8 +46,8 @@ dev = [
     "flit >=3.2.0,<4.0.0",
     "mypy >=0.921,<1.8",
     "pip-audit >=2.4.4,<3.0.0",
-    "pylint >=2.9.3,<3.0.3",
-    "perflint >=0.7.3,<1.0.0",
+    "pylint >=3.0.0,<3.1.0",
+    "perflint >=0.8.0,<1.0.0",
     "cyclonedx-bom >=3.11.0,<4.0.0",
 ]
 docs = [
@@ -172,10 +172,35 @@ ignore_missing_imports = true
 
 
 # https://pylint.pycqa.org/en/latest/user_guide/configuration/index.html
-[tool.pylint.MASTER]
+[tool.pylint.main]
 fail-under = 10.0
+suggestion-mode = true
 load-plugins = [
-    "perflint", # A Linter for performance anti-patterns.
+    "perflint",  # A Linter for performance anti-patterns.
+    "pylint.extensions.bad_builtin",
+    "pylint.extensions.broad_try_clause",
+    "pylint.extensions.check_elif",
+    "pylint.extensions.code_style",
+    "pylint.extensions.comparison_placement",
+    "pylint.extensions.confusing_elif",
+    "pylint.extensions.consider_refactoring_into_while_condition",
+    "pylint.extensions.consider_ternary_expression",
+    "pylint.extensions.dict_init_mutate",
+    # "pylint.extensions.docparams",
+    # "pylint.extensions.docstyle",
+    "pylint.extensions.dunder",
+    "pylint.extensions.empty_comment",
+    "pylint.extensions.for_any_all",
+    "pylint.extensions.magic_value",
+    # "pylint.extensions.mccabe",
+    "pylint.extensions.no_self_use",
+    "pylint.extensions.overlapping_exceptions",
+    "pylint.extensions.private_import",
+    "pylint.extensions.redefined_loop_name",
+    "pylint.extensions.redefined_variable_type",
+    "pylint.extensions.set_membership",
+    "pylint.extensions.typing",
+    "pylint.extensions.while_used",
 ]
 disable = [
     "fixme",
@@ -192,6 +217,7 @@ disable = [
     "too-many-public-methods",
     "too-many-return-statements",
     "too-many-statements",
+    "too-many-try-statements",
 ]
 
 [tool.pylint.MISCELLANEOUS]
