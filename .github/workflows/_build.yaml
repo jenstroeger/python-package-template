@@ -39,6 +39,8 @@ env:
 
 jobs:
   build:
+    # Uncomment the following to disable checks and tests for Draft pull requests.
+    # if: github.event.pull_request.draft == false
     outputs:
       artifacts-sha256: ${{ steps.compute-hash.outputs.artifacts-sha256 }}
     name: Build Python ${{ matrix.python }} on ${{ matrix.os }}
