@@ -25,6 +25,8 @@ like the following:
     >>> s = something.Something()
     >>> s.do_something()
     True
+    >>> s.do_something(False)  # doctest: +SKIP
+    False  # This value would fail the test.
 
 .. automodule:: package
    :members:
