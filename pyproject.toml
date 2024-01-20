@@ -208,6 +208,18 @@ max-line-length = 120
 # https://docs.pytest.org/en/latest/reference/customize.html#configuration-file-formats
 # https://docs.pytest.org/en/latest/reference/reference.html#configuration-options
 # https://docs.pytest.org/en/latest/reference/reference.html#command-line-flags
+#
+# To integrate Hypothesis into pytest and coverage, we use its native plugin:
+# https://hypothesis.readthedocs.io/en/latest/details.html#the-hypothesis-pytest-plugin
+#
+# To discover tests in documentation, we use doctest and the doctest-plus plugin which
+# adds multiple useful options to control tests in documentation. More details at:
+# https://docs.python.org/3/library/doctest.html
+# https://github.com/scientific-python/pytest-doctestplus
+#
+# To avoid failing pytest when no tests were dicovered, we need an extra plugin:
+# https://docs.pytest.org/en/latest/reference/exit-codes.html
+# https://github.com/yashtodi94/pytest-custom_exit_code
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = """-vv -ra --tb native \
