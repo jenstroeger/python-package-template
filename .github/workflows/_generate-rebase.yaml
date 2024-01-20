@@ -5,21 +5,21 @@ name: Rebase branch
 on:
   workflow_call:
     inputs:
-      to_head:
+      to-head:
         type: string
         required: true
         description: Branch that is being rebased
-      from_base:
+      from-base:
         type: string
         required: true
         description: Base branch
-      git_user_name:
-        required: true
+      git-user-name:
         type: string
-        description: Name of the git user that rebases and pushes the to_head branch
-      git_user_email:
         required: true
+        description: Name of the git user who rebases and pushes the to_head branch
+      git-user-email:
         type: string
+        required: true
         description: Email address of said git user
     secrets:
       REPO_ACCESS_TOKEN:
@@ -53,7 +53,7 @@ jobs:
         git rebase "$FROM_BASE"
         git push --force-with-lease
       env:
-        USER_NAME: ${{ inputs.git_user_name }}
-        USER_EMAIL: ${{ inputs.git_user_email }}
-        TO_HEAD: ${{ inputs.to_head }}
-        FROM_BASE: ${{ inputs.from_base }}
+        USER_NAME: ${{ inputs.git-user-name }}
+        USER_EMAIL: ${{ inputs.git-user-email }}
+        TO_HEAD: ${{ inputs.to-head }}
+        FROM_BASE: ${{ inputs.from-base }}

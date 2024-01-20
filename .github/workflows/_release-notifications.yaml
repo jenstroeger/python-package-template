@@ -5,15 +5,18 @@ name: Release Notifications
 on:
   workflow_call:
     inputs:
-      repo_name:
-        required: true
+      repo-name:
         type: string
-      release_tag:
         required: true
+        description: Repository name used for the notification
+      release-tag:
         type: string
-      release_url:
         required: true
+        description: Tag name of the release for the notification
+      release-url:
         type: string
+        required: true
+        description: URL to the release page for the notification
     secrets:
       SLACK_WEBHOOK_URL:
         required: true
@@ -34,13 +37,13 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         SLACK_WEBHOOK_MSG: |
           {
-            "text": "${{ inputs.repo_name }} published a new release ${{ inputs.release_tag }}",
+            "text": "${{ inputs.repo-name }} published a new release ${{ inputs.release-tag }}",
             "blocks": [
               {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*${{ inputs.repo_name }}* published a new release <${{ inputs.release_url }}|${{ inputs.release_tag }}>"
+                  "text": "*${{ inputs.repo-name }}* published a new release <${{ inputs.release-url }}|${{ inputs.release-tag }}>"
                 }
               }
             ]
