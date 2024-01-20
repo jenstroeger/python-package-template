@@ -1,3 +1,18 @@
+## v2.12.0 (2024-01-20)
+
+### Feat
+
+- **ci**: switch from building the SLSA provenance generator to using the pre-built version to improve runtime performance (#667)
+- require pylint v3 and add a slew of optional plugins (#658)
+- run doctest as part of running tests, which collects doctests from both the package’s doc strings and the package documentation (#637)
+- add perflint to find performance anti-patterns (#675)
+
+### Fix
+
+- **ci**: workflow that syncs a repository with this template had multiple problems on patch generation and pushing; also, it can now be triggered via Github UI (#670)
+- always fail tests when runtime warnings were raised (#668)
+- change git hook to check for large files on commit, instead of push (#664)
+
 ## v2.11.0 (2023-11-22)
 
 ### Feat
