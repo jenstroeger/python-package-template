@@ -3,16 +3,13 @@
 
 name: Sync with template repository
 on:
+  workflow_dispatch:
+
   schedule:
   - cron: 11 11 * * *
 
 permissions:
   contents: read
-env:
-  # This is the username and email for the user who creates a branch and commits
-  # the changes. In an organisation that should be a dedicated devops account.
-  USER_NAME: jenstroeger
-  USER_EMAIL: jenstroeger@users.noreply.github.com
 
 jobs:
   sync:
@@ -44,14 +41,18 @@ jobs:
     - name: Sync with template
       env:
         GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+        # This is the username and email for the user who creates a branch and commits
+        # the changes. In an organisation that should be a dedicated devops account.
+        USER_NAME: jenstroeger
+        USER_EMAIL: jenstroeger@users.noreply.github.com
+      working-directory: ./repo
       run: |
-        LATEST_VERSION=$(cd template && git describe --tags --abbrev=0)
-        CURRENT_VERSION=$(test -f repo/.github/workflows/.template_version \
-          && cat repo/.github/workflows/.template_version || echo "v0.0.0")
-        echo "Latest version is $LATEST_VERSION and current version is $CURRENT_VERSION."
+        LATEST_VERSION=$(cd ../template && git describe --tags --abbrev=0)
+        CURRENT_VERSION=$(test -f .github/workflows/.template_version && cat .github/workflows/.template_version || echo "v0.0.0")
+        echo "Latest version is ${LATEST_VERSION} and current version is ${CURRENT_VERSION}."
 
         # Check if the template repo was changed/updated.
-        if [ "$CURRENT_VERSION" == "$LATEST_VERSION" ]; then
+        if [ "${CURRENT_VERSION}" == "${LATEST_VERSION}" ]; then
           echo "Unable to find a new version, exiting..."
         else
 
@@ -61,17 +62,16 @@ jobs:
             echo "Branch $BRANCH_NAME already exists, exiting..."
           else
 
-            # Generate a patch file of all template changes.
-            pushd template || exit
-            git diff "$CURRENT_VERSION..$LATEST_VERSION" "$(find . docs/ .github/ .github/workflows/ .github/codeql/ -maxdepth 1 -type f ! -name """*.md""" ! -name """.template_version""")" > diff.patch
+            # Generate a patch file of all template changes in the cloned template repository.
+            pushd ../template || exit
+            # shellcheck disable=SC2046
+            git diff "${CURRENT_VERSION}".."${LATEST_VERSION}" -- $(find . docs/ .github/ .github/workflows/ -maxdepth 1 -type f ! -name "*.md" ! -name ".template_version") > diff.patch
             popd || exit
 
             # Apply the generated patch to the current repo.
-            pushd repo || exit
             patch --strip 1 --batch --merge --input ../template/diff.patch || true
             find . -name "*.orig" -type f -delete
             find . -name "*.rej" -type f -delete
-            popd || exit
 
             # Create a branch, commit, and push the changeset.
             git checkout -b "$BRANCH_NAME"
@@ -84,8 +84,7 @@ jobs:
             git push --set-upstream origin "$BRANCH_NAME"
 
             # Create the pull request.
-            gh pr create --base staging --title "chore: sync with package template $LATEST_VERSION" \
-              --body "This PR was generated automatically." --head "$BRANCH_NAME"
+            gh pr create --base staging --head "$BRANCH_NAME" --title "chore: sync with template $LATEST_VERSION" --body "This PR was generated automatically."
 
           fi
         fi
