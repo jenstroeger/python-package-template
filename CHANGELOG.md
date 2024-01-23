@@ -1,3 +1,9 @@
+## v2.12.1 (2024-01-23)
+
+### Fix
+
+- **deps-dev**: revert artifact download and upload GitHub Actions to v3 (#686)
+
 ## v2.12.0 (2024-01-20)
 
 ### Feat
