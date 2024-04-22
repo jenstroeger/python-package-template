@@ -49,7 +49,7 @@ jobs:
     # Check out the repository's Wiki repo into the wiki/ folder. The token is required
     # only for private repositories.
     - name: Check out repository
-      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         repository: ${{ format('{0}.wiki', github.repository) }}
