@@ -1,5 +1,11 @@
 This project follows the [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/).
 
+## v2.13.1 (2024-05-14)
+
+### Fix
+
+- **ci**: fix the artifact name for the Release workflow (#733)
+
 ## v2.13.0 (2024-05-14)
 
 ### Feat
