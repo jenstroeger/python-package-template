@@ -44,7 +44,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
       with:
-        python-version: '3.11'
+        python-version: '3.12'
 
     - name: Set up Commitizen
       run: |
@@ -126,7 +126,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
       with:
-        python-version: '3.11'
+        python-version: '3.12'
 
     - name: Set up Commitizen
       run: |
@@ -250,7 +250,7 @@ jobs:
       # Github disallows passing environment variables as arguments to a reusable
       # workflow, so we have to duplicate these values here. Related discussion
       # here: https://github.com/actions/toolkit/issues/931
-      artifact-name: artifact-ubuntu-latest-python-3.11
+      artifact-name: artifact-ubuntu-latest-python-3.12
       git-user-name: jenstroeger
       git-user-email: jenstroeger@users.noreply.github.com
     secrets:
