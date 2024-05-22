@@ -65,8 +65,10 @@ jobs:
     # In some cases a user may merge commits that don't cause a version bump, which causes commitizen
     # to fail with error code 21 (NoneIncrementExit). Thus we silence that particular error to avoid
     # failing this job: https://commitizen-tools.github.io/commitizen/bump/#avoid-raising-errors
+    # Furthermore, if the version strings have inconsistent versions then `cz` and CI fail such that
+    # the issue can be inspected and fixed.
     - name: Create changelog and bump
-      run: cz --no-raise 21 bump --changelog --yes
+      run: cz --no-raise 21 bump --changelog --check-consistency --yes
 
     - name: Push the release
       run: |
