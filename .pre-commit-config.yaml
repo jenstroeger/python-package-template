@@ -53,6 +53,14 @@ repos:
     files: ^src/package/|^tests/
     args: [--py310-plus]
 
+# Ruff is a fast superset of pylint and selection of various flake8 plugins.
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.0.286
+  hooks:
+  - id: ruff
+    name: Check ruff issues
+    args: [--config, pyproject.toml, --fix, --exit-non-zero-on-fix]
+
 # Similar to pylint, with a few more/different checks. For more available
 # extensions: https://github.com/DmytroLitvinov/awesome-flake8-extensions
 - repo: https://github.com/pycqa/flake8
