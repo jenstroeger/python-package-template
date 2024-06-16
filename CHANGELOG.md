@@ -1,5 +1,11 @@
 This project follows the [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/).
 
+## v2.13.3 (2024-06-16)
+
+### Fix
+
+- **ci**: commitizen and CI should fail if the bumped version strings contain inconsistent version numbers (#747)
+
 ## v2.13.2 (2024-05-14)
 
 ### Fix
