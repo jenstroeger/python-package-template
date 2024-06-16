@@ -42,11 +42,11 @@ repos:
   - id: blacken-docs
     name: Format code in docstrings
     args: [--line-length, '120']
-    additional_dependencies: [black==22.12.0]
+    additional_dependencies: [black==24.4.2]
 
 # Upgrade and rewrite Python idioms.
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.15.2
+  rev: v3.16.0
   hooks:
   - id: pyupgrade
     name: Upgrade code idioms
@@ -56,13 +56,13 @@ repos:
 # Similar to pylint, with a few more/different checks. For more available
 # extensions: https://github.com/DmytroLitvinov/awesome-flake8-extensions
 - repo: https://github.com/pycqa/flake8
-  rev: 7.0.0
+  rev: 7.1.0
   hooks:
   - id: flake8
     name: Check flake8 issues
     files: ^src/package/|^tests/
     types: [text, python]
-    additional_dependencies: [flake8-bugbear==24.4.26, flake8-builtins==2.5.0, flake8-comprehensions==3.14.0, flake8-docstrings==1.7.0, flake8-logging==1.6.0, flake8-mutable==1.2.0, flake8-noqa==1.4.0, flake8-print==5.0.0, flake8-pyi==24.4.1, flake8-pytest-style==2.0.0, flake8-rst-docstrings==0.3.0, pep8-naming==0.13.3]
+    additional_dependencies: [flake8-bugbear==24.4.26, flake8-builtins==2.5.0, flake8-comprehensions==3.14.0, flake8-docstrings==1.7.0, flake8-logging==1.6.0, flake8-mutable==1.2.0, flake8-noqa==1.4.0, flake8-print==5.0.0, flake8-pyi==24.6.0, flake8-pytest-style==2.0.0, flake8-rst-docstrings==0.3.0, pep8-naming==0.14.1]
     args: [--config, .flake8]
 
 # Run Pylint from the local repo to make sure venv packages
@@ -90,7 +90,7 @@ repos:
 
 # Check for potential security issues.
 - repo: https://github.com/PyCQA/bandit
-  rev: 1.7.8
+  rev: 1.7.9
   hooks:
   - id: bandit
     name: Check for security issues
@@ -155,7 +155,7 @@ repos:
 
 # Check GitHub Actions workflow files.
 - repo: https://github.com/Mateusz-Grzelinski/actionlint-py
-  rev: v1.6.27.13
+  rev: v1.7.1.15
   hooks:
   - id: actionlint
 
