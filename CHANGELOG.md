@@ -1,5 +1,11 @@
 This project follows the [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/).
 
+## v2.13.4 (2024-09-04)
+
+### Fix
+
+- **ci**: also update setuptools when setting up the virtual environment (#795)
+
 ## v2.13.3 (2024-06-16)
 
 ### Fix
