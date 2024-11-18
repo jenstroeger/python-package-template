@@ -1,8 +1,8 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 default_install_hook_types: [pre-commit, commit-msg, pre-push]
-default_stages: [commit]
-minimum_pre_commit_version: 3.0.0
+default_stages: [pre-commit]
+minimum_pre_commit_version: 4.0.0
 exclude: ^.vscode/
 
 repos:
@@ -108,14 +108,14 @@ repos:
   - id: check-case-conflict
   - id: check-merge-conflict
   - id: check-added-large-files
-    stages: [commit]
+    stages: [pre-commit]
     args: [--maxkb=500]
   - id: debug-statements
   - id: end-of-file-fixer
-    stages: [commit]
+    stages: [pre-commit]
   - id: trailing-whitespace
     args: [--markdown-linebreak-ext=md]
-    stages: [commit]
+    stages: [pre-commit]
   - id: detect-private-key
   - id: detect-aws-credentials
     args: [--allow-missing-credentials]
@@ -169,4 +169,4 @@ repos:
     verbose: true
     always_run: true
     pass_filenames: false
-    stages: [push]
+    stages: [pre-push]
