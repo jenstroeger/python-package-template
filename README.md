@@ -32,7 +32,7 @@ The badges above give you an idea of what this project template provides. It’s
 
 ### Typing
 
-The package requires a minimum of [Python 3.10](https://www.python.org/downloads/release/python-31014/), and it supports [Python 3.11](https://www.python.org/downloads/release/python-3118/) and [Python 3.12](https://www.python.org/downloads/release/python-3121/) (default). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker and the [flake8-pyi](https://github.com/PyCQA/flake8-pyi) plugin are invoked by git hooks and through a Github Action to enforce continuous type checks on Python source and [stub files](https://peps.python.org/pep-0484/#stub-files). Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
+The package requires a minimum of [Python 3.10](https://www.python.org/downloads/release/python-31015/), and it supports [Python 3.11](https://www.python.org/downloads/release/python-31110/), [Python 3.12](https://www.python.org/downloads/release/python-3127/) and [Python 3.13](https://www.python.org/downloads/release/python-3130/) (default). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker and the [flake8-pyi](https://github.com/PyCQA/flake8-pyi) plugin are invoked by git hooks and through a Github Action to enforce continuous type checks on Python source and [stub files](https://peps.python.org/pep-0484/#stub-files). Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
 
 ### Quality assurance
 
@@ -99,19 +99,19 @@ If you’d like to start your own Python project from scratch, you can either co
 To develop your new package, first create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) by either using the [Makefile](https://www.gnu.org/software/make/manual/make.html#toc-An-Introduction-to-Makefiles):
 
 ```bash
-make venv  # Create a new virtual environment in .venv folder using Python 3.10.
+make venv  # Create a new virtual environment in .venv folder using Python 3.13.
 ```
 
 or for a specific version of Python:
 
 ```bash
-PYTHON=python3.10 make venv  # Same virtual environment for a different Python version.
+PYTHON=python3.12 make venv  # Same virtual environment for a different Python version.
 ```
 
 or manually:
 
 ```bash
-python3.12 -m venv .venv  # Or use .venv312 for more than one local virtual environments.
+python3.13 -m venv .venv  # Or use .venv313 for more than one local virtual environments.
 ```
 
 When working with this Makefile _it is important to always [activate the virtual environment](https://docs.python.org/3/library/venv.html)_ because some of the [git hooks](#git-hooks) (see below) depend on that:
@@ -171,45 +171,42 @@ Both statement and branch coverage are being tracked using [coverage](https://gi
 ```
 Run unit tests...........................................................Passed
 - hook id: pytest
-- duration: 0.6s
+- duration: 1.74s
 
 ============================= test session starts ==============================
-platform darwin -- Python 3.11.7, pytest-7.4.4, pluggy-1.3.0 -- /path/to/python-package-template/.venv/bin/python
+platform darwin -- Python 3.13.0, pytest-8.3.3, pluggy-1.5.0 -- /path/to/python-package-template/.venv/bin/python
 cachedir: .pytest_cache
-hypothesis profile 'default-with-verbose-verbosity-with-explain-phase' -> max_examples=500, verbosity=Verbosity.verbose, phases=(Phase.explicit, Phase.reuse, Phase.generate, Phase.target, Phase.shrink, Phase.explain), database=DirectoryBasedExampleDatabase('/path/to/python-package-template/.hypothesis/examples')
+hypothesis profile 'default-with-verbose-verbosity' -> max_examples=500, verbosity=Verbosity.verbose, database=DirectoryBasedExampleDatabase(PosixPath('/path/to/python-package-template/.hypothesis/examples'))
 rootdir: /path/to/python-package-template
 configfile: pyproject.toml
-plugins: custom-exit-code-0.3.0, cov-4.1.0, doctestplus-1.1.0, hypothesis-6.90.0, env-1.1.1
+plugins: cov-5.0.0, hypothesis-6.111.2, env-1.1.3, custom-exit-code-0.3.0, doctestplus-1.2.1
 collected 3 items
 
 src/package/something.py::package.something.Something.do_something PASSED [ 33%]
-tests/test_something.py::test_something PASSED                            [ 66%]
-docs/source/index.rst::index.rst PASSED                                   [100%]
+tests/test_something.py::test_something PASSED                           [ 66%]
+docs/source/index.rst::index.rst PASSED                                  [100%]
 
----------- coverage: platform darwin, python 3.11.7-final-0 ----------
+---------- coverage: platform darwin, python 3.13.0-final-0 ----------
 Name                       Stmts   Miss Branch BrPart  Cover   Missing
 ----------------------------------------------------------------------
 src/package/__init__.py        1      0      0      0   100%
-src/package/something.py       4      0      2      0   100%
+src/package/something.py       4      0      0      0   100%
 ----------------------------------------------------------------------
-TOTAL                          5      0      2      0   100%
+TOTAL                          5      0      0      0   100%
 
 Required test coverage of 100.0% reached. Total coverage: 100.00%
 ============================ Hypothesis Statistics =============================
 
 tests/test_something.py::test_something:
 
-  - during reuse phase (0.00 seconds):
-    - Typical runtimes: < 1ms, of which < 1ms in data generation
-    - 1 passing examples, 0 failing examples, 0 invalid examples
-
   - during generate phase (0.00 seconds):
-    - Typical runtimes: < 1ms, of which < 1ms in data generation
-    - 1 passing examples, 0 failing examples, 0 invalid examples
+    - Typical runtimes: ~ 0-1 ms, of which < 1ms in data generation
+    - 2 passing examples, 0 failing examples, 0 invalid examples
 
   - Stopped because nothing left to do
 
-============================== 3 passed in 0.05s ===============================
+
+============================== 3 passed in 0.08s ===============================
 ```
 Note that code that’s not covered by tests is listed under the `Missing` column, and branches not taken too. The net effect of enforcing 100% code and branch coverage is that every new major and minor feature, every code change, and every fix are being tested (keeping in mind that high _coverage_ does not imply comprehensive, meaningful _test data_).
 

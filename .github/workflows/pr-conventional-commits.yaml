@@ -29,7 +29,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
       with:
-        python-version: '3.12'
+        python-version: '3.13'
 
     # Install Commitizen without using the package's Makefile: that's much faster than
     # creating a venv and installing heaps of dependencies that aren't required for this job.
