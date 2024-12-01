@@ -54,6 +54,12 @@ jobs:
         python: ['3.10', '3.11', '3.12', '3.13']
     steps:
 
+    # Randomize the runner's timezone in order to provoke related bugs and misbehaviors.
+    - name: Randomize Runner timezone
+      run: |
+        sudo timedatectl set-timezone "$(timedatectl list-timezones | uniq | shuf --head-count 1)"
+        timedatectl status
+
     - name: Harden Runner
       uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
       with:
