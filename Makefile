@@ -150,7 +150,7 @@ audit:
 	python -m pip_audit --skip-editable --desc on --fix --dry-run
 
 # Run some or all checks over the package code base.
-.PHONY: check check-code check-bandit check-flake8 check-lint check-mypy
+.PHONY: check check-code check-bandit check-flake8 check-lint check-mypy check-actionlint
 check-code: check-bandit check-flake8 check-lint check-mypy check-actionlint
 check-bandit:
 	pre-commit run bandit --all-files
