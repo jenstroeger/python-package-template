@@ -28,6 +28,7 @@ repos:
   - id: isort
     name: Sort import statements
     args: [--settings-path, pyproject.toml]
+    stages: [pre-commit]
 
 # Add Black code formatters.
 - repo: https://github.com/ambv/black
