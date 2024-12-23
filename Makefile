@@ -232,11 +232,13 @@ clean: dist-clean
 	rm -fr docs/_build/
 
 # Remove code caches, or the entire virtual environment.
-.PHONY: nuke-caches nuke
-nuke-caches: clean
+.PHONY: nuke-git-hooks nuke-caches nuke
+nuke-git-hooks:
+	find .git/hooks/ -type f ! -name '*.sample' -exec rm -fr {} +
+nuke-caches:
 	find src/ -type d -name __pycache__ -exec rm -fr {} +
 	find tests/ -type d -name __pycache__ -exec rm -fr {} +
-nuke: nuke-caches
+nuke: clean nuke-git-hooks nuke-caches
 	if [ ! -z "${VIRTUAL_ENV}" ]; then \
 	  echo "Please deactivate the virtual environment first!" && exit 1; \
 	fi
