@@ -6,7 +6,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "package"
-requires-python = ">=3.10"
+requires-python = ">=3.10.0,<3.14.0"
 authors = [{name = "Author", email = "author@email"}]
 maintainers = [{name = "Maintainer", email = "maintainer@email"}]
 dynamic = ["version", "description"]
