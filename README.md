@@ -171,22 +171,22 @@ Both statement and branch coverage are being tracked using [coverage](https://gi
 ```
 Run unit tests...........................................................Passed
 - hook id: pytest
-- duration: 1.74s
+- duration: 0.76s
 
 ============================= test session starts ==============================
-platform darwin -- Python 3.13.0, pytest-8.3.3, pluggy-1.5.0 -- /path/to/python-package-template/.venv/bin/python
+platform darwin -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0 -- /path/to/python-package-template/.venv/bin/python
 cachedir: .pytest_cache
 hypothesis profile 'default-with-verbose-verbosity' -> max_examples=500, verbosity=Verbosity.verbose, database=DirectoryBasedExampleDatabase(PosixPath('/path/to/python-package-template/.hypothesis/examples'))
 rootdir: /path/to/python-package-template
 configfile: pyproject.toml
-plugins: cov-5.0.0, hypothesis-6.111.2, env-1.1.3, custom-exit-code-0.3.0, doctestplus-1.2.1
+plugins: cov-6.0.0, hypothesis-6.122.7, env-1.1.5, custom-exit-code-0.3.0, doctestplus-1.3.0
 collected 3 items
 
 src/package/something.py::package.something.Something.do_something PASSED [ 33%]
 tests/test_something.py::test_something PASSED                           [ 66%]
 docs/source/index.rst::index.rst PASSED                                  [100%]
 
----------- coverage: platform darwin, python 3.13.0-final-0 ----------
+---------- coverage: platform darwin, python 3.13.1-final-0 ----------
 Name                       Stmts   Miss Branch BrPart  Cover   Missing
 ----------------------------------------------------------------------
 src/package/__init__.py        1      0      0      0   100%
@@ -206,7 +206,17 @@ tests/test_something.py::test_something:
   - Stopped because nothing left to do
 
 
-============================== 3 passed in 0.08s ===============================
+============================== slowest durations ===============================
+0.01s call     tests/test_something.py::test_something
+0.00s call     src/package/something.py::package.something.Something.do_something
+0.00s setup    src/package/something.py::package.something.Something.do_something
+0.00s call     docs/source/index.rst::index.rst
+0.00s teardown src/package/something.py::package.something.Something.do_something
+0.00s setup    docs/source/index.rst::index.rst
+0.00s teardown docs/source/index.rst::index.rst
+0.00s setup    tests/test_something.py::test_something
+0.00s teardown tests/test_something.py::test_something
+============================== 3 passed in 0.09s ===============================
 ```
 Note that code that’s not covered by tests is listed under the `Missing` column, and branches not taken too. The net effect of enforcing 100% code and branch coverage is that every new major and minor feature, every code change, and every fix are being tested (keeping in mind that high _coverage_ does not imply comprehensive, meaningful _test data_).
 
