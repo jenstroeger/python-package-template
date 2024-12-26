@@ -1,5 +1,18 @@
 This project follows the [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/).
 
+## v2.15.0 (2024-12-26)
+
+### Feat
+
+- **test**: add the duration of tests to the printed test summary (#852)
+
+### Fix
+
+- don’t attempt to sort imports on `git push` (they must already be sorted) (#851)
+- when nuking then also nuke any installed git hooks (except pre-installed sample hooks) to avoid leaving stale hooks behind (#850)
+- declare `check-actionlint` goal in Makefile as proper phony (#849)
+- package metadata did not constrain the upper limit of Python’s version range, set now to <3.14 (#848)
+
 ## v2.14.0 (2024-11-19)
 
 ### Feat
