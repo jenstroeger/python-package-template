@@ -20,5 +20,5 @@ def _case_boolean() -> bool:
 
 @parametrize_with_cases("boolean", cases=_case_boolean)
 def test_something_cases(boolean: bool) -> None:
-    """Test something here using Cases."""
+    """Test something here using Cases and Faker."""
     assert Something.do_something(boolean) is True
