@@ -41,7 +41,7 @@ something = "package.__main__:main"
 # We keep them listed here to ensure the infrastructure BOM is consistent with what's
 # installed. Make sure to keep the requirements in sync with the workflows!
 actions = [
-    "commitizen ==4.1.0",
+    "commitizen ==4.2.2",
     "twine ==6.0.1",
 ]
 dev = [
