@@ -5,12 +5,12 @@ name: CodeQL
 on:
   push:
     branches:
+    - release
     - main
-    - staging
   pull_request:
     branches:
+    - release
     - main
-    - staging
     # Avoid unnecessary scans of pull requests.
     paths:
     - '**/*.py'
