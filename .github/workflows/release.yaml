@@ -1,12 +1,12 @@
 # We run checks on pushing to the specified branches.
-# Pushing to main also triggers a release.
+# Pushing to release also triggers a release.
 
 name: Check and Release
 on:
   push:
     branches:
+    - release
     - main
-    - staging
 permissions:
   contents: read
 
@@ -19,11 +19,11 @@ jobs:
     with:
       disable-pip-audit: ${{ vars.DISABLE_PIP_AUDIT == 'true' }}
 
-  # On pushes to the 'main' branch create a new release by bumping the version
+  # On pushes to the 'release' branch create a new release by bumping the version
   # and generating a change log. That's the new bump commit and associated tag.
   bump:
     needs: check
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -77,7 +77,7 @@ jobs:
 
   # When triggered by the version bump commit, build the package and publish the release artifacts.
   build:
-    if: github.ref == 'refs/heads/main' && startsWith(github.event.commits[0].message, 'bump:')
+    if: github.ref == 'refs/heads/release' && startsWith(github.event.commits[0].message, 'bump:')
     uses: ./.github/workflows/_build.yaml
     permissions:
       contents: read
@@ -256,19 +256,19 @@ jobs:
     secrets:
       REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
-  # After the bump commit was pushed to the main branch, rebase the staging branch
-  # (to_head argument) on top of the new main branch (from_base argument), to keep
+  # After the bump commit was pushed to the release branch, rebase the main branch
+  # (to_head argument) on top of the new release branch (from_base argument), to keep
   # the histories of both branches in sync.
-  rebase_staging:
+  rebase_main:
     # if: ${{ false }}
     needs: [release]
-    name: Rebase staging branch on main
+    name: Rebase main branch on release
     uses: ./.github/workflows/_generate-rebase.yaml
     permissions:
       contents: read
     with:
-      to-head: staging
-      from-base: origin/main
+      to-head: main
+      from-base: origin/release
       git-user-name: jenstroeger
       git-user-email: jenstroeger@users.noreply.github.com
     secrets:

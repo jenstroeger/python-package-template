@@ -35,7 +35,7 @@ jobs:
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         fetch-depth: 0
-        ref: staging
+        ref: main
         path: repo
 
     - name: Sync with template
@@ -84,7 +84,7 @@ jobs:
             git push --set-upstream origin "$BRANCH_NAME"
 
             # Create the pull request.
-            gh pr create --base staging --head "$BRANCH_NAME" --title "chore: sync with template $LATEST_VERSION" --body "This PR was generated automatically."
+            gh pr create --base main --head "$BRANCH_NAME" --title "chore: sync with template $LATEST_VERSION" --body "This PR was generated automatically."
 
           fi
         fi
