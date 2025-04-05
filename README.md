@@ -82,6 +82,8 @@ If you’d like to start your own Python project from scratch, you can either co
 
 - Rename the `src/package/` folder to whatever your own package’s name will be, adjust the Github Actions in `.github/workflows/`, and review the `Makefile`, `pyproject.toml`, `.pre-commit-config.yaml` files as well as the unit tests accordingly. **Note**: by default all Actions run on three different host types (Linux, MacOS, and Windows) whose [rates vary widely](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#minute-multipliers), so make sure that you disable or budget accordingly if you’re in a private repository!
 
+- A new protected `release` branch, should be created if it doesn't already exist. This branch should be configured with appropriate security policies and essential checks to ensure the integrity and stability of the release process.
+
 - Adjust the content of the `pyproject.toml` file according to your needs, and make sure to fill in the project URL, maintainer and author information too. Don’t forget to reset the package’s version number in `src/package/__init__.py`.
 
 - If you import packages that do not provide type hints into your new repository, then `mypy` needs to be configured accordingly: add these packages to the `pyproject.toml` file using the [`ignore_missing_imports`](https://mypy.readthedocs.io/en/stable/config_file.html#confval-ignore_missing_imports) option.
