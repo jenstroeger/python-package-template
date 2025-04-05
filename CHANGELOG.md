@@ -1,5 +1,12 @@
 This project follows the [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/).
 
+## v2.16.0 (2025-04-05)
+
+### Feat
+
+- change the release and staging branching model (#900)
+- **test**: add the pytest-cases package and a simple example of how to use it (#873)
+
 ## v2.15.0 (2024-12-26)
 
 ### Feat
