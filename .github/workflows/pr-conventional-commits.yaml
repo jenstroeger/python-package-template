@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  conventional-commits:
+  pr-check-conventional-commits:
     runs-on: ubuntu-latest
     steps:
 
