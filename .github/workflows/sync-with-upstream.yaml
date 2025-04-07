@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 jobs:
-  sync:
+  sync-with-upstream:
     if: github.repository != 'jenstroeger/python-package-template'
     runs-on: ubuntu-latest
     permissions:

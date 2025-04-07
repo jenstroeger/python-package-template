@@ -1,7 +1,7 @@
 # Run CodeQL over the package. For more configuration options see codeql/codeql-config.yaml
 # and: https://github.com/github/codeql-action
 
-name: CodeQL
+name: Analyze repository using CodeQL
 on:
   push:
     branches:
@@ -20,7 +20,7 @@ permissions:
   contents: read
 
 jobs:
-  analyze:
+  analyze-codeql:
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
