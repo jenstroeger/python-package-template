@@ -38,18 +38,30 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
       with:
-        path: dist
-        merge-multiple: true
+        path: downloads
 
     # Verify hashes by first computing hashes for the artifacts and then comparing them
     # against the hashes computed by the build job.
     - name: Verify the artifact hash
-      env:
-        ARTIFACT_HASH: ${{ needs.build.outputs.artifacts-sha256 }}
       run: |
         set -euo pipefail
-        echo "Hash of package should be $ARTIFACT_HASH."
-        echo "Decoding the artifact hash:"
-        ls dist
-        echo "$ARTIFACT_HASH" | base64 --decode
-        echo "$ARTIFACT_HASH" | base64 --decode | sha256sum --strict --check --status || exit 1
+        cd downloads
+        for ARCH in "ubuntu-x86-64" "ubuntu-arm64"; do
+          HASH_DIR="artifacts-sha256-file-${ARCH}"
+          ARTIFACT_DIR="artifacts-${ARCH}"
+          HASH_FILE="${HASH_DIR}/artifacts-sha256-file-${ARCH}"
+
+          echo "Verifying artifacts for ${ARCH}"
+          echo "Decoding expected SHA256 digest:"
+          DECODED_HASH=$(base64 --decode "${HASH_FILE}")
+          echo "$DECODED_HASH"
+
+          cd "${ARTIFACT_DIR}"
+          echo "$DECODED_HASH" | sha256sum --strict --check --status || {
+            echo "Hash verification failed for ${ARCH}!"
+            exit 1
+          }
+          cd - > /dev/null
+
+          echo "Hash verified successfully for ${ARCH}"
+        done
