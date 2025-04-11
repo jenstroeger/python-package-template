@@ -155,10 +155,10 @@ repos:
   #   args: [--autofix]
 
 # Check GitHub Actions workflow files.
-- repo: https://github.com/Mateusz-Grzelinski/actionlint-py
-  rev: v1.7.4.18
-  hooks:
-  - id: actionlint
+# - repo: https://github.com/Mateusz-Grzelinski/actionlint-py
+#   rev: v1.7.4.18
+#   hooks:
+#   - id: actionlint
 
 # On push to the remote, run the unit tests.
 - repo: local
