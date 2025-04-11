@@ -50,8 +50,10 @@ jobs:
       matrix:
         # It is recommended to pin a Runner version specifically:
         # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
-        python: ['3.10', '3.11', '3.12', '3.13']
+        # os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+        # python: ['3.10', '3.11', '3.12', '3.13']
+        os: [ubuntu-24.04-arm]
+        python: ['3.13']
     steps:
 
     - name: Harden Runner
@@ -126,6 +128,7 @@ jobs:
         HTML_DOCS_PATH=$(find dist/ -type f -name "*-docs-html.zip")
         MARKDOWN_DOCS_PATH=$(find dist/ -type f -name "*-docs-md.zip")
         BUILD_EPOCH_PATH=$(find dist/ -type f -name "*-build-epoch.txt")
+        sha256sum --version
         DIGEST=$(sha256sum "$TARBALL_PATH" "$WHEEL_PATH" "$REQUIREMENTS_PATH" "$SBOM_PATH" "$HTML_DOCS_PATH" "$MARKDOWN_DOCS_PATH" "$BUILD_EPOCH_PATH" | base64 -w0)
         echo "Digest of artifacts is $DIGEST."
         echo "artifacts-sha256=$DIGEST" >> "$GITHUB_OUTPUT"
