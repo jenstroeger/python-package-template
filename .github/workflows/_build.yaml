@@ -50,10 +50,10 @@ jobs:
       matrix:
         # It is recommended to pin a Runner version specifically:
         # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners
-        # os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
-        # python: ['3.10', '3.11', '3.12', '3.13']
-        os: [ubuntu-24.04-arm]
-        python: ['3.13']
+        # os: [ubuntu-24.04, ubuntu-24.04-arm, macos-latest, windows-latest]
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
+        python: ['3.10', '3.11', '3.12', '3.13']
+
     steps:
 
     - name: Harden Runner
@@ -101,13 +101,13 @@ jobs:
     # Generate the requirements.txt that contains the hash digests of the dependencies and
     # generate the SBOM using CyclonDX SBOM generator.
     - name: Generate requirements.txt and SBOM
-      if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
+      if: matrix.python == env.ARTIFACT_PYTHON
       run: make requirements sbom
 
     # Remove the old requirements.txt file (which includes _all_ packages) and generate a
     # new one for the package and its actual and required dependencies only.
     - name: Prune packages and generate required requirements.txt
-      if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
+      if: matrix.python == env.ARTIFACT_PYTHON
       run: |
         rm requirements.txt
         make prune requirements
