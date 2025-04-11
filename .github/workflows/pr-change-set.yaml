@@ -39,6 +39,7 @@ jobs:
       uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
       with:
         path: dist
+        merge-multiple: true
 
     # Verify hashes by first computing hashes for the artifacts and then comparing them
     # against the hashes computed by the build job.
@@ -49,5 +50,6 @@ jobs:
         set -euo pipefail
         echo "Hash of package should be $ARTIFACT_HASH."
         echo "Decoding the artifact hash:"
+        ls dist
         echo "$ARTIFACT_HASH" | base64 --decode
         echo "$ARTIFACT_HASH" | base64 --decode | sha256sum --strict --check --status || exit 1
