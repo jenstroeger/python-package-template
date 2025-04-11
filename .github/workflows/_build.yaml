@@ -114,7 +114,7 @@ jobs:
     # the SHA digest for all the release files and encode them using Base64, and export it
     # from this job.
     - name: Compute package hash
-      if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
+      if: matrix.python == env.ARTIFACT_PYTHON
       id: compute-hash
       shell: bash
       run: |
@@ -133,7 +133,7 @@ jobs:
     # For now only generate artifacts for the specified OS and Python version in env variables.
     # Currently reusable workflows do not support setting strategy property from the caller workflow.
     - name: Upload the package artifact for debugging and release
-      if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
+      if: matrix.python == env.ARTIFACT_PYTHON
       uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
       with:
         name: artifact-${{ matrix.os }}-python-${{ matrix.python }}
