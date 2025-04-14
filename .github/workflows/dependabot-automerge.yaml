@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  comment:
+  merge-dependabot-pr:
     if: ${{ github.event.review.state == 'approved' && github.event.pull_request.user.login == 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:

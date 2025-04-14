@@ -25,7 +25,7 @@ on:
 permissions: {}
 
 jobs:
-  slack:
+  send-release-notification-slack:
     name: Slack release notification
     runs-on: ubuntu-latest
     steps:
