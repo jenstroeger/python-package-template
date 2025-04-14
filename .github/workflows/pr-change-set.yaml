@@ -21,7 +21,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  pr-build-package:
+  build-package:
     uses: ./.github/workflows/_build.yaml
     permissions:
       contents: read
