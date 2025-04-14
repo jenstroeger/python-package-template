@@ -29,7 +29,7 @@ on:
         description: Enable or disable running pip_audit to check installed packages for vulnerabilities
     outputs:
       artifacts-sha256:
-        value: ${{ jobs.build-package.outputs.artifacts-sha256 }}
+        value: ${{ jobs.check-and-build-package.outputs.artifacts-sha256 }}
         description: The hash of the artifacts
 permissions:
   contents: read
@@ -38,7 +38,7 @@ env:
   ARTIFACT_PYTHON: '3.13' # The default Python version for release.
 
 jobs:
-  build-package:
+  check-and-build-package:
     # Uncomment the following to disable checks and tests for Draft pull requests.
     # if: github.event.pull_request.draft == false
     outputs:

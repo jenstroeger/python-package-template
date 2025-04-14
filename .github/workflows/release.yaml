@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  release-check:
+  check-package-for-release:
     if: ${{ !startsWith(github.event.commits[0].message, 'bump:') }}
     uses: ./.github/workflows/_build.yaml
     permissions:
@@ -21,8 +21,8 @@ jobs:
 
   # On pushes to the 'release' branch create a new release by bumping the version
   # and generating a change log. That's the new bump commit and associated tag.
-  release-bump:
-    needs: [release-check]
+  bump-package-version:
+    needs: [check-package-for-release]
     if: github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     permissions:
@@ -76,7 +76,7 @@ jobs:
         git push --tags
 
   # When triggered by the version bump commit, build the package and publish the release artifacts.
-  release-build:
+  build-package-for-release:
     if: github.ref == 'refs/heads/release' && startsWith(github.event.commits[0].message, 'bump:')
     uses: ./.github/workflows/_build.yaml
     permissions:
@@ -86,8 +86,8 @@ jobs:
 
   # Create a new Release on Github from the verified build artifacts, and optionally
   # publish the artifacts to a PyPI server.
-  release:
-    needs: [release-build]
+  release-package:
+    needs: [build-package-for-release]
     name: Release
     outputs:
       release-tag: ${{ steps.upload-assets.outputs.release-tag }}
@@ -118,7 +118,7 @@ jobs:
     # against the hashes computed by the build job.
     - name: Verify the artifact hash
       env:
-        ARTIFACT_HASH: ${{ needs.release-build.outputs.artifacts-sha256 }}
+        ARTIFACT_HASH: ${{ needs.build-package-for-release.outputs.artifacts-sha256 }}
       run: |
         set -euo pipefail
         echo "Hash of package should be $ARTIFACT_HASH."
@@ -175,11 +175,11 @@ jobs:
   # provenance generator which depends on an external service Rekor (https://github.com/sigstore/rekor)
   # we build this generator from source for now. For more information see this discussion:
   # https://github.com/slsa-framework/slsa-github-generator/issues/942
-  release-provenance:
-    needs: [release-build, release]
+  generate-provenance:
+    needs: [build-package-for-release, release-package]
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
     with:
-      base64-subjects: ${{ needs.release-build.outputs.artifacts-sha256 }}
+      base64-subjects: ${{ needs.build-package-for-release.outputs.artifacts-sha256 }}
       compile-generator: false # Do not build the provenance generator from source anymore.
       # Set private-repository to true for private repositories. Note that the repository name is
       # uploaded as part of the transparency log entry on the public Rekor instance (rekor.sigstore.dev).
@@ -190,8 +190,8 @@ jobs:
       contents: write # To add assets to a release.
 
   # Publish the SLSA provenance as the GitHub release asset.
-  release-publish_provenance:
-    needs: [release, release-provenance]
+  release-provenance:
+    needs: [release-package, generate-provenance]
     name: Publish provenance
     runs-on: ubuntu-latest
     permissions:
@@ -212,41 +212,41 @@ jobs:
     - name: Download provenance
       uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
       with:
-        name: ${{ needs.release-provenance.outputs.provenance-name }}
+        name: ${{ needs.generate-provenance.outputs.provenance-name }}
 
     - name: Upload provenance
-      run: gh release upload ${{ needs.release.outputs.release-tag }} ${{ needs.release-provenance.outputs.provenance-name }}
+      run: gh release upload ${{ needs.release-package.outputs.release-tag }} ${{ needs.generate-provenance.outputs.provenance-name }}
       env:
         GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
   # Send out release notifications after the Release was published on GitHub.
   # Uncomment the `if` to disable sending release notifications.
-  release-notifications:
+  send-release-notifications:
     # if: ${{ false }}
-    needs: [release]
+    needs: [release-package]
     name: Send Release notifications
     uses: ./.github/workflows/_release-notifications.yaml
     permissions:
       contents: read
     with:
       repo-name: ${{ github.event.repository.name }}
-      release-tag: ${{ needs.release.outputs.release-tag }}
-      release-url: ${{ needs.release.outputs.release-url }}
+      release-tag: ${{ needs.release-package.outputs.release-tag }}
+      release-url: ${{ needs.release-package.outputs.release-url }}
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   # Publish the generated Markdown documentation to the repository's Wiki.
   # Uncomment the `if` to disable generating Wiki documentation.
-  release-wiki:
+  publish-wiki:
     # if: ${{ false }}
-    needs: [release]
+    needs: [release-package]
     name: Publish Github Wiki documentation
     uses: ./.github/workflows/_wiki-documentation.yaml
     permissions:
       contents: read
     with:
-      release-tag: ${{ needs.release.outputs.release-tag }}
-      release-url: ${{ needs.release.outputs.release-url }}
+      release-tag: ${{ needs.release-package.outputs.release-tag }}
+      release-url: ${{ needs.release-package.outputs.release-url }}
       # Github disallows passing environment variables as arguments to a reusable
       # workflow, so we have to duplicate these values here. Related discussion
       # here: https://github.com/actions/toolkit/issues/931
@@ -259,9 +259,9 @@ jobs:
   # After the bump commit was pushed to the release branch, rebase the main branch
   # (to_head argument) on top of the new release branch (from_base argument), to keep
   # the histories of both branches in sync.
-  release-rebase-main:
+  rebase-main-branch:
     # if: ${{ false }}
-    needs: [release]
+    needs: [release-package]
     name: Rebase main branch on release
     uses: ./.github/workflows/_generate-rebase.yaml
     permissions:
