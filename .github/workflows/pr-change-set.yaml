@@ -22,9 +22,9 @@ jobs:
     with:
       disable-pip-audit: ${{ vars.DISABLE_PIP_AUDIT == 'true' }}
 
-  test:
+  verify_artifacts:
     needs: [build]
-    name: test
+    name: verify_artifacts
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -35,6 +35,10 @@ jobs:
       with:
         fetch-depth: 0
 
+    # Download all uploaded artifacts in the build job into the 'downloads' directory.
+    # This includes built package distributions and SHA256 hash files from all matrix jobs.
+    # The `path` input ensures all artifacts are placed under the 'downloads/' folder while
+    # maintaining their respective artifact subdirectory structure.
     - name: Download artifact
       uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
       with:
