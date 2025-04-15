@@ -21,3 +21,51 @@ jobs:
       contents: read
     with:
       disable-pip-audit: ${{ vars.DISABLE_PIP_AUDIT == 'true' }}
+
+  verify_artifacts:
+    needs: [build]
+    name: verify_artifacts
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+
+    - name: Check out repository
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      with:
+        fetch-depth: 0
+
+    # Download all uploaded artifacts in the build job into the 'downloads' directory.
+    # This includes built package distributions and SHA256 hash files from all matrix jobs.
+    # The `path` input ensures all artifacts are placed under the 'downloads/' folder while
+    # maintaining their respective artifact subdirectory structure.
+    - name: Download artifact
+      uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+      with:
+        path: downloads
+
+    # Verify hashes by first computing hashes for the artifacts and then comparing them
+    # against the hashes computed by the build job.
+    - name: Verify the artifact hash
+      run: |
+        set -euo pipefail
+        cd downloads
+        for ARCH in "ubuntu-x86-64" "ubuntu-arm64"; do
+          HASH_DIR="artifacts-sha256-file-${ARCH}"
+          ARTIFACT_DIR="artifacts-${ARCH}"
+          HASH_FILE="${HASH_DIR}/artifacts-sha256-file-${ARCH}"
+
+          echo "Verifying artifacts for ${ARCH}"
+          echo "Decoding expected SHA256 digest:"
+          DECODED_HASH=$(base64 --decode "${HASH_FILE}")
+          echo "$DECODED_HASH"
+
+          cd "${ARTIFACT_DIR}"
+          echo "$DECODED_HASH" | sha256sum --strict --check --status || {
+            echo "Hash verification failed for ${ARCH}!"
+            exit 1
+          }
+          cd - > /dev/null
+
+          echo "Hash verified successfully for ${ARCH}"
+        done

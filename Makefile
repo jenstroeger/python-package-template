@@ -5,7 +5,25 @@ SHELL := bash
 
 # Set the package's name and version for use throughout the Makefile.
 PACKAGE_NAME := package
-PACKAGE_VERSION := $(shell python -c $$'try: import $(PACKAGE_NAME); print($(PACKAGE_NAME).__version__);\nexcept: print("unknown");')
+PACKAGE_VERSION := $(shell python -c $$'try: import $(PACKAGE_NAME); print($(PACKAGE_NAME).__version__, end="");\nexcept: print("unknown");')
+
+# Determine the OS and architecture.
+OS := $(shell uname -s)
+ifeq ($(OS),Darwin)
+  PLATFORM_NAME := macosx
+else
+  ifeq ($(OS),Linux)
+	PLATFORM_NAME := manylinux
+  endif
+endif
+
+ARCH := $(shell uname -m)
+
+# Construct short package identifier.
+PACKAGE_SDIST_NAME := $(PACKAGE_NAME)-$(PACKAGE_VERSION)
+
+# Construct full package identifier.
+PACKAGE_WHEEL_DIST_NAME := $(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-cp3-abi3-$(PLATFORM_NAME)_$(ARCH)
 
 # This variable contains the first goal that matches any of the listed goals
 # here, else it contains an empty string. The net effect is to filter out
@@ -107,7 +125,7 @@ upgrade-quiet:
 # Generate a Software Bill of Materials (SBOM).
 .PHONY: sbom
 sbom: requirements
-	cyclonedx-py requirements --output-format json --outfile dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-sbom.json
+	cyclonedx-py requirements --output-format json --outfile dist/$(PACKAGE_WHEEL_DIST_NAME)-sbom.json
 
 # Generate a requirements.txt file containing version and integrity hashes for all
 # packages currently installed in the virtual environment. There's no easy way to
@@ -129,14 +147,14 @@ requirements.txt: pyproject.toml
 	  [[ $$pkg =~ (.*)==(.*) ]] && curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['urls']));" >> requirements.txt; \
 	done
 	echo -e -n "$(PACKAGE_NAME)==$(PACKAGE_VERSION)" >> requirements.txt
-	if [ -f dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz ]; then \
-	  echo -e -n " \\\\\n    $$(python -m pip hash --algorithm sha256 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash')" >> requirements.txt; \
+	if [ -f dist/$(PACKAGE_SDIST_NAME).tar.gz ]; then \
+	  echo -e -n " \\\\\n    $$(python -m pip hash --algorithm sha256 dist/$(PACKAGE_SDIST_NAME).tar.gz | grep '^\-\-hash')" >> requirements.txt; \
 	fi
-	if [ -f dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl ]; then \
-	  echo -e -n " \\\\\n    $$(python -m pip hash --algorithm sha256 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash')" >> requirements.txt; \
+	if [ -f dist/$(PACKAGE_WHEEL_DIST_NAME).whl ]; then \
+	  echo -e -n " \\\\\n    $$(python -m pip hash --algorithm sha256 dist/$(PACKAGE_WHEEL_DIST_NAME).whl | grep '^\-\-hash')" >> requirements.txt; \
 	fi
 	echo "" >> requirements.txt
-	cp requirements.txt dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-requirements.txt
+	cp requirements.txt dist/$(PACKAGE_WHEEL_DIST_NAME)-requirements.txt
 
 # Audit the currently installed packages. Skip packages that are installed in
 # editable mode (like the one in development here) because they may not have
@@ -175,17 +193,18 @@ test:
 # When building these artifacts, we need the environment variable SOURCE_DATE_EPOCH
 # set to the build date/epoch. For more details, see: https://flit.pypa.io/en/latest/reproducible.html
 .PHONY: dist
-dist: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl: check test
+dist: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_SDIST_NAME).tar.gz dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip dist/$(PACKAGE_WHEEL_DIST_NAME)-build-epoch.txt
+dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl:
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) flit build --setup-py --format wheel
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz: check test
+	mv dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_WHEEL_DIST_NAME).whl
+dist/$(PACKAGE_SDIST_NAME).tar.gz:
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) flit build --setup-py --format sdist
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip: docs-html
 	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip docs/_build/html/
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip: docs-md
 	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip docs/_build/markdown/
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt:
-	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
+dist/$(PACKAGE_WHEEL_DIST_NAME)-build-epoch.txt:
+	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_WHEEL_DIST_NAME)-build-epoch.txt
 
 # Build the HTML and Markdown documentation from the package's source.
 DOCS_SOURCE := $(shell git ls-files docs/source)
