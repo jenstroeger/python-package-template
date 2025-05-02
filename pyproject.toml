@@ -271,6 +271,10 @@ env = [
 filterwarnings = [
     "error",
     "always::DeprecationWarning",
+    # This warning is issued in two contexts, and we ignore both:
+    # Python 3.10, 3.11: sys.monitoring isn't available in this version, using default core (no-sysmon)
+    # Python 3.12, 3.13: sys.monitoring can't measure branches in this version, using default core (no-sysmon)
+    "always::coverage.exceptions.CoverageWarning",
     # https://docs.pytest.org/en/latest/how-to/failures.html#warning-about-unraisable-exceptions-and-unhandled-thread-exceptions
     "error::pytest.PytestUnraisableExceptionWarning",
     "error::pytest.PytestUnhandledThreadExceptionWarning",
