@@ -132,3 +132,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# macOS cruft
+.DS_Store
+
+# vim swap files
+.*.swp
