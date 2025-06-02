@@ -187,9 +187,9 @@ dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip: docs-md
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt:
 	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 
-# Build a PEP-503 compatible Simple Repository compatible directory inside of dist/.
-# For details on the layout of that directory, see: https://peps.python.org/pep-0503/
-# This directory can then be used to install (hashed) artifacts from using `pip` and
+# Build a PEP-503 compatible Simple Repository directory inside of dist/. For details on
+# the layout of that directory, see: https://peps.python.org/pep-0503/
+# The directory can then be used to install (hashed) artifacts by using `pip` and
 # its `--extra-index-url` argument: https://pip.pypa.io/en/stable/cli/pip_install/#cmdoption-extra-index-url
 .PHONY: simple-index
 simple-index: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
