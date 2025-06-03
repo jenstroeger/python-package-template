@@ -176,9 +176,9 @@ test:
 # set to the build date/epoch. For more details, see: https://flit.pypa.io/en/latest/reproducible.html
 .PHONY: dist
 dist: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl: check test
+dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl: check test dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) flit build --setup-py --format wheel
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz: check test
+dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz: check test dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) flit build --setup-py --format sdist
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip: docs-html
 	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip docs/_build/html/
