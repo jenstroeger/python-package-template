@@ -27,7 +27,7 @@ repos:
   hooks:
   - id: isort
     name: Sort import statements
-    args: [--settings-path, pyproject.toml]
+    args: [--settings-path, develop.toml]
     stages: [pre-commit]
 
 # Add Black code formatters.
@@ -36,7 +36,7 @@ repos:
   hooks:
   - id: black
     name: Format code
-    args: [--config, pyproject.toml]
+    args: [--config, develop.toml]
 - repo: https://github.com/asottile/blacken-docs
   rev: 1.19.1
   hooks:
@@ -67,7 +67,7 @@ repos:
     args: [--config, .flake8]
 
 # Run Pylint from the local repo to make sure venv packages
-# specified in pyproject.toml are available.
+# specified in develop.toml are available.
 - repo: local
   hooks:
   - id: pylint
@@ -76,7 +76,7 @@ repos:
     language: python
     files: ^src/package/|^tests/
     types: [text, python]
-    args: [--rcfile, pyproject.toml]
+    args: [--rcfile, develop.toml]
 
 # Type-check all Python code.
 - repo: local
@@ -87,7 +87,7 @@ repos:
     language: python
     files: ^src/package/|^tests/
     types: [text, python]
-    args: [--config-file, pyproject.toml]
+    args: [--config-file, develop.toml]
 
 # Check for potential security issues.
 - repo: https://github.com/PyCQA/bandit
@@ -95,7 +95,7 @@ repos:
   hooks:
   - id: bandit
     name: Check for security issues
-    args: [--configfile, pyproject.toml]
+    args: [--configfile, develop.toml]
     files: ^src/package/|^tests/
     types: [text, python]
     additional_dependencies: ['bandit[toml]']
@@ -165,7 +165,7 @@ repos:
   hooks:
   - id: pytest
     name: Run unit tests
-    entry: pytest -c pyproject.toml --cov-config pyproject.toml src/package/ tests/ docs/
+    entry: pytest -c develop.toml --cov-config develop.toml src/package/ tests/ docs/
     language: python
     verbose: true
     always_run: true

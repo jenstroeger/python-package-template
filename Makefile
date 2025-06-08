@@ -96,7 +96,7 @@ upgrade: .venv/upgraded-on
 .venv/upgraded-on: pyproject.toml
 	python -m pip install --upgrade pip setuptools
 	python -m pip install --upgrade wheel
-	python -m pip install --upgrade --upgrade-strategy eager --editable .[actions,dev,docs,hooks,test]
+	python -m pip install --upgrade --upgrade-strategy eager --editable . --requirement develop-requirements.txt
 	$(MAKE) upgrade-quiet
 force-upgrade:
 	rm -f .venv/upgraded-on
