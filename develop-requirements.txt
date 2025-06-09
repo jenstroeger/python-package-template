@@ -1,0 +1,34 @@
+
+# Manage git hooks.
+pre-commit >=4.0.0,<4.3.0
+
+# Manage conventional commits.
+commitizen ==4.5.0
+
+# Packaging and distribution.
+flit >=3.2.0,<4.0.0
+twine >=6.0.0,<6.1.0
+
+# Tools for development and to check Python code.
+mypy >=1.0.0,<1.15
+pylint >=3.0.0,<3.4.0
+perflint >=0.8.0,<1.0.0
+
+# Support for CI and package integrity.
+cyclonedx-bom >=4.0.0,<5.0.0
+pip-audit >=2.4.4,<3.0.0
+
+# Documentation.
+sphinx >=5.1.1,<9.0.0
+sphinx-markdown-builder >=0.6.4,<1.0.0
+
+# All things testing.
+# Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
+faker ==37.1.0
+hypothesis >=6.21.0,<6.130.9
+pytest >=7.2.0,<9.0.0
+pytest-cases ==3.8.6
+pytest-cov ==6.1.0
+pytest-custom_exit_code ==0.3.0
+pytest-doctestplus ==1.3.0
+pytest-env ==1.1.5
