@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  build-package:
+  check-and-build-package:
     uses: ./.github/workflows/_build.yaml
     permissions:
       contents: read
