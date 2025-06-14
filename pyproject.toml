@@ -61,12 +61,13 @@ hooks = [
 ]
 # Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
+    "coverage ==7.6.12; python_version<'3.14'",  # https://github.com/pypi/warehouse/pull/17872#issuecomment-2845932281
     "faker ==37.1.0",
     "hypothesis >=6.21.0,<6.130.9",
     "pytest >=7.2.0,<9.0.0",
     "pytest-cases ==3.8.6",
     "pytest-custom_exit_code ==0.3.0",
-    "pytest-cov ==6.1.0",
+    "pytest-cov ==6.1.1",  # Uses: coverage[toml] >=7.5
     "pytest-doctestplus ==1.3.0",
     "pytest-env ==1.1.5",
 ]
@@ -267,6 +268,11 @@ env = [
 filterwarnings = [
     "error",
     "always::DeprecationWarning",
+    # The CoverageWarning warning is issued in two contexts:
+    # Python 3.10, 3.11: sys.monitoring isn't available in this version, using default core (no-sysmon)
+    # Python 3.12, 3.13: sys.monitoring can't measure branches in this version, using default core (no-sysmon)
+    "ignore:sys.monitoring isn't available in this version:coverage.exceptions.CoverageWarning",
+    "always::coverage.exceptions.CoverageWarning",
     # https://docs.pytest.org/en/latest/how-to/failures.html#warning-about-unraisable-exceptions-and-unhandled-thread-exceptions
     "error::pytest.PytestUnraisableExceptionWarning",
     "error::pytest.PytestUnhandledThreadExceptionWarning",
