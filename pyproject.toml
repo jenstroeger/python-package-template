@@ -119,19 +119,18 @@ omit = [
 ]
 
 
-# https://flit.pypa.io/en/latest/pyproject_toml.html#sdist-section
+# https://flit.pypa.io/en/stable/pyproject_toml.html#sdist-section
 # See also: https://github.com/pypa/flit/issues/565
+# See also: https://github.com/pypa/flit/discussions/745
 [tool.flit.sdist]
 include = []
 exclude = [
     ".github/",
-    "docs/",
-    "tests/",
-    ".flake8",
+    ".vscode/",
     ".gitignore",
-    ".pre-commit-config.yaml",
+    ".gitattributes",
     "CHANGELOG.md",
-    "Makefile",
+    "CODEOWNERS",
     "SECURITY.md",
 ]
 
