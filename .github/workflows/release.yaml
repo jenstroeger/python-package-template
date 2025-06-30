@@ -30,7 +30,7 @@ jobs:
     steps:
 
     - name: Harden Runner
-      uses: step-security/harden-runner@c6295a65d1254861815972266d5933fd6e532bdf # v2.11.1
+      uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
         disable-sudo: true
@@ -98,7 +98,7 @@ jobs:
     steps:
 
     - name: Harden Runner
-      uses: step-security/harden-runner@c6295a65d1254861815972266d5933fd6e532bdf # v2.11.1
+      uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
         disable-sudo: true
@@ -199,7 +199,7 @@ jobs:
     steps:
 
     - name: Harden Runner
-      uses: step-security/harden-runner@c6295a65d1254861815972266d5933fd6e532bdf # v2.11.1
+      uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
         disable-sudo: true
