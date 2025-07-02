@@ -142,6 +142,7 @@ profile = "black"
 multi_line_output = 3
 line_length = 120
 skip_gitignore = true
+filter_files = true
 
 
 # https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
