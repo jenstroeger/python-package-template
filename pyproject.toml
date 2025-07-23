@@ -129,9 +129,7 @@ exclude = [
     ".vscode/",
     ".gitignore",
     ".gitattributes",
-    "CHANGELOG.md",
     "CODEOWNERS",
-    "SECURITY.md",
 ]
 
 
