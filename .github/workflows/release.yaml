@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   check:
-    if: ${{ !startsWith(github.event.commits[0].message, 'bump:') }}
+    if: ${{ !startsWith(github.event.head_commit.message, 'bump:') }}
     uses: ./.github/workflows/_build.yaml
     permissions:
       contents: read
@@ -77,7 +77,7 @@ jobs:
 
   # When triggered by the version bump commit, build the package and publish the release artifacts.
   build:
-    if: github.ref == 'refs/heads/release' && startsWith(github.event.commits[0].message, 'bump:')
+    if: github.ref == 'refs/heads/release' && startsWith(github.event.head_commit.message, 'bump:')
     uses: ./.github/workflows/_build.yaml
     permissions:
       contents: read
