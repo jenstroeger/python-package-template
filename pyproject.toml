@@ -125,12 +125,15 @@ omit = [
 include = []
 exclude = [
     ".github/",
+    ".vscode/",
     "docs/",
     "tests/",
     ".flake8",
+    ".gitattributes",
     ".gitignore",
     ".pre-commit-config.yaml",
     "CHANGELOG.md",
+    "CODEOWNERS",
     "Makefile",
     "SECURITY.md",
 ]
