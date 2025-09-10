@@ -177,7 +177,7 @@ jobs:
   # https://github.com/slsa-framework/slsa-github-generator/issues/942
   provenance:
     needs: [build, release]
-    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
     with:
       base64-subjects: ${{ needs.build.outputs.artifacts-sha256 }}
       compile-generator: false # Do not build the provenance generator from source anymore.
