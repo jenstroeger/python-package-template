@@ -1,5 +1,22 @@
 This project follows the [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/).
 
+## v2.17.0 (2025-09-20)
+
+### Feat
+
+- add actions to CodeQL languages (#991)
+- **ci**: cancel existing running workflows for a PR when a new change is pushed to that PR (#927)
+
+### Fix
+
+- remove various repo files that leaked into the sdist of the package (#948)
+- building the package’s dist files should *always* generate the build’s epoch as well, even when using the individual package goals only (#950)
+- make sure isort skips over files listed as such in the pyproject.toml tool configuration (#968)
+
+### Perf
+
+- **test**: use Python’s system monitoring facilities to improve performance of test runs (#933)
+
 ## v2.16.0 (2025-04-05)
 
 ### Feat
