@@ -62,7 +62,7 @@ hooks = [
 # Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
     "coverage ==7.6.12; python_version<'3.14'",  # https://github.com/pypi/warehouse/pull/17872#issuecomment-2845932281
-    "faker ==37.6.0",
+    "faker ==37.8.0",
     "hypothesis >=6.21.0,<6.138.17",
     "pytest >=7.2.0,<9.0.0",
     "pytest-cases ==3.9.1",
