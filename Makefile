@@ -168,9 +168,15 @@ check:
 
 # Run all unit tests. The --files option avoids stashing but passes files; however,
 # the hook setup itself does not pass files to pytest (see .pre-commit-config.yaml).
-.PHONY: test
+.PHONY: test test-unit test-integration test-performance
 test:
 	pre-commit run pytest --hook-stage push --files tests/
+test-unit:
+	PYTEST_ADDOPTS="-m 'not integration and not performance'" pre-commit run pytest --hook-stage push --files tests/
+test-integration:
+	PYTEST_ADDOPTS="-m integration" pre-commit run pytest --hook-stage push --files tests/
+test-performance:
+	PYTEST_ADDOPTS="-m performance" pre-commit run pytest --hook-stage push --files tests/
 
 # Build a source distribution package and a binary wheel distribution artifact.
 # When building these artifacts, we need the environment variable SOURCE_DATE_EPOCH

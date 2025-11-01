@@ -1,4 +1,4 @@
-"""Test the Something module. Add more tests here, as needed."""
+"""Test the Something module as a unit test. Add more tests here, as needed."""
 
 import faker
 from hypothesis import given, strategies
