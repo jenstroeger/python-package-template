@@ -166,8 +166,8 @@ repos:
 - repo: local
   hooks:
   - id: pytest
-    name: Run all tests
-    entry: env COVERAGE_CORE=sysmon pytest --config-file pyproject.toml --cov-config pyproject.toml src/package/ tests/ docs/
+    name: Run unit tests
+    entry: env COVERAGE_CORE=sysmon pytest -m 'not integration and not performance' --config-file pyproject.toml --cov-config pyproject.toml src/package/ tests/ docs/
     language: python
     verbose: true
     always_run: true
