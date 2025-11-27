@@ -283,6 +283,6 @@ filterwarnings = [
     "error::pytest.PytestUnhandledThreadExceptionWarning",
 ]
 markers = [
-    "integration",
-    "performance",
+    "integration: more complex application-level integration tests.",
+    "performance: performance tests.",
 ]
