@@ -168,24 +168,24 @@ check:
 
 # Run all unit tests. The --files option avoids stashing but passes files; however,
 # the hook setup itself does not pass files to pytest (see .pre-commit-config.yaml).
-.PHONY: test test-unit test-integration test-performance
-test:
-	pre-commit run pytest --hook-stage push --files tests/
+.PHONY: test test-all test-unit test-integration test-performance
+test: test-unit
 test-unit:
 	PYTEST_ADDOPTS="-m 'not integration and not performance'" pre-commit run pytest --hook-stage push --files tests/
 test-integration:
 	PYTEST_ADDOPTS="-m integration" pre-commit run pytest --hook-stage push --files tests/
 test-performance:
 	PYTEST_ADDOPTS="-m performance" pre-commit run pytest --hook-stage push --files tests/
+test-all: test-unit test-integration test-performance
 
 # Build a source distribution package and a binary wheel distribution artifact.
 # When building these artifacts, we need the environment variable SOURCE_DATE_EPOCH
 # set to the build date/epoch. For more details, see: https://flit.pypa.io/en/latest/reproducible.html
 .PHONY: dist
 dist: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl: check test dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
+dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl: check test-all dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) flit build --setup-py --format wheel
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz: check test dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
+dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz: check test-all dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) flit build --setup-py --format sdist
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip: docs-html
 	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip docs/_build/html/
