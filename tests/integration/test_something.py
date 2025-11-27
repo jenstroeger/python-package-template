@@ -1,4 +1,4 @@
-"""Test the Package as an integration."""
+"""Test the Package itself using its external interface as in integration into a larger run context."""
 
 # https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b404-import-subprocess
 import subprocess  # nosec B404

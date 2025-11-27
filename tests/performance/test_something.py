@@ -1,4 +1,4 @@
-"""Test the performance of various package parts, or the package as a while."""
+"""Test the performance of various package parts, or the package as a whole."""
 
 import pytest
 from pytest_benchmark.fixture import BenchmarkFixture
