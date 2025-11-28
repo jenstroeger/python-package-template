@@ -171,11 +171,11 @@ check:
 .PHONY: test test-all test-unit test-integration test-performance
 test: test-unit
 test-unit:
-	PYTEST_ADDOPTS="-m 'not integration and not performance'" pre-commit run pytest --hook-stage push --files tests/
+	COVERAGE_CORE=sysmon python -m pytest --config-file pyproject.toml --cov-config pyproject.toml -m 'not integration and not performance' src/package/ tests/ docs/
 test-integration:
-	PYTEST_ADDOPTS="-m integration" pre-commit run pytest --hook-stage push --files tests/
+	COVERAGE_CORE=sysmon python -m pytest --config-file pyproject.toml --cov-config pyproject.toml -m integration tests/
 test-performance:
-	PYTEST_ADDOPTS="-m performance" pre-commit run pytest --hook-stage push --files tests/
+	COVERAGE_CORE=sysmon python -m pytest --config-file pyproject.toml --cov-config pyproject.toml -m performance tests/
 test-all: test-unit test-integration test-performance
 
 # Build a source distribution package and a binary wheel distribution artifact.
