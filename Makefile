@@ -173,9 +173,9 @@ test: test-unit
 test-unit:
 	COVERAGE_CORE=sysmon python -m pytest --config-file pyproject.toml --cov-config pyproject.toml -m 'not integration and not performance' src/package/ tests/ docs/
 test-integration:
-	COVERAGE_CORE=sysmon python -m pytest --config-file pyproject.toml --cov-config pyproject.toml -m integration tests/
+	python -m pytest --config-file pyproject.toml --no-cov -m integration tests/
 test-performance:
-	COVERAGE_CORE=sysmon python -m pytest --config-file pyproject.toml --cov-config pyproject.toml -m performance tests/
+	python -m pytest --config-file pyproject.toml --no-cov -m performance tests/
 test-all: test-unit test-integration test-performance
 
 # Build a source distribution package and a binary wheel distribution artifact.
