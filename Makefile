@@ -166,8 +166,9 @@ check-actionlint:
 check:
 	pre-commit run --all-files
 
-# Run all unit tests. The --files option avoids stashing but passes files; however,
-# the hook setup itself does not pass files to pytest (see .pre-commit-config.yaml).
+# Run different kinds of tests: unit tests, integration tests, performance tests.
+# Note that the default goal 'test' runs the unit tests only, mainly for convenience
+# and compatibility with existing scripts.
 .PHONY: test test-all test-unit test-integration test-performance
 test: test-unit
 test-unit:
