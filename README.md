@@ -9,7 +9,7 @@ This repository is intended to be a base template, a cookiecutter for a new Pyth
 [Features](#features)  
 &emsp;[Typing](#typing)  
 &emsp;[Quality assurance](#quality-assurance)  
-&emsp;[Unit testing](#unit-testing)  
+&emsp;[Extensive testing](#extensive-testing)  
 &emsp;[Documentation](#documentation)  
 &emsp;[Versioning and publishing](#versioning-and-publishing)  
 &emsp;[Dependency analysis](#dependency-analysis)  
@@ -38,9 +38,9 @@ The package requires a minimum of [Python 3.10](https://www.python.org/downloads
 
 A number of git hooks are invoked before and after a commit, and before push. These hooks are all managed by the [pre-commit](https://pre-commit.com/) tool and enforce a number of [software quality assurance](https://en.wikipedia.org/wiki/Software_quality_assurance) measures (see [below](#git-hooks)).
 
-### Unit testing
+### Extensive testing
 
-Comprehensive unit testing is enabled using [pytest](https://pytest.org/) combined with [doctest](https://docs.python.org/3/library/doctest.html) and [Hypothesis](https://hypothesis.works/) (to support [property-based testing](https://en.wikipedia.org/wiki/Software_testing#Property_testing)), and both code and branch coverage are measured using [coverage](https://github.com/nedbat/coveragepy) (see [below](#testing)).
+Comprehensive testing is enabled using [pytest](https://pytest.org/) as a test runner, combined with [doctest](https://docs.python.org/3/library/doctest.html), [Hypothesis](https://hypothesis.works/) (to support [property-based testing](https://en.wikipedia.org/wiki/Software_testing#Property_testing)), [Faker](https://github.com/joke2k/faker) and [Cases](https://github.com/smarie/python-pytest-cases) (to produce valid, localized test case data), as well as both code and branch coverage are measured using [coverage](https://github.com/nedbat/coveragepy) (see [below](#testing)).
 
 ### Documentation
 
@@ -80,7 +80,7 @@ If you’d like to start your own Python project from scratch, you can either co
 
 - Change the `LICENSE.md` file and the license badge according to your needs, and adjust the `SECURITY.md` file to your needs (more details [here](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository)). Remove all content from the `CHANGELOG.md` file.
 
-- Rename the `src/package/` folder to whatever your own package’s name will be, adjust the Github Actions in `.github/workflows/`, and review the `Makefile`, `pyproject.toml`, `.pre-commit-config.yaml` files as well as the unit tests accordingly. **Note**: by default all Actions run on three different host types (Linux, MacOS, and Windows) whose [rates vary widely](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#minute-multipliers), so make sure that you disable or budget accordingly if you’re in a private repository!
+- Rename the `src/package/` folder to whatever your own package’s name will be, adjust the Github Actions in `.github/workflows/`, and review the `Makefile`, `pyproject.toml`, `.pre-commit-config.yaml` files as well as the tests accordingly. **Note**: by default all Actions run on three different host types (Linux, MacOS, and Windows) whose [rates vary widely](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#minute-multipliers), so make sure that you disable or budget accordingly if you’re in a private repository!
 
 - A new protected `release` branch, should be created if it doesn't already exist. This branch should be configured with appropriate security policies and essential checks to ensure the integrity and stability of the release process.
 
@@ -144,7 +144,7 @@ Using the pre-commit tool and its `.pre-commit-config.yaml` configuration, the f
 
 - When committing code, a number of [pre-commit hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_committing_workflow_hooks) ensure that your code is formatted according to [PEP 8](https://www.python.org/dev/peps/pep-0008/) using the [`black`](https://github.com/psf/black) tool, and they’ll invoke [`flake8`](https://github.com/PyCQA/flake8) (and various plugins), [`pylint`](https://github.com/PyCQA/pylint) and [`mypy`](https://github.com/python/mypy) to check for lint and correct types. There are more checks, but those two are the important ones. You can adjust the settings for these tools in the `pyproject.toml` or `.flake8` configuration files.
 - The [commit message hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_committing_workflow_hooks) enforces [conventional commit messages](https://www.conventionalcommits.org/) and that, in turn, enables a _semantic release_ of this package on the Github side: upon merging changes into the `release` branch, the [release action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/release.yaml) uses the [Commitizen tool](https://commitizen-tools.github.io/commitizen/) to produce a [changelog](https://en.wikipedia.org/wiki/Changelog) and it computes the next version of this package and publishes a release — all based on the commit messages of a release.
-- Using a [pre-push hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_other_client_hooks) this package is also set up to run [`pytest`](https://github.com/pytest-dev/pytest); in addition, the [`coverage`](https://github.com/nedbat/coveragepy) plugin makes sure that _all_ of your package’s code is covered by tests and [Hypothesis](https://hypothesis.works/) is already installed to help with generating test payloads.
+- Using a [pre-push hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_other_client_hooks) this package is also set up to run [`pytest`](https://github.com/pytest-dev/pytest); in addition, the [`coverage`](https://github.com/nedbat/coveragepy) plugin makes sure that _all_ of your package’s code is covered by unit tests and [Hypothesis](https://hypothesis.works/) and [Faker](https://github.com/joke2k/faker) are already installed to help with generating test case payloads.
 - The [`actionlint`](https://github.com/Mateusz-Grzelinski/actionlint-py) hook is set up to lint GitHub Actions workflows. If [`shellcheck`](https://github.com/koalaman/shellcheck) is installed on the system, `actionlint` runs `shellcheck` to lint the `run` steps in GitHub Actions. Note that `shellcheck` is available on [Ubuntu GitHub Actions runners](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md) by default.
 
 You can also run these hooks manually, which comes in very handy during daily development tasks. For example
@@ -163,43 +163,49 @@ runs _all_ installed git hooks over your code. For more control over the code ch
 
 ## Testing
 
-As mentioned above, this repository is set up to use [pytest](https://pytest.org/) either standalone or as a pre-push git hook. Tests are stored in the `tests/` folder, and you can run them manually like so:
+As mentioned above, this repository is set up to use [pytest](https://pytest.org/) as a test runner, either standalone or as a pre-push git hook. Tests are stored in the `tests/` folder, they’re organized into unit tests, integration tests, and performance tests. You can run the tests manually like so:
 ```bash
-make test
+make test-all  # Run all tests: unit, integration, performance.
 ```
-which runs all tests in both your local Python virtual environment. For more options, see the [pytest command-line flags](https://docs.pytest.org/en/7.4.x/reference/reference.html#command-line-flags). Also note that pytest includes [doctest](https://docs.python.org/3/library/doctest.html), which means that module and function [docstrings](https://www.python.org/dev/peps/pep-0257/#what-is-a-docstring), as well as the documentation, may contain test code that executes as part of the unit tests.
+which runs all tests in your local Python virtual environment. For more options, see the [pytest command-line flags](https://docs.pytest.org/en/7.4.x/reference/reference.html#command-line-flags).
 
-Both statement and branch coverage are being tracked using [coverage](https://github.com/nedbat/coveragepy) and the [pytest-cov](https://github.com/pytest-dev/pytest-cov) plugin for pytest, and it measures how much code in the `src/package/` folder is covered by tests:
+There are three kinds of tests:
+
+1. [Unit tests](https://en.wikipedia.org/wiki/Unit_testing) are invoked with `make test` or `make test-unit`;
+2. [Integration tests](https://en.wikipedia.org/wiki/Integration_testing) are invoked with `make test-integration`; and
+3. [Performance tests](https://en.wikipedia.org/wiki/Software_performance_testing) (using the [pytest-benchmark](https://github.com/ionelmc/pytest-benchmark) plugin) are invoked with `make test-performance`.
+
+Note that the unit tests include [doctest](https://docs.python.org/3/library/doctest.html), which means that module and function [docstrings](https://www.python.org/dev/peps/pep-0257/#what-is-a-docstring), as well as the documentation, may contain test code that executes as part of the unit tests. When pushing changes to the remote, the pre-push hook runs *only* unit tests whereas *all* three kinds of tests run as part of Github’s CI.
+
+Both statement and branch coverage are being tracked using [coverage](https://github.com/nedbat/coveragepy) and the [pytest-cov](https://github.com/pytest-dev/pytest-cov) plugin for pytest when running unit tests, and it measures how much code in the `src/package/` folder is covered by tests:
 ```
-Run unit tests...........................................................Passed
-- hook id: pytest
-- duration: 0.76s
-
-============================= test session starts ==============================
-platform darwin -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0 -- /path/to/python-package-template/.venv/bin/python
+=========================================== test session starts ===========================================
+platform darwin -- Python 3.13.9, pytest-8.4.2, pluggy-1.6.0 -- /path/to/python-package-template/.venv/bin/python
 cachedir: .pytest_cache
-hypothesis profile 'default-with-verbose-verbosity' -> max_examples=500, verbosity=Verbosity.verbose, database=DirectoryBasedExampleDatabase(PosixPath('/path/to/python-package-template/.hypothesis/examples'))
+hypothesis profile 'default-with-verbose-verbosity' -> verbosity=Verbosity.verbose
+benchmark: 5.2.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
 rootdir: /path/to/python-package-template
 configfile: pyproject.toml
-plugins: cov-6.0.0, hypothesis-6.122.7, env-1.1.5, custom-exit-code-0.3.0, doctestplus-1.3.0
-collected 3 items
+plugins: cases-3.9.1, hypothesis-6.138.16, env-1.1.5, cov-6.3.0, custom-exit-code-0.3.0, doctestplus-1.4.0, Faker-37.6.0, benchmark-5.2.0
+collected 6 items / 2 deselected / 4 selected
 
-src/package/something.py::package.something.Something.do_something PASSED [ 33%]
-tests/test_something.py::test_something PASSED                           [ 66%]
-docs/source/index.rst::index.rst PASSED                                  [100%]
+src/package/something.py::package.something.Something.do_something PASSED                           [ 25%]
+tests/unit/test_something.py::test_something_hypothesis PASSED                                      [ 50%]
+tests/unit/test_something.py::test_something_cases[_case_boolean] PASSED                            [ 75%]
+docs/source/index.rst::index.rst PASSED                                                             [100%]
 
----------- coverage: platform darwin, python 3.13.1-final-0 ----------
+============================================= tests coverage ==============================================
+____________________________ coverage: platform darwin, python 3.13.9-final-0 _____________________________
+
 Name                       Stmts   Miss Branch BrPart  Cover   Missing
 ----------------------------------------------------------------------
 src/package/__init__.py        1      0      0      0   100%
 src/package/something.py       4      0      0      0   100%
 ----------------------------------------------------------------------
 TOTAL                          5      0      0      0   100%
-
 Required test coverage of 100.0% reached. Total coverage: 100.00%
-============================ Hypothesis Statistics =============================
-
-tests/test_something.py::test_something:
+========================================== Hypothesis Statistics ==========================================
+tests/unit/test_something.py::test_something_hypothesis:
 
   - during generate phase (0.00 seconds):
     - Typical runtimes: ~ 0-1 ms, of which < 1ms in data generation
@@ -207,22 +213,24 @@ tests/test_something.py::test_something:
 
   - Stopped because nothing left to do
 
-
-============================== slowest durations ===============================
-0.01s call     tests/test_something.py::test_something
+============================================ slowest durations ============================================
+0.10s setup    src/package/something.py::package.something.Something.do_something
+0.01s call     tests/unit/test_something.py::test_something_hypothesis
 0.00s call     src/package/something.py::package.something.Something.do_something
-0.00s setup    src/package/something.py::package.something.Something.do_something
+0.00s setup    tests/unit/test_something.py::test_something_cases[_case_boolean]
 0.00s call     docs/source/index.rst::index.rst
-0.00s teardown src/package/something.py::package.something.Something.do_something
 0.00s setup    docs/source/index.rst::index.rst
+0.00s teardown src/package/something.py::package.something.Something.do_something
+0.00s teardown tests/unit/test_something.py::test_something_cases[_case_boolean]
+0.00s call     tests/unit/test_something.py::test_something_cases[_case_boolean]
+0.00s setup    tests/unit/test_something.py::test_something_hypothesis
 0.00s teardown docs/source/index.rst::index.rst
-0.00s setup    tests/test_something.py::test_something
-0.00s teardown tests/test_something.py::test_something
-============================== 3 passed in 0.09s ===============================
+0.00s teardown tests/unit/test_something.py::test_something_hypothesis
+===================================== 4 passed, 2 deselected in 0.23s =====================================
 ```
 Note that code that’s not covered by tests is listed under the `Missing` column, and branches not taken too. The net effect of enforcing 100% code and branch coverage is that every new major and minor feature, every code change, and every fix are being tested (keeping in mind that high _coverage_ does not imply comprehensive, meaningful _test data_).
 
-Hypothesis is a package that implements [property based testing](https://en.wikipedia.org/wiki/Software_testing#Property_testing) and that provides payload generation for your tests based on strategy descriptions ([more](https://hypothesis.works/#what-is-hypothesis)). Using its [pytest plugin](https://hypothesis.readthedocs.io/en/latest/details.html#the-hypothesis-pytest-plugin) Hypothesis is ready to be used for this package.
+Hypothesis is a package that implements [property based testing](https://en.wikipedia.org/wiki/Software_testing#Property_testing) and that provides payload generation for your tests based on strategy descriptions ([more](https://hypothesis.works/#what-is-hypothesis)). Using its [pytest plugin](https://hypothesis.readthedocs.io/en/latest/details.html#the-hypothesis-pytest-plugin) Hypothesis is ready to be used for this package. Likewise, the [Faker](https://github.com/joke2k/faker) package and its [pytest plugin](https://faker.readthedocs.io/en/master/#pytest-fixtures) are installed to provide valid, localized test case data (see also the [pytest-cases](https://github.com/smarie/python-pytest-cases) plugin for more details on how to separate tests and test cases).
 
 ## Generating documentation
 
