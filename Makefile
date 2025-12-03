@@ -165,20 +165,27 @@ check-actionlint:
 check:
 	pre-commit run --all-files
 
-# Run all unit tests. The --files option avoids stashing but passes files; however,
-# the hook setup itself does not pass files to pytest (see .pre-commit-config.yaml).
-.PHONY: test
-test:
-	pre-commit run pytest --hook-stage push --files tests/
+# Run different kinds of tests: unit tests, integration tests, performance tests.
+# Note that the default goal 'test' runs the unit tests only, mainly for convenience
+# and compatibility with existing scripts.
+.PHONY: test test-all test-unit test-integration test-performance
+test: test-unit
+test-unit:
+	COVERAGE_CORE=sysmon python -m pytest --config-file pyproject.toml --cov-config pyproject.toml -m 'not integration and not performance' src/package/ tests/ docs/
+test-integration:
+	python -m pytest --config-file pyproject.toml --no-cov -m integration tests/
+test-performance:
+	python -m pytest --config-file pyproject.toml --no-cov -m performance tests/
+test-all: test-unit test-integration test-performance
 
 # Build a source distribution package and a binary wheel distribution artifact.
 # When building these artifacts, we need the environment variable SOURCE_DATE_EPOCH
 # set to the build date/epoch. For more details, see: https://flit.pypa.io/en/latest/reproducible.html
 .PHONY: dist
 dist: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl: check test dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
+dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl: check test-all dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) flit build --setup-py --format wheel
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz: check test dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
+dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz: check test-all dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) flit build --setup-py --format sdist
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip: docs-html
 	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip docs/_build/html/

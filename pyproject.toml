@@ -65,6 +65,7 @@ test = [
     "faker ==38.2.0",
     "hypothesis >=6.21.0,<6.148.6",
     "pytest >=7.2.0,<9.0.0",
+    "pytest-benchmark ==5.2.0",
     "pytest-cases ==3.9.1",
     "pytest-custom_exit_code ==0.3.0",
     "pytest-cov ==6.3.0",  # Uses: coverage[toml] >=7.5
@@ -258,7 +259,7 @@ max-line-length = 120
 # https://github.com/yashtodi94/pytest-custom_exit_code
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = """-vv -ra --tb native --durations 0 \
+addopts = """-vv -ra --tb native --durations 0 --strict-markers --import-mode importlib \
     --hypothesis-show-statistics --hypothesis-explain --hypothesis-verbosity verbose \
     --doctest-modules --doctest-continue-on-failure --doctest-glob '*.rst' --doctest-plus \
     --suppress-no-test-exit-code \
@@ -280,4 +281,8 @@ filterwarnings = [
     # https://docs.pytest.org/en/latest/how-to/failures.html#warning-about-unraisable-exceptions-and-unhandled-thread-exceptions
     "error::pytest.PytestUnraisableExceptionWarning",
     "error::pytest.PytestUnhandledThreadExceptionWarning",
+]
+markers = [
+    "integration: more complex application-level integration tests.",
+    "performance: performance tests.",
 ]
