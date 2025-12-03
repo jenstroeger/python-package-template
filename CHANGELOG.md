@@ -1,5 +1,17 @@
 This project follows the [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/).
 
+## v2.18.0 (2025-12-03)
+
+### Feat
+
+- using pytest as a test runner, diversify the tests into unit, integration, and performance tests (#1028)
+
+### Fix
+
+- invoke flit through the Python interpreter’s module-call argument to ensure the Python venv’s flit is being run (#1045)
+- **ci**: undo temporary ignore of GHSA-4xh5-x5gv-qwph (CVE-2025-8869) because the latest pip v25.3 addressed the issue (#1022)
+- **ci**: temporarily ignore GHSA-4xh5-x5gv-qwph (CVE-2025-8869) until `pip` fixes the problem (#1018)
+
 ## v2.17.0 (2025-09-20)
 
 ### Feat
