@@ -68,7 +68,7 @@ test = [
     "pytest-cases ==3.9.1",
     "pytest-custom_exit_code ==0.3.0",
     "pytest-cov ==6.3.0",  # Uses: coverage[toml] >=7.5
-    "pytest-doctestplus ==1.4.0",
+    "pytest-doctestplus ==1.6.0",
     "pytest-env ==1.2.0",
 ]
 
