@@ -21,7 +21,7 @@ jobs:
     steps:
 
     - name: Check out template repository
-      uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       with:
         # If you decide to change the upstream template repository to a private one, uncomment
         # the following argument to pass the required token to be able to check it out.
@@ -31,7 +31,7 @@ jobs:
         path: template
 
     - name: Check out current repository
-      uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         fetch-depth: 0
