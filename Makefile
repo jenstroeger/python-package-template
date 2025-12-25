@@ -194,6 +194,19 @@ dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip: docs-md
 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt:
 	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
 
+# Build a PEP-503 compatible Simple Repository directory inside of dist/. For details on
+# the layout of that directory and the normalized project name, see: https://peps.python.org/pep-0503/
+# The directory can then be used to install (hashed) artifacts by using `pip` and
+# its `--extra-index-url` argument: https://pip.pypa.io/en/stable/cli/pip_install/#cmdoption-extra-index-url
+PROJECT_NAME := $(shell python -c $$'import re; print(re.sub(r"[-_.]+", "-", "$(PACKAGE_NAME)").lower());')
+.PHONY: simple-index
+simple-index: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
+	mkdir -p dist/simple-index/$(PROJECT_NAME)
+	echo -e "<!-- https://peps.python.org/pep-0503/ -->\n<!DOCTYPE html><html lang='en'><head><meta name='pypi:repository-version' content='1.3'><title>Simple Index</title></head><body><a href='/$(PACKAGE_NAME)/'>$(PACKAGE_NAME)</a></body></html>" > dist/simple-index/index.html
+	echo -e "<!-- https://peps.python.org/pep-0503/ -->\n<!DOCTYPE html><html lang='en'><head><meta name='pypi:repository-version' content='1.3'><title>Simple Index: $(PROJECT_NAME)</title></head><body><a href='$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl#sha256="$$(python -c "with open('dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl', 'rb') as f: import hashlib; print(hashlib.sha256(f.read()).hexdigest());")"'>$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl</a><a href='$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz#sha256="$$(python -c "with open('dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz', 'rb') as f: import hashlib; print(hashlib.sha256(f.read()).hexdigest());")"'>$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz</a></body></html>" > dist/simple-index/$(PROJECT_NAME)/index.html
+	cp -f dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/simple-index/$(PROJECT_NAME)/
+	cp -f dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz dist/simple-index/$(PROJECT_NAME)/
+
 # Build the HTML and Markdown documentation from the package's source.
 DOCS_SOURCE := $(shell git ls-files docs/source)
 .PHONY: docs docs-html docs-md
