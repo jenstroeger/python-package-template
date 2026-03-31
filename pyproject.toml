@@ -10,7 +10,8 @@ requires-python = ">=3.10.0,<3.14.0"
 authors = [{name = "Author", email = "author@email"}]
 maintainers = [{name = "Maintainer", email = "maintainer@email"}]
 dynamic = ["version", "description"]
-license = {file = "LICENSE.md"}
+license = "MIT"  # https://spdx.org/licenses/MIT.html
+license-files = ["LICENSE.md"]
 readme = "README.md"
 dependencies = []
 keywords = []
@@ -18,7 +19,6 @@ keywords = []
 classifiers = [
     "Development Status :: 1 - Planning",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
