@@ -22,6 +22,7 @@ This repository is intended to be a base template, a cookiecutter for a new Pyth
 [Generating documentation](#generating-documentation)  
 [Synchronizing with this template repo](#synchronizing-with-this-template-repo)  
 [Versioning, publishing and changelog](#versioning-publishing-and-changelog)  
+&emsp;[Building from a source distribution package](#building-from-a-source-distribution-package)  
 [Build integrity using SLSA framework](#build-integrity-using-slsa-framework)  
 [Cleaning up](#cleaning-up)  
 [Frequently asked questions](#frequently-asked-questions)  
@@ -266,7 +267,7 @@ In order to build a distribution of your package locally instead of publishing i
 make dist
 ```
 
-This builds a source package and a binary distribution, and stores the files in your local `dist/` folder.
+This builds a source package ([sdist](https://packaging.python.org/en/latest/discussions/package-formats/#what-is-a-source-distribution)) and a binary distribution ([wheel](https://packaging.python.org/en/latest/discussions/package-formats/#what-is-a-wheel)), and stores the files in your local `dist/` folder.
 
 You can also generate a changelog and bump the version manually and locally using commitizen (already installed as a dev dependency), for example:
 
@@ -274,6 +275,26 @@ You can also generate a changelog and bump the version manually and locally usin
 cz changelog
 cz bump
 ```
+
+## Building from a source distribution package
+
+The source distribution package ([sdist](https://packaging.python.org/en/latest/discussions/package-formats/#what-is-a-source-distribution)) contains everything needed in order to check, test, and build a binary distribution ([wheel](https://packaging.python.org/en/latest/discussions/package-formats/#what-is-a-wheel)) and its documentation; that is particulalry useful for third-party packaging services that build their own software distribution packages using custom processes.
+
+To build a everything from a source distribution package, simply follow these steps:
+
+```bash
+tar zxvf package.tar.gz  # Unpack the tar file.
+cd package/
+git init  # We need this to be a Git repository to run checks.
+```
+
+We do need to initialize the package folder as a Git repository to ensure the Makefile is able to call various checkers via hooks. Once done, we can use `make` as before:
+
+```bash
+SKIP=check-hooks-apply,check-useless-excludes,actionlint make dist
+```
+
+Note that we skip Git hooks that are unnecessary when building from the source distribution. As above, this builds both the source package and a binary distribution, and stores them in the  `dist/` folder. In addition, as expected, setting the `SOURCE_DATE_EPOCH` environment variable to the build epoch value of the original sdist and wheel build results in the bit-exact same binary distribution package!
 
 ## Build integrity using SLSA framework
 
