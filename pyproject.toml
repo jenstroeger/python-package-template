@@ -130,9 +130,7 @@ exclude = [
     ".github/",
     ".vscode/",
     ".gitattributes",
-    "CHANGELOG.md",
     "CODEOWNERS",
-    "SECURITY.md",
 ]
 
 
