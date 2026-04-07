@@ -1,5 +1,4 @@
-# Automatically merge Dependabot PRs upon approval by leaving
-# a comment on Dependabot's pull-request.
+# Automatically merge Dependabot PRs upon approval.
 
 name: Automerge Dependabot PR
 on:
@@ -10,12 +9,11 @@ permissions:
   pull-requests: write
 
 jobs:
-  comment:
+  auto-merge:
     if: ${{ github.event.review.state == 'approved' && github.event.pull_request.user.login == 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
     - name: Merge Dependabot PR
-      run: gh pr comment --body "@dependabot squash and merge" "$PR_URL"
+      run: gh pr merge --squash --delete-branch
       env:
-        PR_URL: ${{ github.event.pull_request.html_url }}
         GITHUB_TOKEN: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN }}
