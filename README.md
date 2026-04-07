@@ -280,12 +280,13 @@ cz bump
 
 The source distribution package ([sdist](https://packaging.python.org/en/latest/discussions/package-formats/#what-is-a-source-distribution)) contains everything needed in order to check, test, and build a binary distribution ([wheel](https://packaging.python.org/en/latest/discussions/package-formats/#what-is-a-wheel)) and its documentation; that is particulalry useful for third-party packaging services that build their own software distribution packages using custom processes.
 
-To build a everything from a source distribution package, simply follow these steps:
+To build from a source distribution package, simply follow these steps:
 
 ```bash
-tar zxvf package.tar.gz  # Unpack the tar file.
+tar zxvf package.tar.gz  # Unpack the sdist tar file.
 cd package/
 git init  # We need this to be a Git repository to run checks.
+git add .  # Add all files so tools find them via the VCS.
 ```
 
 We do need to initialize the package folder as a Git repository to ensure the Makefile is able to call various checkers via hooks. Once done, we can use `make` as before:
@@ -294,7 +295,7 @@ We do need to initialize the package folder as a Git repository to ensure the Ma
 SKIP=check-hooks-apply,check-useless-excludes,actionlint make dist
 ```
 
-Note that we skip Git hooks that are unnecessary when building from the source distribution. As above, this builds both the source package and a binary distribution, and stores them in the  `dist/` folder. In addition, as expected, setting the `SOURCE_DATE_EPOCH` environment variable to the build epoch value of the original sdist and wheel build results in the bit-exact same binary distribution package!
+Note that we skip Git hooks that are unnecessary when building from the source distribution. As above, this builds the source package and a binary distribution, and stores both in the  `dist/` folder. And, as expected, setting the `SOURCE_DATE_EPOCH` environment variable to the build epoch value of the original sdist and wheel build results in the bit-exact same binary distribution package!
 
 ## Build integrity using SLSA framework
 
