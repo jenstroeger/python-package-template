@@ -1,5 +1,20 @@
 This project follows the [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/).
 
+## v2.19.0 (2026-04-08)
+
+### Feat
+
+- add a Makefile goal `simple-index` that generates a PEP-503 compatible Simple Index directory inside the dist (#947)
+- add a workflow to run Macaron for supply chain security detection (#1099)
+
+### Fix
+
+- the generated sdist file should contain everything needed to check and test the code, and to build the documentation as well (#967)
+- use proper SPDX license identifier in `pyproject.toml` and add correct copyright comments to package source and tests (#1109)
+- make sure that the build epoch is *always* updated whenever the distribution packages are being built (#1118)
+- **ci**: automatically merge Dependabot PRs upon approval again, again (#1119)
+- **ci**: automatically merge Dependabot PRs upon approval again (#1117)
+
 ## v2.18.0 (2025-12-03)
 
 ### Feat
