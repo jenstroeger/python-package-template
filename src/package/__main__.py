@@ -1,5 +1,8 @@
 """The main entry point into this package when run as a script."""
 
+# Copyright (c) 2021-2026 CODEOWNERS
+# This code is licensed under MIT license, see LICENSE.md for details.
+
 # For more details, see also
 # https://docs.python.org/3/library/runpy.html
 # https://docs.python.org/3/reference/import.html#special-considerations-for-main

@@ -1,5 +1,8 @@
 """Test the Something module as a unit test. Add more tests here, as needed."""
 
+# Copyright (c) 2021-2026 CODEOWNERS
+# This code is licensed under MIT license, see LICENSE.md for details.
+
 import faker
 from hypothesis import given, strategies
 from pytest_cases import parametrize_with_cases

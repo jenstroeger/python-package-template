@@ -1,5 +1,8 @@
 """Test configuration and other goodness."""
 
+# Copyright (c) 2021-2026 CODEOWNERS
+# This code is licensed under MIT license, see LICENSE.md for details.
+
 import os
 
 import hypothesis

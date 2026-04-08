@@ -1,5 +1,8 @@
 """Test the Package itself using its external interface as in integration into a larger run context."""
 
+# Copyright (c) 2021-2026 CODEOWNERS
+# This code is licensed under MIT license, see LICENSE.md for details.
+
 # https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b404-import-subprocess
 import subprocess  # nosec B404
 
