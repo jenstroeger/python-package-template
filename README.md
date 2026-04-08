@@ -21,8 +21,9 @@ This repository is intended to be a base template, a cookiecutter for a new Pyth
 [Testing](#testing)  
 [Generating documentation](#generating-documentation)  
 [Synchronizing with this template repo](#synchronizing-with-this-template-repo)  
-[Versioning, publishing and changelog](#versioning-publishing-and-changelog)  
+[Versioning, publishing and distributions](#versioning-publishing-and-distributions)  
 &emsp;[Building from a source distribution package](#building-from-a-source-distribution-package)  
+&emsp;[Using the Simple Index](#using-the-simple-index)  
 [Build integrity using SLSA framework](#build-integrity-using-slsa-framework)  
 [Cleaning up](#cleaning-up)  
 [Frequently asked questions](#frequently-asked-questions)  
@@ -255,7 +256,7 @@ In addition to the default HTML, Sphinx also generates Markdown documentation co
 
 The [sync-with-upstream.yaml](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/sync-with-upstream.yaml) GitHub Acions workflow checks this template repo daily and automatically creates a pull request in the downstream repo if there is a new release. Make sure to set up the GitHub username and email address in this workflow accordingly.
 
-## Versioning, publishing and changelog
+## Versioning, publishing and distributions
 
 To enable automation for [semantic versioning](https://semver.org/), package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a built-in semantic release support enabled which is set up to take care of all three of these aspects — every time changes are pushed to the `release` branch.
 
@@ -298,6 +299,16 @@ SKIP=check-hooks-apply,check-useless-excludes,actionlint make dist
 ```
 
 Note that we skip Git hooks that are unnecessary when building from the source distribution. As above, this builds the source package and a binary distribution, and stores both in the  `dist/` folder. And, as expected, setting the `SOURCE_DATE_EPOCH` environment variable to the build epoch value of the original sdist and wheel build results in the bit-exact same binary distribution package!
+
+## Using the Simple Index
+
+Once source and/or binary distribution packages have been built, they can be served using a [PEP 503](https://peps.python.org/pep-0503/) compatible package repository. Simply call
+
+```bash
+make simple-index
+```
+
+to create the package repository in the `dist/` folder, and then use it e.g. with [pip](https://pip.pypa.io/en/stable/cli/pip_install/#cmdoption-extra-index-url) and its `--extra-index-url` parameter.
 
 ## Build integrity using SLSA framework
 
