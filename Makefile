@@ -7,6 +7,17 @@ SHELL := bash
 PACKAGE_NAME := package
 PACKAGE_VERSION := $(shell python -c $$'try: import $(PACKAGE_NAME); print($(PACKAGE_NAME).__version__);\nexcept: print("unknown");')
 
+# Put together the file names for both the source distribution package (sdist)
+# and the binary distribution package (wheel). For more details on these two,
+# see: https://packaging.python.org/en/latest/discussions/package-formats/
+#
+# For the wheel, users may require additional code to generate the Python tag
+# (py3), the ABI tag (none), and the platform tag (any) for the final wheel
+# file name.
+PACKAGE_BASE_NAME := $(PACKAGE_NAME)-$(PACKAGE_VERSION)
+PACKAGE_SDIST_NAME := $(PACKAGE_BASE_NAME).tar.gz
+PACKAGE_WHEEL_NAME := $(PACKAGE_BASE_NAME)-py3-none-any.whl
+
 # This variable contains the first goal that matches any of the listed goals
 # here, else it contains an empty string. The net effect is to filter out
 # whether this current run of `make` requires a Python virtual environment
@@ -107,7 +118,7 @@ upgrade-quiet:
 # Generate a Software Bill of Materials (SBOM).
 .PHONY: sbom
 sbom: requirements
-	cyclonedx-py requirements --output-format json --outfile dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-sbom.json
+	cyclonedx-py requirements --output-format json --outfile dist/$(PACKAGE_BASE_NAME)-sbom.json
 
 # Generate a requirements.txt file containing version and integrity hashes for all
 # packages currently installed in the virtual environment. There's no easy way to
@@ -129,14 +140,14 @@ requirements.txt: pyproject.toml
 	  [[ $$pkg =~ (.*)==(.*) ]] && curl -s https://pypi.org/pypi/$${BASH_REMATCH[1]}/$${BASH_REMATCH[2]}/json | python -c "import json, sys; print(''.join(f''' \\\\\n    --hash=sha256:{pkg['digests']['sha256']}''' for pkg in json.load(sys.stdin)['urls']));" >> requirements.txt; \
 	done
 	echo -e -n "$(PACKAGE_NAME)==$(PACKAGE_VERSION)" >> requirements.txt
-	if [ -f dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz ]; then \
-	  echo -e -n " \\\\\n    $$(python -m pip hash --algorithm sha256 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz | grep '^\-\-hash')" >> requirements.txt; \
+	if [ -f dist/$(PACKAGE_SDIST_NAME) ]; then \
+	  echo -e -n " \\\\\n    $$(python -m pip hash --algorithm sha256 dist/$(PACKAGE_SDIST_NAME) | grep '^\-\-hash')" >> requirements.txt; \
 	fi
-	if [ -f dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl ]; then \
-	  echo -e -n " \\\\\n    $$(python -m pip hash --algorithm sha256 dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl | grep '^\-\-hash')" >> requirements.txt; \
+	if [ -f dist/$(PACKAGE_WHEEL_NAME) ]; then \
+	  echo -e -n " \\\\\n    $$(python -m pip hash --algorithm sha256 dist/$(PACKAGE_WHEEL_NAME) | grep '^\-\-hash')" >> requirements.txt; \
 	fi
 	echo "" >> requirements.txt
-	cp requirements.txt dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-requirements.txt
+	cp requirements.txt dist/$(PACKAGE_BASE_NAME)-requirements.txt
 
 # Audit the currently installed packages. Skip packages that are installed in
 # editable mode (like the one in development here) because they may not have
@@ -182,20 +193,20 @@ test-all: test-unit test-integration test-performance
 # When building these artifacts, we need the environment variable SOURCE_DATE_EPOCH
 # set to the build date/epoch. For more details, see: https://flit.pypa.io/en/latest/reproducible.html
 .PHONY: dist
-dist: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl: check test-all dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
+dist: dist/$(PACKAGE_WHEEL_NAME) dist/$(PACKAGE_SDIST_NAME) dist/$(PACKAGE_BASE_NAME)-docs-html.zip dist/$(PACKAGE_BASE_NAME)-docs-md.zip dist/$(PACKAGE_BASE_NAME)-build-epoch.txt
+dist/$(PACKAGE_WHEEL_NAME): check test-all dist/$(PACKAGE_BASE_NAME)-build-epoch.txt
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) python -m flit build --setup-py --format wheel
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz: check test-all dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
+dist/$(PACKAGE_SDIST_NAME): check test-all dist/$(PACKAGE_BASE_NAME)-build-epoch.txt
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) python -m flit build --no-setup-py --format sdist
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip: docs-html
-	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-html.zip docs/_build/html/
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip: docs-md
-	python -m zipfile -c dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-docs-md.zip docs/_build/markdown/
+dist/$(PACKAGE_BASE_NAME)-docs-html.zip: docs-html
+	python -m zipfile -c dist/$(PACKAGE_BASE_NAME)-docs-html.zip docs/_build/html/
+dist/$(PACKAGE_BASE_NAME)-docs-md.zip: docs-md
+	python -m zipfile -c dist/$(PACKAGE_BASE_NAME)-docs-md.zip docs/_build/markdown/
 
 # Keep this goal phony to ensure the epoch is always updated.
-.PHONY: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
-dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt:
-	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt
+.PHONY: dist/$(PACKAGE_BASE_NAME)-build-epoch.txt
+dist/$(PACKAGE_BASE_NAME)build-epoch.txt:
+	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_BASE_NAME)-build-epoch.txt
 
 # Build a PEP-503 compatible Simple Repository directory inside of dist/. For details on
 # the layout of that directory and the normalized project name, see: https://peps.python.org/pep-0503/
@@ -203,12 +214,12 @@ dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-build-epoch.txt:
 # its `--extra-index-url` argument: https://pip.pypa.io/en/stable/cli/pip_install/#cmdoption-extra-index-url
 PROJECT_NAME := $(shell python -c $$'import re; print(re.sub(r"[-_.]+", "-", "$(PACKAGE_NAME)").lower());')
 .PHONY: simple-index
-simple-index: dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
+simple-index: dist/$(PACKAGE_WHEEL_NAME) dist/$(PACKAGE_SDIST_NAME)
 	mkdir -p dist/simple-index/$(PROJECT_NAME)
 	echo -e "<!-- https://peps.python.org/pep-0503/ -->\n<!DOCTYPE html><html lang='en'><head><meta name='pypi:repository-version' content='1.3'><title>Simple Index</title></head><body><a href='/$(PACKAGE_NAME)/'>$(PACKAGE_NAME)</a></body></html>" > dist/simple-index/index.html
-	echo -e "<!-- https://peps.python.org/pep-0503/ -->\n<!DOCTYPE html><html lang='en'><head><meta name='pypi:repository-version' content='1.3'><title>Simple Index: $(PROJECT_NAME)</title></head><body><a href='$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl#sha256="$$(python -c "with open('dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl', 'rb') as f: import hashlib; print(hashlib.sha256(f.read()).hexdigest());")"'>$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl</a><a href='$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz#sha256="$$(python -c "with open('dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz', 'rb') as f: import hashlib; print(hashlib.sha256(f.read()).hexdigest());")"'>$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz</a></body></html>" > dist/simple-index/$(PROJECT_NAME)/index.html
-	cp -f dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/simple-index/$(PROJECT_NAME)/
-	cp -f dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz dist/simple-index/$(PROJECT_NAME)/
+	echo -e "<!-- https://peps.python.org/pep-0503/ -->\n<!DOCTYPE html><html lang='en'><head><meta name='pypi:repository-version' content='1.3'><title>Simple Index: $(PROJECT_NAME)</title></head><body><a href='$(PACKAGE_WHEEL_NAME)#sha256="$$(python -c "with open('dist/$(PACKAGE_WHEEL_NAME)', 'rb') as f: import hashlib; print(hashlib.sha256(f.read()).hexdigest());")"'>$(PACKAGE_WHEEL_NAME)</a><a href='$(PACKAGE_SDIST_NAME)#sha256="$$(python -c "with open('dist/$(PACKAGE_SDIST_NAME)', 'rb') as f: import hashlib; print(hashlib.sha256(f.read()).hexdigest());")"'>$(PACKAGE_SDIST_NAME)</a></body></html>" > dist/simple-index/$(PROJECT_NAME)/index.html
+	cp -f dist/$(PACKAGE_WHEEL_NAME) dist/simple-index/$(PROJECT_NAME)/
+	cp -f dist/$(PACKAGE_SDIST_NAME) dist/simple-index/$(PROJECT_NAME)/
 
 # Build the HTML and Markdown documentation from the package's source.
 DOCS_SOURCE := $(shell git ls-files docs/source)
