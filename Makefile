@@ -91,7 +91,7 @@ setup: force-upgrade
 
 # Install or upgrade an existing virtual environment based on the
 # package dependencies declared in pyproject.toml.
-.PHONY: upgrade force-upgrade
+.PHONY: upgrade force-upgrade upgrade-quiet
 upgrade: .venv/upgraded-on
 .venv/upgraded-on: pyproject.toml
 	python -m pip install --upgrade pip setuptools
