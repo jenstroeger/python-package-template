@@ -9,9 +9,10 @@ name = "package"
 requires-python = ">=3.10.0,<3.14.0"
 authors = [{name = "Author", email = "author@email"}]
 maintainers = [{name = "Maintainer", email = "maintainer@email"}]
-dynamic = ["version", "description"]
+dynamic = ["version"]
 license = "MIT"  # https://spdx.org/licenses/MIT.html
 license-files = ["LICENSE.md"]
+description = "An opinionated Python package/application template repository, with SLSA and SBOM support built in, enabled for security scanners, code linters, typing, testing and code coverage monitoring, and release automation for reproducible builds."
 readme = "README.md"
 dependencies = []
 keywords = []
