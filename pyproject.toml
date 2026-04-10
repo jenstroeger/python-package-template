@@ -48,8 +48,7 @@ dev = [
     "flit >=3.2.0,<4.0.0",
     "mypy >=1.0.0,<1.21",
     "pip-audit >=2.4.4,<3.0.0",
-    "pylint >=3.0.0,<4.1.0",
-    "perflint >=0.8.0,<1.0.0",
+    "pylint >=4.0.0,<4.1.0",
     "cyclonedx-bom >=4.0.0,<5.0.0",
 ]
 docs = [
@@ -177,9 +176,7 @@ ignore_missing_imports = true
 # https://pylint.pycqa.org/en/latest/user_guide/configuration/index.html
 [tool.pylint.main]
 fail-under = 10.0
-suggestion-mode = true
 load-plugins = [
-    "perflint",  # A Linter for performance anti-patterns.
     "pylint.extensions.bad_builtin",
     "pylint.extensions.broad_try_clause",
     "pylint.extensions.check_elif",
@@ -213,6 +210,7 @@ disable = [
     "too-many-arguments",
     "too-many-boolean-expressions",
     "too-many-branches",
+    "too-many-function-args",
     "too-many-instance-attributes",
     "too-many-lines",
     "too-many-locals",
