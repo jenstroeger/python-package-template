@@ -205,7 +205,7 @@ dist/$(PACKAGE_BASE_NAME)-docs-md.zip: docs-md
 
 # Keep this goal phony to ensure the epoch is always updated.
 .PHONY: dist/$(PACKAGE_BASE_NAME)-build-epoch.txt
-dist/$(PACKAGE_BASE_NAME)build-epoch.txt:
+dist/$(PACKAGE_BASE_NAME)-build-epoch.txt:
 	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_BASE_NAME)-build-epoch.txt
 
 # Build a PEP-503 compatible Simple Repository directory inside of dist/. For details on
