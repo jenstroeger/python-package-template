@@ -64,7 +64,7 @@ test = [
     "coverage ==7.6.12; python_version<'3.14'",  # https://github.com/pypi/warehouse/pull/17872#issuecomment-2845932281
     "faker ==40.13.0",
     "hypothesis >=6.21.0,<6.151.12",
-    "pytest >=7.2.0,<9.0.0",
+    "pytest >=9.0.3,<10.0.0",
     "pytest-benchmark ==5.2.3",
     "pytest-cases ==3.10.1",
     "pytest-custom_exit_code ==0.3.0",
