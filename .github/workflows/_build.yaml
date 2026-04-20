@@ -112,20 +112,21 @@ jobs:
 
     # Find the paths to the artifact files that will be included in the release, compute
     # the SHA digest for all the release files and encode them using Base64, and export it
-    # from this job.
+    # from this job. Note that using -maxdepth 1 ensures searching for the generated
+    # artifacts only, even if other directories (e.g. a generated Simple Index) exist.
     - name: Compute package hash
       if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
       id: compute-hash
       shell: bash
       run: |
         set -euo pipefail
-        TARBALL_PATH=$(find dist/ -type f -name "*.tar.gz")
-        WHEEL_PATH=$(find dist/ -type f -name "*.whl")
-        REQUIREMENTS_PATH=$(find dist/ -type f -name "*-requirements.txt")
-        SBOM_PATH=$(find dist/ -type f -name "*-sbom.json")
-        HTML_DOCS_PATH=$(find dist/ -type f -name "*-docs-html.zip")
-        MARKDOWN_DOCS_PATH=$(find dist/ -type f -name "*-docs-md.zip")
-        BUILD_EPOCH_PATH=$(find dist/ -type f -name "*-build-epoch.txt")
+        TARBALL_PATH=$(find dist/ -maxdepth 1 -type f -name "*.tar.gz")
+        WHEEL_PATH=$(find dist/ -maxdepth 1 -type f -name "*.whl")
+        REQUIREMENTS_PATH=$(find dist/ -maxdepth 1 -type f -name "*-requirements.txt")
+        SBOM_PATH=$(find dist/ -maxdepth 1 -type f -name "*-sbom.json")
+        HTML_DOCS_PATH=$(find dist/ -maxdepth 1 -type f -name "*-docs-html.zip")
+        MARKDOWN_DOCS_PATH=$(find dist/ -maxdepth 1 -type f -name "*-docs-md.zip")
+        BUILD_EPOCH_PATH=$(find dist/ -maxdepth 1 -type f -name "*-build-epoch.txt")
         DIGEST=$(sha256sum "$TARBALL_PATH" "$WHEEL_PATH" "$REQUIREMENTS_PATH" "$SBOM_PATH" "$HTML_DOCS_PATH" "$MARKDOWN_DOCS_PATH" "$BUILD_EPOCH_PATH" | base64 -w0)
         echo "Digest of artifacts is $DIGEST."
         echo "artifacts-sha256=$DIGEST" >> "$GITHUB_OUTPUT"
