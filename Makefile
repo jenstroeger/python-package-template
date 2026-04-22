@@ -242,7 +242,7 @@ prune:
 	python -m pip wheel --wheel-dir build/wheelhouse/ --requirement build/prune-requirements.txt
 	python -m pip wheel --wheel-dir build/wheelhouse/ .
 	python -m pip uninstall --yes --requirement build/prune-requirements.txt
-	python -m pip install --no-index --find-links=build/wheelhouse/ --editable .
+	python -m pip install --no-index --only-binary :all: --find-links=build/wheelhouse/ --editable .
 	rm -fr build/
 
 # Clean test caches and remove build artifacts.
