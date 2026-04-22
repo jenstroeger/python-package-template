@@ -40,9 +40,11 @@ endif
 
 # If the project configuration file has been updated (package deps or
 # otherwise) then warn the user and suggest resolving the conflict.
-ifeq ($(shell test pyproject.toml -nt .venv/upgraded-on; echo $$?),0)
-  $(warning pyproject.toml was updated, consider `make upgrade` if your packages have changed)
-  $(warning If this is not correct then run `make upgrade-quiet`)
+ifneq ($(wildcard .venv/upgraded-on),)
+  ifeq ($(shell test pyproject.toml -nt .venv/upgraded-on; echo $$?),0)
+    $(warning pyproject.toml was updated, consider `make upgrade` if your packages have changed)
+    $(warning If this is not correct then run `make upgrade-quiet`)
+  endif
 endif
 
 # The SOURCE_DATE_EPOCH environment variable allows the `flit` tool to
