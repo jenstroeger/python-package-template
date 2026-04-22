@@ -37,6 +37,27 @@ something = "package.__main__:main"
 [project.entry-points]
 
 [project.optional-dependencies]
+# Add optional package dependencies (extras) here.
+# https://packaging.python.org/en/latest/specifications/dependency-specifiers/#extras
+
+[project.urls]
+Homepage = "https://github.com/jenstroeger/python-package-template"
+Changelog = "https://github.com/jenstroeger/python-package-template/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/jenstroeger/python-package-template/wiki"
+Issues = "https://github.com/jenstroeger/python-package-template/issues"
+
+
+# https://packaging.python.org/en/latest/specifications/dependency-groups/
+# https://peps.python.org/pep-0735/
+[dependency-groups]
+dev = [
+    {include-group = "actions"},
+    {include-group = "check"},
+    {include-group = "test"},
+    {include-group = "docs"},
+    {include-group = "dist"},
+    {include-group = "hooks"},
+]
 # The 'actions' requirements match exactly the packages installed by the workflows.
 # We keep them listed here to ensure the infrastructure BOM is consistent with what's
 # installed. Make sure to keep the requirements in sync with the workflows!
@@ -44,20 +65,11 @@ actions = [
     "commitizen ==4.13.9",
     "twine ==6.2.0",
 ]
-dev = [
-    "flit >=3.2.0,<4.0.0",
+check = [
     "mypy >=1.0.0,!=1.20.2,<1.21",
     "pip-audit >=2.4.4,<3.0.0",
     "pylint >=3.0.0,<4.1.0",
     "perflint >=0.8.0,<1.0.0",
-    "cyclonedx-bom >=7.0.0,<8.0.0",
-]
-docs = [
-    "sphinx >=5.1.1,<9.0.0",
-    "sphinx-markdown-builder >=0.6.4,<1.0.0",
-]
-hooks = [
-    "pre-commit >=3.0.0,<4.6.0",
 ]
 # Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
@@ -67,17 +79,22 @@ test = [
     "pytest >=9.0.3,<10.0.0",
     "pytest-benchmark ==5.2.3",
     "pytest-cases ==3.10.1",
-    "pytest-custom_exit_code ==0.3.0",
     "pytest-cov ==6.3.0",  # Uses: coverage[toml] >=7.5
+    "pytest-custom_exit_code ==0.3.0",
     "pytest-doctestplus ==1.7.1",
     "pytest-env ==1.2.0",
 ]
-
-[project.urls]
-Homepage = "https://github.com/jenstroeger/python-package-template"
-Changelog = "https://github.com/jenstroeger/python-package-template/blob/main/CHANGELOG.md"
-Documentation = "https://github.com/jenstroeger/python-package-template/wiki"
-Issues = "https://github.com/jenstroeger/python-package-template/issues"
+docs = [
+    "sphinx >=5.1.1,<9.0.0",
+    "sphinx-markdown-builder >=0.6.4,<1.0.0",
+]
+dist = [
+    "cyclonedx-bom >=7.0.0,<8.0.0",
+    "flit >=3.2.0,<4.0.0",
+]
+hooks = [
+    "pre-commit >=3.0.0,<4.6.0",
+]
 
 
 # https://bandit.readthedocs.io/en/latest/config.html
