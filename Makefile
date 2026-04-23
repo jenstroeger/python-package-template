@@ -107,7 +107,7 @@ upgrade-quiet:
 # Generate a Software Bill of Materials (SBOM).
 .PHONY: sbom
 sbom: requirements
-	cyclonedx-py requirements --output-format json --outfile dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-sbom.json
+	python -m cyclonedx_py requirements --spec-version 1.7 --output-reproducible --output-format json --output-file dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-sbom.json
 
 # Generate a requirements.txt file containing version and integrity hashes for all
 # packages currently installed in the virtual environment. There's no easy way to
