@@ -1,5 +1,11 @@
 This project follows the [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/).
 
+## v2.19.1 (2026-04-24)
+
+### Fix
+
+- **ci**: make the generated Simple Index tar file an actual release artifact (#1154)
+
 ## v2.19.0 (2026-04-08)
 
 ### Feat
