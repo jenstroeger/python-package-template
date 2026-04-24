@@ -92,7 +92,7 @@ jobs:
     # profile picks the Hypothesis settings (see tests/conftest.py) which, for Github,
     # disable randomized testing to avoid breaking CI.
     - name: Build the package
-      run: make dist
+      run: make dist simple-index
       env:
         HYPOTHESIS_PROFILE: github
 
@@ -119,24 +119,29 @@ jobs:
       shell: bash
       run: |
         set -euo pipefail
-        TARBALL_PATH=$(find dist/ -type f -name "*.tar.gz")
-        WHEEL_PATH=$(find dist/ -type f -name "*.whl")
-        REQUIREMENTS_PATH=$(find dist/ -type f -name "*-requirements.txt")
-        SBOM_PATH=$(find dist/ -type f -name "*-sbom.json")
-        HTML_DOCS_PATH=$(find dist/ -type f -name "*-docs-html.zip")
-        MARKDOWN_DOCS_PATH=$(find dist/ -type f -name "*-docs-md.zip")
-        BUILD_EPOCH_PATH=$(find dist/ -type f -name "*-build-epoch.txt")
-        DIGEST=$(sha256sum "$TARBALL_PATH" "$WHEEL_PATH" "$REQUIREMENTS_PATH" "$SBOM_PATH" "$HTML_DOCS_PATH" "$MARKDOWN_DOCS_PATH" "$BUILD_EPOCH_PATH" | base64 -w0)
+        TARBALL_PATH=$(find dist/ -maxdepth 1 -type f -name "*.tar.gz")
+        WHEEL_PATH=$(find dist/ -maxdepth 1 -type f -name "*.whl")
+        SIMPLE_INDEX_PATH=$(find dist/ -maxdepth 1 -type f -name "*-simple-index.tar")
+        REQUIREMENTS_PATH=$(find dist/ -maxdepth 1 -type f -name "*-requirements.txt")
+        SBOM_PATH=$(find dist/ -maxdepth 1 -type f -name "*-sbom.json")
+        HTML_DOCS_PATH=$(find dist/ -maxdepth 1 -type f -name "*-docs-html.zip")
+        MARKDOWN_DOCS_PATH=$(find dist/ -maxdepth 1 -type f -name "*-docs-md.zip")
+        BUILD_EPOCH_PATH=$(find dist/ -maxdepth 1 -type f -name "*-build-epoch.txt")
+        DIGEST=$(sha256sum "$TARBALL_PATH" "$WHEEL_PATH" "$SIMPLE_INDEX_PATH" "$REQUIREMENTS_PATH" "$SBOM_PATH" "$HTML_DOCS_PATH" "$MARKDOWN_DOCS_PATH" "$BUILD_EPOCH_PATH" | base64 -w0)
         echo "Digest of artifacts is $DIGEST."
         echo "artifacts-sha256=$DIGEST" >> "$GITHUB_OUTPUT"
 
-    # For now only generate artifacts for the specified OS and Python version in env variables.
-    # Currently reusable workflows do not support setting strategy property from the caller workflow.
+    # For now only generate artifacts for the specified OS and Python version in env
+    # variables. Currently reusable workflows do not support setting strategy property
+    # from the caller workflow. Furthermore, add only top-level files as artifacts;
+    # do not copy the generated simple-index/ folder.
     - name: Upload the package artifact for debugging and release
       if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
       uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
       with:
         name: artifact-${{ matrix.os }}-python-${{ matrix.python }}
-        path: dist
+        path: |
+          dist/*.*
+          !dist/simple-index
         if-no-files-found: error
         retention-days: 7
