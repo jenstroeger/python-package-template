@@ -34,7 +34,7 @@ The badges above give you an idea of what this project template provides. It’s
 
 ### Typing
 
-The package requires a minimum of [Python 3.10](https://www.python.org/downloads/release/python-31015/), and it supports [Python 3.11](https://www.python.org/downloads/release/python-31110/), [Python 3.12](https://www.python.org/downloads/release/python-3127/) and [Python 3.13](https://www.python.org/downloads/release/python-3130/) (default). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker and the [flake8-pyi](https://github.com/PyCQA/flake8-pyi) plugin are invoked by git hooks and through a Github Action to enforce continuous type checks on Python source and [stub files](https://peps.python.org/pep-0484/#stub-files). Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
+The package requires a minimum of [Python 3.10](https://www.python.org/downloads/release/python-31020/), and it supports [Python 3.11](https://www.python.org/downloads/release/python-31115/), [Python 3.12](https://www.python.org/downloads/release/python-31213/), [Python 3.13](https://www.python.org/downloads/release/python-31313/), and [Python 3.14](https://www.python.org/downloads/release/python-3144/) ( (default). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker and the [flake8-pyi](https://github.com/PyCQA/flake8-pyi) plugin are invoked by git hooks and through a Github Action to enforce continuous type checks on Python source and [stub files](https://peps.python.org/pep-0484/#stub-files). Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
 
 ### Quality assurance
 
@@ -105,7 +105,7 @@ If you’d like to start your own Python project from scratch, you can either co
 To develop your new package, first create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) by either using the [Makefile](https://www.gnu.org/software/make/manual/make.html#toc-An-Introduction-to-Makefiles):
 
 ```bash
-make venv  # Create a new virtual environment in .venv folder using Python 3.13.
+make venv  # Create a new virtual environment in .venv folder using Python 3.14.
 ```
 
 or for a specific version of Python:
@@ -117,7 +117,7 @@ PYTHON=python3.12 make venv  # Same virtual environment for a different Python v
 or manually:
 
 ```bash
-python3.13 -m venv .venv  # Or use .venv313 for more than one local virtual environments.
+python3.14 -m venv .venv  # Or use .venv314 for more than one local virtual environments.
 ```
 
 When working with this Makefile _it is important to always [activate the virtual environment](https://docs.python.org/3/library/venv.html)_ because some of the [git hooks](#git-hooks) (see below) depend on that:
@@ -184,14 +184,14 @@ Note that the unit tests include [doctest](https://docs.python.org/3/library/doc
 Both statement and branch coverage are being tracked using [coverage](https://github.com/nedbat/coveragepy) and the [pytest-cov](https://github.com/pytest-dev/pytest-cov) plugin for pytest when running unit tests, and it measures how much code in the `src/package/` folder is covered by tests:
 ```
 =========================================== test session starts ===========================================
-platform darwin -- Python 3.13.9, pytest-8.4.2, pluggy-1.6.0 -- /path/to/python-package-template/.venv/bin/python
+platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0 -- /path/to/python-package-template/.venv/bin/python
 cachedir: .pytest_cache
+benchmark: 5.2.3 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
 hypothesis profile 'default-with-verbose-verbosity' -> verbosity=Verbosity.verbose
-benchmark: 5.2.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
 rootdir: /path/to/python-package-template
 configfile: pyproject.toml
-plugins: cases-3.9.1, hypothesis-6.138.16, env-1.1.5, cov-6.3.0, custom-exit-code-0.3.0, doctestplus-1.4.0, Faker-37.6.0, benchmark-5.2.0
-collected 6 items / 2 deselected / 4 selected
+plugins: benchmark-5.2.3, hypothesis-6.151.11, cov-6.3.0, custom-exit-code-0.3.0, Faker-40.13.0, doctestplus-1.7.1, env-1.2.0, cases-3.10.1
+collected 6 items / 2 deselected / 4 selected  
 
 src/package/something.py::package.something.Something.do_something PASSED                           [ 25%]
 tests/unit/test_something.py::test_something_hypothesis PASSED                                      [ 50%]
@@ -199,7 +199,7 @@ tests/unit/test_something.py::test_something_cases[_case_boolean] PASSED        
 docs/source/index.rst::index.rst PASSED                                                             [100%]
 
 ============================================= tests coverage ==============================================
-____________________________ coverage: platform darwin, python 3.13.9-final-0 _____________________________
+____________________________ coverage: platform darwin, python 3.14.3-final-0 _____________________________
 
 Name                       Stmts   Miss Branch BrPart  Cover   Missing
 ----------------------------------------------------------------------
@@ -217,20 +217,21 @@ tests/unit/test_something.py::test_something_hypothesis:
 
   - Stopped because nothing left to do
 
+
 ============================================ slowest durations ============================================
-0.10s setup    src/package/something.py::package.something.Something.do_something
-0.01s call     tests/unit/test_something.py::test_something_hypothesis
+0.04s setup    src/package/something.py::package.something.Something.do_something
+0.00s call     tests/unit/test_something.py::test_something_hypothesis
 0.00s call     src/package/something.py::package.something.Something.do_something
 0.00s setup    tests/unit/test_something.py::test_something_cases[_case_boolean]
 0.00s call     docs/source/index.rst::index.rst
-0.00s setup    docs/source/index.rst::index.rst
 0.00s teardown src/package/something.py::package.something.Something.do_something
-0.00s teardown tests/unit/test_something.py::test_something_cases[_case_boolean]
-0.00s call     tests/unit/test_something.py::test_something_cases[_case_boolean]
+0.00s setup    docs/source/index.rst::index.rst
 0.00s setup    tests/unit/test_something.py::test_something_hypothesis
+0.00s call     tests/unit/test_something.py::test_something_cases[_case_boolean]
 0.00s teardown docs/source/index.rst::index.rst
+0.00s teardown tests/unit/test_something.py::test_something_cases[_case_boolean]
 0.00s teardown tests/unit/test_something.py::test_something_hypothesis
-===================================== 4 passed, 2 deselected in 0.23s =====================================
+===================================== 4 passed, 2 deselected in 0.15s =====================================
 ```
 Note that code that’s not covered by tests is listed under the `Missing` column, and branches not taken too. The net effect of enforcing 100% code and branch coverage is that every new major and minor feature, every code change, and every fix are being tested (keeping in mind that high _coverage_ does not imply comprehensive, meaningful _test data_).
 

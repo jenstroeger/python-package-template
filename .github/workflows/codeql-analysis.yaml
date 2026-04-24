@@ -29,7 +29,7 @@ jobs:
       matrix:
         # Learn more about CodeQL language support at https://git.io/codeql-language-support
         language: [python, actions]
-        python: ['3.13']
+        python: ['3.14']
     steps:
 
     - name: Harden Runner
