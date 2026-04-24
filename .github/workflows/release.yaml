@@ -44,7 +44,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
       with:
-        python-version: '3.13'
+        python-version: '3.14'
 
     - name: Set up Commitizen
       run: |
@@ -111,7 +111,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
       with:
-        name: artifact-ubuntu-latest-python-3.13
+        name: artifact-ubuntu-latest-python-3.14
         path: dist
 
     # Verify hashes by first computing hashes for the artifacts and then comparing them
@@ -128,7 +128,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
       with:
-        python-version: '3.13'
+        python-version: '3.14'
 
     - name: Set up Commitizen
       run: |
@@ -250,7 +250,7 @@ jobs:
       # Github disallows passing environment variables as arguments to a reusable
       # workflow, so we have to duplicate these values here. Related discussion
       # here: https://github.com/actions/toolkit/issues/931
-      artifact-name: artifact-ubuntu-latest-python-3.13
+      artifact-name: artifact-ubuntu-latest-python-3.14
       git-user-name: jenstroeger
       git-user-email: jenstroeger@users.noreply.github.com
     secrets:
