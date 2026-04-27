@@ -1,5 +1,6 @@
 # This configuration file enables Dependabot version updates.
 # https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/about-dependabot-version-updates
+# https://docs.github.com/en/code-security/reference/supply-chain-security/supported-ecosystems-and-repositories
 # https://github.com/dependabot/feedback/issues/551
 
 version: 2
@@ -20,6 +21,21 @@ updates:
   # -
 
 - package-ecosystem: github-actions
+  directory: /
+  schedule:
+    interval: weekly
+  commit-message:
+    prefix: chore
+    prefix-development: chore
+    include: scope
+  open-pull-requests-limit: 13
+  target-branch: main
+  # Add additional reviewers for PRs opened by Dependabot. For more information, see:
+  # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#reviewers
+  # reviewers:
+  #
+
+- package-ecosystem: pre-commit
   directory: /
   schedule:
     interval: weekly
