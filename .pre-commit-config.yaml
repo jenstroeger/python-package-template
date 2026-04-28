@@ -63,7 +63,7 @@ repos:
     name: Check flake8 issues
     files: ^src/package/|^tests/
     types: [text, python]
-    additional_dependencies: [flake8-bugbear==25.11.29, flake8-builtins==3.1.0, flake8-comprehensions==3.17.0, flake8-docstrings==1.7.0, flake8-logging==1.8.0, flake8-mutable==1.2.0, flake8-noqa==1.4.0, flake8-print==5.0.0, flake8-pyi==25.5.0, flake8-pytest-style==2.2.0, flake8-rst-docstrings==0.4.0, pep8-naming==0.15.1]
+    additional_dependencies: [flake8-bugbear==25.11.29, flake8-builtins==3.1.0, flake8-comprehensions==3.17.0, flake8-docstrings==1.7.0, flake8-logging==1.8.0, flake8-mutable==1.2.0, flake8-noqa==1.5.0, flake8-print==5.0.0, flake8-pyi==25.5.0, flake8-pytest-style==2.2.0, flake8-rst-docstrings==0.4.0, pep8-naming==0.15.1]
     args: [--config, .flake8]
 
 # Run Pylint from the local repo to make sure venv packages
