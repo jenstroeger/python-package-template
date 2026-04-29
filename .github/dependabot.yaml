@@ -43,8 +43,12 @@ updates:
     prefix: chore
     prefix-development: chore
     include: scope
-  open-pull-requests-limit: 13
   target-branch: main
+  # Group updates into one pull request. See also:
+  # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference#groups--
+  groups:
+    pre-commit:
+      patterns: '*'
   # Add additional reviewers for PRs opened by Dependabot. For more information, see:
   # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#reviewers
   # reviewers:
