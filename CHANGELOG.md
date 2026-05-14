@@ -1,4 +1,8 @@
-This project follows the [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/).
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+This project adheres to [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/). The format of this file is loosely based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## v2.19.1 (2026-04-24)
 
