@@ -1,4 +1,5 @@
 # Automatically merge Dependabot PRs upon approval.
+# https://docs.github.com/en/code-security/tutorials/secure-your-dependencies/automating-dependabot-with-github-actions#enabling-automerge-on-a-pull-request
 
 name: Automerge Dependabot PR
 on:
