@@ -63,7 +63,7 @@ hooks = [
 # Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
     "faker ==40.19.1",
-    "hypothesis >=6.21.0,<6.152.10",
+    "hypothesis >=6.152.9,<6.152.10",
     "pytest >=9.0.3,<10.0.0",
     "pytest-benchmark ==5.2.3",
     "pytest-cases ==3.10.1",
