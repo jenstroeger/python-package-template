@@ -7,6 +7,9 @@ SHELL := bash
 PACKAGE_NAME := package
 PACKAGE_VERSION := $(shell python -c $$'try: import $(PACKAGE_NAME); print($(PACKAGE_NAME).__version__);\nexcept: print("unknown");')
 
+# If a PYTHON environment variable exists then use that, else define it here.
+PYTHON ?= python3.13
+
 # This variable contains the first goal that matches any of the listed goals
 # here, else it contains an empty string. The net effect is to filter out
 # whether this current run of `make` requires a Python virtual environment
@@ -69,13 +72,8 @@ venv:
 	if [ -d .venv/ ]; then \
 	  echo "Found an inactive Python virtual environment, please activate or nuke it" && exit 1; \
 	fi
-	if [ -z "${PYTHON}" ]; then \
-	  echo "Creating virtual environment in .venv/ for python3.13"; \
-	  python3.13 -m venv --upgrade-deps --prompt . .venv; \
-	else \
-	  echo "Creating virtual environment in .venv/ for ${PYTHON}"; \
-	  ${PYTHON} -m venv --upgrade-deps --prompt . .venv; \
-	fi
+	echo "Creating virtual environment in .venv/ for ${PYTHON}"; \
+	${PYTHON} -m venv --upgrade-deps --prompt . .venv; \
 	touch .venv/pip.conf
 
 # Set up a newly created virtual environment. Note: pre-commit uses the
