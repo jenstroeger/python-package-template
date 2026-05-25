@@ -171,7 +171,7 @@ check:
 .PHONY: test test-all test-unit test-integration test-performance
 test: test-unit
 test-unit:
-	COVERAGE_CORE=sysmon python -m pytest --config-file pyproject.toml --cov-config pyproject.toml -m 'not integration and not performance' src/package/ tests/ docs/
+	python -m pytest --config-file pyproject.toml --cov-config pyproject.toml -m 'not integration and not performance' src/package/ tests/ docs/
 test-integration:
 	python -m pytest --config-file pyproject.toml --no-cov -m integration tests/
 test-performance:
