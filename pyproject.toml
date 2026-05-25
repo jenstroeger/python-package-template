@@ -147,6 +147,7 @@ filter_files = true
 [tool.mypy]
 # mypy_path =
 # exclude =
+num_workers = 0
 show_error_codes = true
 show_column_numbers = true
 pretty = true
