@@ -279,7 +279,7 @@ cz changelog
 cz bump
 ```
 
-## Building from a source distribution package
+### Building from a source distribution package
 
 The source distribution package ([sdist](https://packaging.python.org/en/latest/discussions/package-formats/#what-is-a-source-distribution)) contains everything needed in order to check, test, and build a binary distribution ([wheel](https://packaging.python.org/en/latest/discussions/package-formats/#what-is-a-wheel)) and its documentation; that is particulalry useful for third-party packaging services that build their own software distribution packages using custom processes.
 
@@ -300,7 +300,7 @@ SKIP=check-hooks-apply,check-useless-excludes,actionlint make dist
 
 Note that we skip Git hooks that are unnecessary when building from the source distribution. As above, this builds the source package and a binary distribution, and stores both in the  `dist/` folder. And, as expected, setting the `SOURCE_DATE_EPOCH` environment variable to the build epoch value of the original sdist and wheel build results in the bit-exact same binary distribution package!
 
-## Using the Simple Index
+### Using the Simple Index
 
 Once source and/or binary distribution packages have been built, they can be served using a [PEP 503](https://peps.python.org/pep-0503/) compatible package repository. Simply call
 
