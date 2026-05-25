@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/). The format of this file is loosely based on [Keep a Changelog](https://keepachangelog.com/).
 
+## v2.20.0 (2026-05-25)
+
+### Feat
+
+- add support for Python 3.14 (#1153)
+
+### Fix
+
+- make the generated Simple Index (see PEP 503) better navigatable (#1130)
+- update pylint settings and remove perflint because it does not (currently) work for pylint 4 (#1123)
+- **deps**: add a 3-day cooldown period for Dependabot updates (#1180)
+- make very very sure that pip prune uses only wheels (from the wheelhouse), and prevent accidentally building a wheel (#1151)
+- don’t print warning about upgrading the venv if the venv wasn’t upgraded yet (#1150)
+- declare Makefile goal as .PHONY (as it ought to be) (#1127)
+- the generated build epoch belongs to the generated wheel, and thus both files should be generated using the same recipe (#1126)
+- **deps**: have Dependabot update the pre-commit hooks (#1156)
+
+### Refactor
+
+- add Makefile variables for both source and binary distributions, and simplify rules a bit using these variables (#1129)
+- simplify handling of the PYTHON environment variable by make (#1128)
+
 ## v2.19.1 (2026-04-24)
 
 ### Fix
