@@ -160,14 +160,12 @@ repos:
   hooks:
   - id: actionlint
 
-# On push to the remote, run all tests. Note that the `COVERAGE_CORE` variable is required
-# for Python 3.12+ to make sure Coverage uses the new Python monitoring module.
-# See also: https://blog.trailofbits.com/2025/05/01/making-pypis-test-suite-81-faster/#optimizing-coverage-with-python-312s-sysmonitoring
+# On push to the remote, run all tests.
 - repo: local
   hooks:
   - id: pytest
     name: Run unit tests
-    entry: env COVERAGE_CORE=sysmon pytest --config-file pyproject.toml --cov-config pyproject.toml -m 'not integration and not performance' src/package/ tests/ docs/
+    entry: pytest --config-file pyproject.toml --cov-config pyproject.toml -m 'not integration and not performance' src/package/ tests/ docs/
     language: python
     verbose: true
     always_run: true
