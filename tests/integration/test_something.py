@@ -13,7 +13,6 @@ import pytest
 def test_package() -> None:
     """Test the Something command."""
     # For testing we disable this warning here:
-    # https://bandit.readthedocs.io/en/latest/plugins/b603_subprocess_without_shell_equals_true.html
-    # https://bandit.readthedocs.io/en/latest/plugins/b607_start_process_with_partial_path.html
-    completed = subprocess.run(["something"], check=True, shell=False)  # nosec B603, B607
+    # https://docs.astral.sh/ruff/rules/start-process-with-partial-path/
+    completed = subprocess.run(["something"], check=True, shell=False)  # noqa: S607
     assert completed.returncode == 0
