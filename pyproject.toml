@@ -270,24 +270,27 @@ docstring-code-line-length = 88
 [tool.ruff.lint]
 exclude = ["docs/*"]
 select = [
+    "A",  # flake8-builtins
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
     "E",  # pycodestyle
     "F",  # pyflakes
     "I",  # isort
-    "UP",  # pyupgrade
-    "B",  # flake8-bugbear
-    "A",  # flake8-builtins
-    "C4",  # flake8-comprehensions
     "LOG",  # flake8-logging
-    "T20",  # flake8-print
-    "PYI",  # flake8-pyi
-    "PT",  # flake8-pytest-style
     "N",  # pep8-naming
+    "PT",  # flake8-pytest-style
+    "PYI",  # flake8-pyi
     "S",  # flake8-bandit
+    "T20",  # flake8-print
+    "UP",  # pyupgrade
 ]
 ignore = [
     "E203",  # E203: whitespace before ‘,’, ‘;’, or ‘:’ (not Black compliant)
     "E501",  # E501: line too long (managed better by Bugbear's B950)
 ]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = true
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = [
