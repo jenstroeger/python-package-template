@@ -67,11 +67,13 @@ jobs:
 
     # Dependency review scans for introduced vulnerabilities and compatible licenses.
     - name: Dependency Review
-      uses: actions/dependency-review-action@0efb1d1d84fc9633afcdaad14c485cbbc90ef46c # v2.5.1
+      uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
       with:
         fail-on-severity: moderate
-        license-check: true
         vulnerability-check: true
+        license-check: true
+        allow-licenses:
+        comment-summary-in-pr: always
 
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
