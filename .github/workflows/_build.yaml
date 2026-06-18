@@ -72,7 +72,7 @@ jobs:
         fail-on-severity: moderate
         vulnerability-check: true
         license-check: true
-        allow-licenses:
+        # allow-licenses:
         comment-summary-in-pr: always
 
     - name: Set up Python
