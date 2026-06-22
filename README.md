@@ -34,7 +34,7 @@ The badges above give you an idea of what this project template provides. It’s
 
 ### Typing
 
-The package requires a minimum of [Python 3.10](https://www.python.org/downloads/release/python-31020/), and it supports [Python 3.11](https://www.python.org/downloads/release/python-31115/), [Python 3.12](https://www.python.org/downloads/release/python-31213/), [Python 3.13](https://www.python.org/downloads/release/python-31313/), and [Python 3.14](https://www.python.org/downloads/release/python-3144/) ( (default). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker and the [flake8-pyi](https://github.com/PyCQA/flake8-pyi) plugin are invoked by git hooks and through a Github Action to enforce continuous type checks on Python source and [stub files](https://peps.python.org/pep-0484/#stub-files). Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
+The package requires a minimum of [Python 3.10](https://www.python.org/downloads/release/python-31020/), and it supports [Python 3.11](https://www.python.org/downloads/release/python-31115/), [Python 3.12](https://www.python.org/downloads/release/python-31213/), [Python 3.13](https://www.python.org/downloads/release/python-31313/), and [Python 3.14](https://www.python.org/downloads/release/python-3144/) (default). All code requires comprehensive [typing](https://docs.python.org/3/library/typing.html). The [mypy](http://mypy-lang.org/) static type checker and ruff’s [pyi](https://docs.astral.sh/ruff/rules/#flake8-pyi-pyi) plugin are invoked by git hooks and through a Github Action to enforce continuous type checks on Python source and [stub files](https://peps.python.org/pep-0484/#stub-files). Make sure to add type hints to your code or to use [stub files](https://mypy.readthedocs.io/en/stable/stubs.html) for types, to ensure that users of your package can `import` and type-check your code (see also [PEP 561](https://www.python.org/dev/peps/pep-0561/)).
 
 ### Quality assurance
 
@@ -146,7 +146,7 @@ make upgrade
 
 Using the pre-commit tool and its `.pre-commit-config.yaml` configuration, the following git hooks are active in this repository:
 
-- When committing code, a number of [pre-commit hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_committing_workflow_hooks) ensure that your code is formatted according to [PEP 8](https://www.python.org/dev/peps/pep-0008/) using the [`black`](https://github.com/psf/black) tool, and they’ll invoke [`flake8`](https://github.com/PyCQA/flake8) (and various plugins), [`pylint`](https://github.com/PyCQA/pylint) and [`mypy`](https://github.com/python/mypy) to check for lint and correct types. There are more checks, but those two are the important ones. You can adjust the settings for these tools in the `pyproject.toml` or `.flake8` configuration files.
+- When committing code, a number of [pre-commit hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_committing_workflow_hooks) ensure that your code is formatted according to [PEP 8](https://www.python.org/dev/peps/pep-0008/) using [ruff’s formatter](https://docs.astral.sh/ruff/formatter/), and they’ll invoke [`ruff`](https://docs.astral.sh/ruff/linter/) (and various plugins), [`pylint`](https://github.com/PyCQA/pylint) and [`mypy`](https://github.com/python/mypy) to check for Python code flakes and lint and for correct types. You can adjust the settings for these tools in the `pyproject.toml` configuration file.
 - The [commit message hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_committing_workflow_hooks) enforces [conventional commit messages](https://www.conventionalcommits.org/) and that, in turn, enables a _semantic release_ of this package on the Github side: upon merging changes into the `release` branch, the [release action](https://github.com/jenstroeger/python-package-template/blob/main/.github/workflows/release.yaml) uses the [Commitizen tool](https://commitizen-tools.github.io/commitizen/) to produce a [changelog](https://en.wikipedia.org/wiki/Changelog) and it computes the next version of this package and publishes a release — all based on the commit messages of a release.
 - Using a [pre-push hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks#_other_client_hooks) this package is also set up to run [`pytest`](https://github.com/pytest-dev/pytest); in addition, the [`coverage`](https://github.com/nedbat/coveragepy) plugin makes sure that _all_ of your package’s code is covered by unit tests and [Hypothesis](https://hypothesis.works/) and [Faker](https://github.com/joke2k/faker) are already installed to help with generating test case payloads.
 - The [`actionlint`](https://github.com/Mateusz-Grzelinski/actionlint-py) hook is set up to lint GitHub Actions workflows. If [`shellcheck`](https://github.com/koalaman/shellcheck) is installed on the system, `actionlint` runs `shellcheck` to lint the `run` steps in GitHub Actions. Note that `shellcheck` is available on [Ubuntu GitHub Actions runners](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md) by default.
@@ -157,13 +157,13 @@ You can also run these hooks manually, which comes in very handy during daily de
 make check-code
 ```
 
-runs all the code checks (i.e. `bandit`, `flake8`, `pylint`, `mypy`, `actionlint`), whereas
+runs all the code checks (i.e. `ruff`, `pylint`, `mypy`, `actionlint`), whereas
 
 ```bash
 make check
 ```
 
-runs _all_ installed git hooks over your code. For more control over the code checks, the Makefile also implements the `check-bandit`, `check-flake8`, `check-lint`, `check-mypy`, and `check-actionlint` goals.
+runs _all_ installed git hooks over your code. For more control over the code checks, the Makefile also implements the `check-ruff`, `check-lint`, `check-mypy`, and `check-actionlint` goals.
 
 ## Testing
 
