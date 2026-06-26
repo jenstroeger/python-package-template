@@ -272,6 +272,7 @@ exclude = ["docs/*"]
 select = [
     "A",  # flake8-builtins
     "B",  # flake8-bugbear
+    "FBT",  # flake8-boolean-trap
     "C4",  # flake8-comprehensions
     "D",  # pydocstyle
     "DTZ",  # flake8-datetimez
