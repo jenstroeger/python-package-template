@@ -274,10 +274,13 @@ select = [
     "B",  # flake8-bugbear
     "C4",  # flake8-comprehensions
     "D",  # pydocstyle
+    "DTZ",  # flake8-datetimez
     "DOC",  # pydoclint
     "E",  # pycodestyle
     "F",  # pyflakes
+    "FURB",  # refurb
     "I",  # isort
+    "ICN",  # flake8-import-conventions
     "LOG",  # flake8-logging
     "N",  # pep8-naming
     "PIE",  # flake8-pie
@@ -285,6 +288,8 @@ select = [
     "PYI",  # flake8-pyi
     "RUF",  # ruff-specific rules
     "S",  # flake8-bandit
+    "SIM",  # flake8-simplify
+    "SLOT",  # flake8-slots
     "T20",  # flake8-print
     "UP",  # pyupgrade
 ]
