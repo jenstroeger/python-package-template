@@ -74,6 +74,8 @@ jobs:
     # activate it for every new shell/step.
     - name: Create empty virtual environment for Actions
       run: make venv
+      env:
+        PYTHON: python
 
     # Cache both, the Python virtual environment and the pre-commit environments. Because
     # the cache is branch bound it won't cross-polinate with other dependencies.
