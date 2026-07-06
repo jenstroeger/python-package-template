@@ -71,11 +71,26 @@ jobs:
         python-version: ${{ matrix.python }}
 
     # Using the Makefile assumes an activated virtual environment, so we create one and
-    # activate it for every new shell/step.
+    # and fake the venv activation by explicitly setting both the $VIRTUAL_ENV and $PATH
+    # environment variables.
     - name: Create empty virtual environment for Actions
       run: make venv
       env:
         PYTHON: python
+    - name: Set Python environment variables
+      if: matrix.os != 'windows-latest'
+      run: |
+        # shellcheck disable=SC2086
+        echo "VIRTUAL_ENV=${GITHUB_WORKSPACE}/.venv" >> $GITHUB_ENV
+        # shellcheck disable=SC2086
+        echo "${GITHUB_WORKSPACE}/.venv/bin" >> $GITHUB_PATH
+    - name: Set Python environment variables
+      if: matrix.os == 'windows-latest'
+      run: |
+        # shellcheck disable=SC2086
+        echo "VIRTUAL_ENV=$GITHUB_WORKSPACE/.venv" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        # shellcheck disable=SC2086
+        echo "${GITHUB_WORKSPACE}/.venv/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Prepend
 
     # Cache both, the Python virtual environment and the pre-commit environments. Because
     # the cache is branch bound it won't cross-polinate with other dependencies.
@@ -84,31 +99,27 @@ jobs:
       uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: .venv
-        key: ${{ matrix.os }}-${{ matrix.python }}-pip-${{ hashFiles('pyproject.toml') }}
-        restore-keys: ${{ matrix.os }}-${{ matrix.python }}-pip-
+        key: ${{ matrix.os }}-python-${{ matrix.python }}-pip-${{ hashFiles('pyproject.toml') }}
+        restore-keys: ${{ matrix.os }}-python-${{ matrix.python }}-pip-
 
     - name: Cache pre-commit dependencies
       id: cache-pre-commit-dependencies
       uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: ~/.cache/pre-commit
-        key: ${{ matrix.os }}-${{ matrix.python }}-pre-commit-${{ hashFiles('pyproject.toml') }}
-        restore-keys: ${{ matrix.os }}-${{ matrix.python }}-pre-commit-
+        key: ${{ matrix.os }}-python-${{ matrix.python }}-pre-commit-${{ hashFiles('pyproject.toml') }}
+        restore-keys: ${{ matrix.os }}-python-${{ matrix.python }}-pre-commit-
 
     # Install the Python package and its dependencies.
     - name: Install dependencies
       if: ${{ steps.cache-pip-dependencies.outputs.cache-hit != 'true' }}
-      run: |
-        source .venv/bin/activate
-        make setup
+      run: make setup
 
     # Audit all currently installed packages for security vulnerabilities. This step can
     # be disabled by setting the repository variable DISABLE_PIP_AUDIT to 'true'.
     - name: Audit installed packages
       if: ${{ !inputs.disable-pip-audit && steps.cache-pip-dependencies.outputs.cache-hit != 'true' }}
-      run: |
-        source .venv/bin/activate
-        make audit
+      run: make audit
 
     # Build the sdist and wheel distribution of the package and docs as a zip file.
     # We don't need to check and test the package separately because `make dist` runs
@@ -116,9 +127,7 @@ jobs:
     # profile picks the Hypothesis settings (see tests/conftest.py) which, for Github,
     # disable randomized testing to avoid breaking CI.
     - name: Build the package
-      run: |
-        source .venv/bin/activate
-        make dist simple-index
+      run: make dist simple-index
       env:
         HYPOTHESIS_PROFILE: github
 
@@ -126,9 +135,7 @@ jobs:
     # generate the SBOM using CyclonDX SBOM generator.
     - name: Generate requirements.txt and SBOM
       if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
-      run: |
-        source .venv/bin/activate
-        make requirements sbom
+      run: make requirements sbom
 
     # Remove the old requirements.txt file (which includes _all_ packages) and generate a
     # new one for the package and its actual and required dependencies only.
@@ -136,7 +143,6 @@ jobs:
       if: matrix.os == env.ARTIFACT_OS && matrix.python == env.ARTIFACT_PYTHON
       run: |
         rm requirements.txt
-        source .venv/bin/activate
         make prune requirements
 
     # Find the paths to the artifact files that will be included in the release, compute
