@@ -80,18 +80,6 @@ Documentation = "https://github.com/jenstroeger/python-package-template/wiki"
 Issues = "https://github.com/jenstroeger/python-package-template/issues"
 
 
-# https://bandit.readthedocs.io/en/latest/config.html
-# Skip test B101 because of issue https://github.com/PyCQA/bandit/issues/457
-[tool.bandit]
-tests = []
-skips = ["B101"]
-
-
-# https://github.com/psf/black#configuration
-[tool.black]
-line-length = 120
-
-
 # https://github.com/commitizen-tools/commitizen
 # https://commitizen-tools.github.io/commitizen/bump/
 [tool.commitizen]
@@ -134,15 +122,6 @@ exclude = [
 ]
 
 
-# https://pycqa.github.io/isort/
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-line_length = 120
-skip_gitignore = true
-filter_files = true
-
-
 # https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
 [tool.mypy]
 # mypy_path =
@@ -175,6 +154,7 @@ ignore_missing_imports = true
 
 
 # https://pylint.pycqa.org/en/latest/user_guide/configuration/index.html
+# https://github.com/astral-sh/ruff/issues/970
 [tool.pylint.main]
 fail-under = 10.0
 load-plugins = [
@@ -274,3 +254,59 @@ markers = [
     "integration: more complex application-level integration tests.",
     "performance: performance tests.",
 ]
+
+
+# https://docs.astral.sh/ruff/formatter/
+# https://docs.astral.sh/ruff/linter/
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 88
+
+# https://docs.astral.sh/ruff/configuration/
+# https://docs.astral.sh/ruff/rules/
+[tool.ruff.lint]
+exclude = ["docs/*"]
+select = [
+    "A",  # flake8-builtins
+    "B",  # flake8-bugbear
+    # "FBT",  # flake8-boolean-trap
+    "C4",  # flake8-comprehensions
+    "D",  # pydocstyle
+    "DTZ",  # flake8-datetimez
+    "DOC",  # pydoclint
+    "E",  # pycodestyle
+    "F",  # pyflakes
+    "FURB",  # refurb
+    "I",  # isort
+    "ICN",  # flake8-import-conventions
+    "LOG",  # flake8-logging
+    "N",  # pep8-naming
+    "PIE",  # flake8-pie
+    "PT",  # flake8-pytest-style
+    "PYI",  # flake8-pyi
+    "RUF",  # ruff-specific rules
+    "S",  # flake8-bandit
+    "SIM",  # flake8-simplify
+    "SLOT",  # flake8-slots
+    "T20",  # flake8-print
+    "UP",  # pyupgrade
+]
+ignore = [
+    "D105",  # D105: Missing docstring in magic method
+    "E203",  # E203: whitespace before ‘,’, ‘;’, or ‘:’ (not Black compliant)
+    "E501",  # E501: line too long (managed better by Bugbear's B950)
+]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = true
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "S101",  # S101 Use of `assert` detected
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
