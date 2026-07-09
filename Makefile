@@ -242,8 +242,8 @@ docs/_build/.markdown-built-on: $(DOCS_SOURCE)
 # variables: https://twine.readthedocs.io/en/stable/#environment-variables
 emergency-release: emergency-release-pypi
 emergency-release-pypi:
-	if [ "$$(git branch --show-current)" != "main" ]; then \
-	  echo "Must be on the main branch to release" && exit 1; \
+	if [ "$$(git branch --show-current)" != "release" ]; then \
+	  echo "Must be on the release branch to release" && exit 1; \
 	fi
 	if [ "$$(git status --porcelain)" != "" ]; then \
 	  echo "Changes detected, please stash or commit them first" && exit 1; \
@@ -251,8 +251,8 @@ emergency-release-pypi:
 	python -m commitizen --no-raise 21 bump --changelog --yes
 	git push
 	git push --tags
-	$(MAKE) dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
-	# python -m twine upload --verbose --skip-existing dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION)-py3-none-any.whl dist/$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
+	$(MAKE) dist/$(PACKAGE_WHEEL_NAME) dist/$(PACKAGE_SDIST_NAME)
+	# python -m twine upload --verbose --skip-existing dist/$(PACKAGE_WHEEL_NAME) dist/$(PACKAGE_SDIST_NAME)
 
 # Prune the packages currently installed in the virtual environment down to the required
 # packages only. Pruning works in a roundabout way, where we first generate the wheels for
