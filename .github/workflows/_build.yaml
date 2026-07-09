@@ -70,20 +70,55 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
 
-    # Using the Makefile assumes an activated virtual environment, which doesn't exist
-    # when running in an Action environment (https://github.com/actions/setup-python/issues/359).
-    # Instead we create an empty .venv folder so that the Makefile continues to function
-    # while Python operates within the runner's global environment. It is safe to ignore
-    # warnings from the Makefile about the missing virtual environment.
+    # Using the Makefile assumes an activated virtual environment, so we create one and
+    # and fake the venv activation by explicitly setting both the $VIRTUAL_ENV and $PATH
+    # environment variables.
     - name: Create empty virtual environment for Actions
-      run: mkdir .venv
+      run: make venv
+      env:
+        PYTHON: python
+    - name: Set Python environment variables
+      if: matrix.os != 'windows-latest'
+      run: |
+        # shellcheck disable=SC2086
+        echo "VIRTUAL_ENV=${GITHUB_WORKSPACE}/.venv" >> $GITHUB_ENV
+        # shellcheck disable=SC2086
+        echo "${GITHUB_WORKSPACE}/.venv/bin" >> $GITHUB_PATH
+    - name: Set Python environment variables
+      if: matrix.os == 'windows-latest'
+      run: |
+        # shellcheck disable=SC2086
+        echo "VIRTUAL_ENV=$GITHUB_WORKSPACE/.venv" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        # shellcheck disable=SC2086
+        echo "${GITHUB_WORKSPACE}/.venv/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    # Cache both, the Python virtual environment and the pre-commit environments. Because
+    # the cache is branch bound it won't cross-polinate with other dependencies.
+    - name: Cache pip dependencies
+      id: cache-pip-dependencies
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: .venv
+        key: ${{ matrix.os }}-python-${{ matrix.python }}-pip-${{ hashFiles('pyproject.toml') }}
+        restore-keys: ${{ matrix.os }}-python-${{ matrix.python }}-pip-
+
+    - name: Cache pre-commit dependencies
+      id: cache-pre-commit-dependencies
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ~/.cache/pre-commit
+        key: ${{ matrix.os }}-python-${{ matrix.python }}-pre-commit-${{ hashFiles('pyproject.toml') }}
+        restore-keys: ${{ matrix.os }}-python-${{ matrix.python }}-pre-commit-
+
+    # Install the Python package and its dependencies.
     - name: Install dependencies
+      if: ${{ steps.cache-pip-dependencies.outputs.cache-hit != 'true' }}
       run: make setup
 
     # Audit all currently installed packages for security vulnerabilities. This step can
     # be disabled by setting the repository variable DISABLE_PIP_AUDIT to 'true'.
     - name: Audit installed packages
-      if: ${{ !inputs.disable-pip-audit }}
+      if: ${{ !inputs.disable-pip-audit && steps.cache-pip-dependencies.outputs.cache-hit != 'true' }}
       run: make audit
 
     # Build the sdist and wheel distribution of the package and docs as a zip file.
