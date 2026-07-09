@@ -13,7 +13,7 @@ on:
 permissions: read-all
 
 jobs:
-  analysis:
+  analyze-scorecard:
     name: Scorecards analysis
     runs-on: ubuntu-latest
     permissions:
