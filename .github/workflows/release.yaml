@@ -77,6 +77,7 @@ jobs:
 
   # When triggered by the version bump commit, build the package and publish the release artifacts.
   check-and-build-package-for-release:
+    if: github.ref == 'refs/heads/release' && startsWith(github.event.head_commit.message, 'bump:')
     uses: ./.github/workflows/_build.yaml
     permissions:
       contents: read
@@ -170,9 +171,9 @@ jobs:
     #     TWINE_REPOSITORY_URL=<REPOSITORY_URL>
 
   # Generate the build provenance. The generator should be referenced with a semantic version.
-  # The build will fail if we reference it using the commit SHA. In rare cases the external
-  # Rekor service (https://github.com/sigstore/rekor) is unavailable in which case the provenance
-  # generator should be compiled from source. For more information see this discussion:
+  # The build will fail if we reference it using the commit SHA. To avoid using a pre-built
+  # provenance generator which depends on an external service Rekor (https://github.com/sigstore/rekor)
+  # we build this generator from source for now. For more information see this discussion:
   # https://github.com/slsa-framework/slsa-github-generator/issues/942
   generate-provenance:
     needs: [check-and-build-package-for-release, release-package]
