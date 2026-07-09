@@ -1,3 +1,4 @@
+# Find an extensive introduction to Makefiles here: https://makefiletutorial.com/
 
 # Use bash as the shell when executing a rule's recipe. For more details:
 # https://www.gnu.org/software/make/manual/html_node/Choosing-the-Shell.html
