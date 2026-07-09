@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/). The format of this file is loosely based on [Keep a Changelog](https://keepachangelog.com/).
 
+## v2.21.0 (2026-07-09)
+
+### Feat
+
+- introduce the Ruff pre-commit hook to replace a bunch of other code formatters and linter hooks (#593)
+
+### Fix
+
+- **ci**: make unique and improve Github workflow job ids to make it easier to reference them from Github settings (#918)
+- **deps**: pin pytest until the pytest-cases plugin is getting fixed (#1209)
+
 ## v2.20.0 (2026-05-25)
 
 ### Feat
