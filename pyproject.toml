@@ -64,7 +64,7 @@ hooks = [
 test = [
     "faker ==40.28.1",
     "hypothesis >=6.21.0,<6.152.10",
-    "pytest >=9.0.3,<9.1.0",  # Pin until fixed: https://github.com/smarie/python-pytest-cases/issues/385
+    "pytest >=9.1.1,<9.2.0",  # Pin until fixed: https://github.com/smarie/python-pytest-cases/issues/385
     "pytest-benchmark ==5.2.3",
     "pytest-cases ==3.10.1",
     "pytest-custom_exit_code ==0.3.0",
