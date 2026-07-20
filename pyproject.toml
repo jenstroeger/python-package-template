@@ -145,6 +145,7 @@ disallow_incomplete_defs = true
 disallow_untyped_decorators = true
 # disable_error_code =
 # allow_redefinition =
+no_sqlite_cache = true
 
 [[tool.mypy.overrides]]
 module = [
