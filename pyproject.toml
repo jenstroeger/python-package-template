@@ -62,7 +62,7 @@ hooks = [
 ]
 # Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
-    "faker ==40.28.1",
+    "faker ==40.31.0",
     "hypothesis >=6.21.0,<6.152.10",
     "pytest >=9.0.3,<9.1.0",  # Pin until fixed: https://github.com/smarie/python-pytest-cases/issues/385
     "pytest-benchmark ==5.2.3",
