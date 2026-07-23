@@ -126,6 +126,7 @@ exclude = [
 [tool.mypy]
 # mypy_path =
 # exclude =
+num_workers = 2
 show_error_codes = true
 show_column_numbers = true
 pretty = true
@@ -145,7 +146,7 @@ disallow_incomplete_defs = true
 disallow_untyped_decorators = true
 # disable_error_code =
 # allow_redefinition =
-no_sqlite_cache = true
+no_sqlite_cache = true  # https://github.com/python/mypy/issues/21769
 
 [[tool.mypy.overrides]]
 module = [
