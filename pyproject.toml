@@ -124,8 +124,15 @@ exclude = [
 
 # https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
 [tool.mypy]
-# mypy_path =
+files = [
+    "src/package/",
+    "tests/",
+]
 # exclude =
+mypy_path = [
+    "src/",
+]
+explicit_package_bases = true
 show_error_codes = true
 show_column_numbers = true
 pretty = true
