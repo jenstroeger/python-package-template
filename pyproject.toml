@@ -153,6 +153,12 @@ disallow_untyped_decorators = true
 # disable_error_code =
 # allow_redefinition =
 
+# https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports
+[[tool.mypy.overrides]]
+module = [
+]
+follow_untyped_imports = true
+
 
 # https://pylint.pycqa.org/en/latest/user_guide/configuration/index.html
 # https://github.com/astral-sh/ruff/issues/970
