@@ -49,9 +49,8 @@ repos:
     name: Check typing annotations
     entry: mypy
     language: python
-    files: ^src/package/|^tests/
-    types: [text, python]
-    args: [--explicit-package-bases, --config-file, pyproject.toml]
+    pass_filenames: false
+    args: [--config-file, pyproject.toml]
 
 # Enable a whole bunch of useful helper hooks, too.
 # See https://pre-commit.com/hooks.html for more hooks.
