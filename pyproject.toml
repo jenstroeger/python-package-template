@@ -153,12 +153,6 @@ disallow_untyped_decorators = true
 # disable_error_code =
 # allow_redefinition =
 
-[[tool.mypy.overrides]]
-module = [
-    "pytest.*",
-]
-ignore_missing_imports = true
-
 
 # https://pylint.pycqa.org/en/latest/user_guide/configuration/index.html
 # https://github.com/astral-sh/ruff/issues/970
