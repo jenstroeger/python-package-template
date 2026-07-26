@@ -153,7 +153,6 @@ disallow_incomplete_defs = true
 disallow_untyped_decorators = true
 # disable_error_code =
 # allow_redefinition =
-no_sqlite_cache = true  # https://github.com/python/mypy/issues/21769
 
 # https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports
 [[tool.mypy.overrides]]
