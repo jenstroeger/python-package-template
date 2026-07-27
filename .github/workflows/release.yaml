@@ -149,26 +149,16 @@ jobs:
         echo "release-tag=$TAG" >> "$GITHUB_OUTPUT"
         echo "release-url=$(gh release view """$TAG""" --json url --jq .url)" >> "$GITHUB_OUTPUT"
 
-    # Uncomment the following steps to publish to a PyPI server.
-    # At the moment PyPI does not provide a mechanism to publish
-    # the provenance. So, users have to download the provenance from
-    # the release page of the GitHub repository to verify the artifact.
-    # Install Twine without using the package's Makefile to avoid
-    # installing unnecessary dependencies, which is slow.
-    # - name: Set up Twine
-    #   run: |
-    #     pip install --upgrade pip wheel
-    #     pip install 'twine ==4.0.2'
-
     # Pass the username, password, and PYPI repository URL via env variables.
     # Read the password from GitHub secrets or via other trusted mechanisms.
     # Do not hardcode the password in the workflow.
+    # https://flit.pypa.io/en/stable/upload.html
     # - name: Publish to PyPI server
-    #   run: twine upload --verbose --skip-existing dist/*.tar.gz dist/*.whl
+    #   run: python -m flit publish
     #   env:
-    #     TWINE_USERNAME=<USERNAME>
-    #     TWINE_PASSWORD=<PASSWORD>
-    #     TWINE_REPOSITORY_URL=<REPOSITORY_URL>
+    #     FLIT_USERNAME=<USERNAME>
+    #     FLIT_PASSWORD=<PASSWORD>
+    #     FLIT_INDEX_URL=<PACKAGE_INDEX_URL>
 
   # Generate the build provenance. The generator should be referenced with a semantic version.
   # The build will fail if we reference it using the commit SHA. To avoid using a pre-built
