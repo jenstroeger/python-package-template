@@ -98,7 +98,7 @@ venv:
 # See https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives.
 .PHONY: setup
 setup: force-upgrade
-	pre-commit install
+	python -m pre_commit install
 	mkdir -p dist
 
 # Install or upgrade an existing virtual environment based on the
@@ -165,15 +165,15 @@ audit:
 .PHONY: check check-code check-ruff check-lint check-mypy check-actionlint
 check-code: check-ruff check-lint check-mypy check-actionlint
 check-ruff:
-	pre-commit run ruff --all-files
+	python -m pre_commit run ruff --all-files
 check-lint:
-	pre-commit run pylint --all-files
+	python -m pre_commit run pylint --all-files
 check-mypy:
-	pre-commit run mypy --all-files
+	python -m pre_commit run mypy --all-files
 check-actionlint:
-	pre-commit run actionlint --all-files
+	python -m pre_commit run actionlint --all-files
 check:
-	pre-commit run --all-files
+	python -m pre_commit run --all-files
 
 # Run different kinds of tests: unit tests, integration tests, performance tests.
 # Note that the default goal 'test' runs the unit tests only, mainly for convenience
