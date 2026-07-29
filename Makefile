@@ -266,7 +266,7 @@ clean: dist-clean
 # Remove code caches, or the entire virtual environment.
 .PHONY: nuke-git-hooks nuke-caches nuke
 nuke-git-hooks:
-	find .git/hooks/ -type f ! -name '*.sample' -exec rm -fr {} +
+	find .git/hooks/ -type f ! -name '*.sample' -exec rm -f {} +
 nuke-caches:
 	find src/ -type d -name __pycache__ -exec rm -fr {} +
 	find tests/ -type d -name __pycache__ -exec rm -fr {} +
