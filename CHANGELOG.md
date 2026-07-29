@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/). The format of this file is loosely based on [Keep a Changelog](https://keepachangelog.com/).
 
+## v2.21.1 (2026-07-29)
+
+### Fix
+
+- make sure to call the `pre-commit` from the local venv instead of possibly sneaking in one from the PATH (#1255)
+- improve mypy settings such that it collects all package and test files instead of using the files passed in by pre-commit (#1248)
+
+### Refactor
+
+- use Dependency Groups (PEP 735) instead of misusing package extras for dependencies that are not direct package dependencies (#1149)
+- improve Makefile variables used to build artifact names, remove unused cmd line argument when building binary wheel artifacts (#1254)
+
 ## v2.21.0 (2026-07-09)
 
 ### Feat
