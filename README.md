@@ -50,7 +50,7 @@ Documentation is important, and [Sphinx](https://www.sphinx-doc.org/en/master/) 
 
 ### Versioning and publishing
 
-Automatic package versioning and tagging, publishing to [PyPI](https://pypi.org/), and [Changelog](https://keepachangelog.com/) generation are enabled using Github Actions. Furthermore, an optional [Release Notification](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows/release-notifications.yaml) Action allows Github to push an update notification to a [Slack bot](https://api.slack.com/bot-users) of your choice. For setup instructions, please see [below](#versioning-publishing-and-changelog).
+Automatic and immutable package versioning and tagging, publishing to [PyPI](https://pypi.org/), and [Changelog](https://keepachangelog.com/) generation are enabled using Github Actions. Furthermore, an optional [Release Notification](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows/release-notifications.yaml) Action allows Github to push an update notification to a [Slack bot](https://api.slack.com/bot-users) of your choice. For setup instructions, please see [below](#versioning-publishing-and-changelog).
 
 ### Dependency analysis
 
@@ -261,7 +261,7 @@ The [sync-with-upstream.yaml](https://github.com/jenstroeger/python-package-temp
 
 To enable automation for [semantic versioning](https://semver.org/), package publishing, and changelog generation it is important to use meaningful [conventional commit messages](https://www.conventionalcommits.org/)! This package template already has a built-in semantic release support enabled which is set up to take care of all three of these aspects — every time changes are pushed to the `release` branch.
 
-With every package release, a new `bump:` commit is pushed to the `release` branch and tagged with the package’s new version. In addition, the `main` branch (which this repository uses to stage merged pull requests into for the next release) is rebased on top of the updated `release` branch automatically, so that subsequent pull requests can be merged while keeping a [linear history](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches#require-linear-history).
+With every package release, a new `bump:` commit is pushed to the `release` branch and tagged with the package’s new version. Tags are immutable for reproducible builds. In addition, the `main` branch (which this repository uses to stage merged pull requests into for the next release) is rebased on top of the updated `release` branch automatically, so that subsequent pull requests can be merged while keeping a [linear history](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches#require-linear-history).
 
 If you’d like to receive Slack notifications whenever a new release is published, follow the comments in the [Release Notification](https://github.com/jenstroeger/python-package-template/tree/main/.github/workflows/_release-notifications.yaml) Action and set up a Slack bot by following [the instructions here](https://github.com/slackapi/slack-github-action#setup-2).
 
@@ -338,8 +338,3 @@ On occasion it’s useful (and perhaps necessary) to clean up stale files, cache
 - In addition and to **reset everything**, to restore a clean package to start over fresh: `make nuke`
 
 Please be careful when nuking your environment, and make sure you know what you’re doing.
-
-## Frequently asked questions
-
-- **Question**: Why don’t you use tools like [tox](https://github.com/tox-dev/tox) or [nox](https://github.com/theacodes/nox) to orchestrate testing?  
-  **Answer**: We’ve removed `tox` based on a discussion in [issue #100](https://github.com/jenstroeger/python-package-template/issues/100) and [PR #102](https://github.com/jenstroeger/python-package-template/pull/102). In short: we want to run tests inside the development venv using `pytest`, and run more tests using an extensive test matrix using Github Actions.
