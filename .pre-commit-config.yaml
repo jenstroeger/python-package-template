@@ -112,7 +112,7 @@ repos:
   hooks:
   - id: actionlint
 
-# On push to the remote, run all tests.
+# On push to the remote, run all unit tests.
 - repo: local
   hooks:
   - id: pytest
