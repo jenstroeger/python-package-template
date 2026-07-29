@@ -70,7 +70,7 @@ test = [
     "pytest-custom_exit_code ==0.3.0",
     "pytest-cov ==7.1.0",
     "pytest-doctestplus ==1.7.1",
-    "pytest-env ==1.6.0",
+    "pytest-env ==1.7.0",
 ]
 
 [project.urls]
