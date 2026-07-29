@@ -16,8 +16,10 @@ PACKAGE_VERSION := $(shell python -c $$'try: import $(PACKAGE_NAME); print($(PAC
 # (py3), the ABI tag (none), and the platform tag (any) for the final wheel
 # file name.
 PACKAGE_BASE_NAME := $(PACKAGE_NAME)-$(PACKAGE_VERSION)
-PACKAGE_SDIST_NAME := $(PACKAGE_BASE_NAME).tar.gz
-PACKAGE_WHEEL_NAME := $(PACKAGE_BASE_NAME)-py3-none-any.whl
+PACKAGE_SDIST_BASE_NAME := $(PACKAGE_BASE_NAME)
+PACKAGE_SDIST_NAME := $(PACKAGE_SDIST_BASE_NAME).tar.gz
+PACKAGE_WHEEL_BASE_NAME := $(PACKAGE_BASE_NAME)-py3-none-any
+PACKAGE_WHEEL_NAME := $(PACKAGE_WHEEL_BASE_NAME).whl
 
 # If a PYTHON environment variable exists then use that, else define it here.
 PYTHON ?= python3.14
@@ -194,8 +196,8 @@ test-all: test-unit test-integration test-performance
 .PHONY: dist
 dist: dist/$(PACKAGE_WHEEL_NAME) dist/$(PACKAGE_SDIST_NAME) dist/$(PACKAGE_BASE_NAME)-docs-html.zip dist/$(PACKAGE_BASE_NAME)-docs-md.zip
 dist/$(PACKAGE_WHEEL_NAME): check test-all
-	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) python -m flit build --setup-py --format wheel
-	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_BASE_NAME)-py3-none-any-build-epoch.txt
+	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) python -m flit build --format wheel
+	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_WHEEL_BASE_NAME)-build-epoch.txt
 dist/$(PACKAGE_SDIST_NAME): check test-all
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) python -m flit build --no-setup-py --format sdist
 dist/$(PACKAGE_BASE_NAME)-docs-html.zip: docs-html
