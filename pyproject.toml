@@ -164,7 +164,7 @@ follow_untyped_imports = true
 
 # https://pylint.pycqa.org/en/latest/user_guide/configuration/index.html
 # https://github.com/astral-sh/ruff/issues/970
-[tool.pylint.main]
+[tool.pylint]
 fail-under = 10.0
 load-plugins = [
     "pylint.extensions.bad_builtin",
@@ -212,14 +212,14 @@ disable = [
     "too-many-try-statements",
 ]
 
-[tool.pylint.MISCELLANEOUS]
+[tool.pylint.miscellaneous]
 notes = [
     "FIXME",
     "TODO",
     "BUGBUG",
 ]
 
-[tool.pylint.FORMAT]
+[tool.pylint.format]
 max-line-length = 120
 
 
