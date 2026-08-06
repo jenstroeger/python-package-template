@@ -15,7 +15,7 @@ repos:
 
 # Commitizen enforces semantic and conventional commit messages.
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: 6afcd8e9560ddf1b9a5032262a0be26540e85fb3  # frozen: v4.16.5
+  rev: 93c7b51d860138c34a0613756c0151209b88d56f  # frozen: v4.17.0
   hooks:
   - id: commitizen
     name: Check conventional commit message
@@ -23,7 +23,7 @@ repos:
 
 # Ruff formats and lints code.
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: cb8c523fd4835aba42af70f4cad5568db4df0b6c  # frozen: v0.16.0
+  rev: 39d9ac5938dadb73df0564a45f163e25ff9fa6e2  # frozen: v0.16.1
   hooks:
   - id: ruff-format
     args: [--config, pyproject.toml]
