@@ -7,7 +7,6 @@ version: 2
 updates:
 - package-ecosystem: pip
   directory: /
-  versioning-strategy: widen
   schedule:
     interval: weekly
   cooldown:
