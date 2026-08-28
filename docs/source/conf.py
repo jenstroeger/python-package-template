@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath("../../src"))
 # -- Project information -----------------------------------------------------
 
 project = "Package"
-copyright = "2023, Package"
+copyright = "2023-2026, Package"
 author = ""
 
 
@@ -52,10 +52,21 @@ exclude_patterns = []
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
 html_theme = "alabaster"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+
+# -- Options for Markdown output -------------------------------------------------
+# For details, see: https://github.com/liran-funaro/sphinx-markdown-builder#configurations
+markdown_anchor_sections = True
+markdown_anchor_signature = True
+markdown_docinfo = True
+# markdown_http_base =
+# markdown_uri_doc_suffix =
+# markdown_file_suffix =
+# markdown_bullet =
+markdown_flavor = "github"
