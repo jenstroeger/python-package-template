@@ -15,7 +15,7 @@ repos:
 
 # Commitizen enforces semantic and conventional commit messages.
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: 6afcd8e9560ddf1b9a5032262a0be26540e85fb3  # frozen: v4.16.5
+  rev: 3f5ccc87b27966d9ed21cf5ea8ec2fba38ca65ce  # frozen: v4.19.0
   hooks:
   - id: commitizen
     name: Check conventional commit message
@@ -23,7 +23,7 @@ repos:
 
 # Ruff formats and lints code.
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: cb8c523fd4835aba42af70f4cad5568db4df0b6c  # frozen: v0.16.0
+  rev: a56c0b927e6465d37cae3e97d35d4d18ab2b96cd  # frozen: v0.16.9
   hooks:
   - id: ruff-format
     args: [--config, pyproject.toml]
@@ -108,7 +108,7 @@ repos:
 
 # Check GitHub Actions workflow files.
 - repo: https://github.com/Mateusz-Grzelinski/actionlint-py
-  rev: c04ed26e40637cab1aa9879c693832a9c120fb20  # frozen: v1.7.12.24
+  rev: 805f85e558841bf4d852335e036b33d2b26be1cc  # frozen: v1.7.12.25
   hooks:
   - id: actionlint
 
