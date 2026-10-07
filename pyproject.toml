@@ -70,7 +70,7 @@ actions = [
 check = [
     "mypy >=2.0.0,<2.4.0",
     "pip-audit >=2.4.4,<3.0.0",
-    "pylint >=4.0.0,<4.1.0",
+    "pylint >=4.0.0,<4.2.0",
 ]
 # Note that the `custom_exit_code` and `env` plugins may currently be unmaintained.
 test = [
