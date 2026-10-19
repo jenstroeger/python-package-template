@@ -82,7 +82,7 @@ test = [
     "pytest-cov ==7.1.0",
     "pytest-custom_exit_code ==0.3.0",
     "pytest-doctestplus ==1.7.1",
-    "pytest-env ==1.7.0",
+    "pytest-env ==1.7.1",
 ]
 docs = [
     "sphinx >=5.1.1,<9.0.0",
