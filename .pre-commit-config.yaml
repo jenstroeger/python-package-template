@@ -23,7 +23,7 @@ repos:
 
 # Ruff formats and lints code.
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: cb8c523fd4835aba42af70f4cad5568db4df0b6c  # frozen: v0.16.0
+  rev: 38bfb07c0c64c304f47eb52090f8288150c77730  # frozen: v0.17.1
   hooks:
   - id: ruff-format
     args: [--config, pyproject.toml]
@@ -108,7 +108,7 @@ repos:
 
 # Check GitHub Actions workflow files.
 - repo: https://github.com/Mateusz-Grzelinski/actionlint-py
-  rev: c04ed26e40637cab1aa9879c693832a9c120fb20  # frozen: v1.7.12.24
+  rev: 805f85e558841bf4d852335e036b33d2b26be1cc  # frozen: v1.7.12.25
   hooks:
   - id: actionlint
 
