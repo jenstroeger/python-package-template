@@ -22,7 +22,7 @@ PACKAGE_WHEEL_BASE_NAME := $(PACKAGE_BASE_NAME)-py3-none-any
 PACKAGE_WHEEL_NAME := $(PACKAGE_WHEEL_BASE_NAME).whl
 
 # If a PYTHON environment variable exists then use that, else define it here.
-PYTHON ?= python3.14
+PYTHON ?= python3.15
 
 # This variable contains the first goal that matches any of the listed goals
 # here, else it contains an empty string. The net effect is to filter out
@@ -75,7 +75,7 @@ endif
 .PHONY: all
 all: check test dist docs
 
-# Create a virtual environment, either for Python3.14 (default) or using
+# Create a virtual environment, either for Python3.15 (default) or using
 # the Python interpreter specified in the PYTHON environment variable. Also
 # create an empty pip.conf file to ensure that `pip config` modifies this
 # venv only, unless told otherwise. For more background, see:
