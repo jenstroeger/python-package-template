@@ -199,7 +199,7 @@ dist/$(PACKAGE_WHEEL_NAME): check test-all
 	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) python -m flit build --format wheel
 	echo $(SOURCE_DATE_EPOCH) > dist/$(PACKAGE_WHEEL_BASE_NAME)-build-epoch.txt
 dist/$(PACKAGE_SDIST_NAME): check test-all
-	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) python -m flit build --no-setup-py --format sdist
+	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) python -m flit build --format sdist
 dist/$(PACKAGE_BASE_NAME)-docs-html.zip: docs-html
 	python -m zipfile -c dist/$(PACKAGE_BASE_NAME)-docs-html.zip docs/_build/html/
 dist/$(PACKAGE_BASE_NAME)-docs-md.zip: docs-md
