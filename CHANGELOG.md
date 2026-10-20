@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [semantic versioning](https://packaging.python.org/en/latest/discussions/versioning/#semantic-versioning-vs-calendar-versioning) and [pre-release versioning](https://packaging.python.org/en/latest/discussions/versioning/) schemes recommended by the Python Packaging Authority [here](https://packaging.python.org/en/latest/specifications/version-specifiers/). The format of this file is loosely based on [Keep a Changelog](https://keepachangelog.com/).
 
+## v2.22.0 (2026-10-20)
+
+### Feat
+
+- add support for Python 3.14 and retire support for Python 3.10 (#1340)
+
+### Fix
+
+- **ci**: force Dependabot to always increase the version range of dependent pip packages, instead of narrowly pinning the ranges (#1298)
+- **ci**: force Dependabot to always widen the version range of dependent pip packages, instead of narrowly pinning the ranges (#1283)
+- **deps**: pin `flit_core` to match the already pinned `flit` package (#1274)
+
 ## v2.21.1 (2026-07-29)
 
 ### Fix
