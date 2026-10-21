@@ -94,7 +94,7 @@ dist = [
     "flit_core >=4.0.0,<5.0.0",
 ]
 hooks = [
-    "pre-commit >=4.0.0,<4.7.0",
+    "pre-commit >=4.0.0,<4.8.0",
 ]
 
 
