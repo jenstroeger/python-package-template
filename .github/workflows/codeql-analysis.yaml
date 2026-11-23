@@ -46,11 +46,13 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
 
-    # For more details see the comment in _build.yaml.
+    # Install the Python package and its dependencies for analysis.
     - name: Create empty virtual environment for Actions
-      run: mkdir .venv
+      run: make venv
     - name: Install dependencies
-      run: make setup
+      run: |
+        source .venv/bin/activate
+        make setup
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
